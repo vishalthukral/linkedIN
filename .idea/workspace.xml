@@ -4,7 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="f9029e1d-dd96-4509-bc95-e42aa43e8178" name="Changes" comment="" />
+    <list default="true" id="f9029e1d-dd96-4509-bc95-e42aa43e8178" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -38,7 +41,7 @@
   <component name="PropertiesComponent">{
   &quot;keyToString&quot;: {
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;Authentication&quot;,
     &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
     &quot;last_opened_file_path&quot;: &quot;/Users/maniketkumar/Documents/linkedin_clone_application&quot;,
     &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
@@ -84,6 +87,9 @@
       <option name="presentableId" value="Default" />
       <updated>1745901869308</updated>
       <workItem from="1745901871033" duration="1358000" />
+      <workItem from="1745904896960" duration="89000" />
+      <workItem from="1745904992530" duration="194000" />
+      <workItem from="1745905193358" duration="287000" />
     </task>
     <servers />
   </component>

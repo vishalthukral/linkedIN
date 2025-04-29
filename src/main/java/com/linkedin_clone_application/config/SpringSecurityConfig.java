@@ -22,16 +22,14 @@ public class SpringSecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http.csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers(
-                                "/register","/landingPage","/images/**").permitAll()
+                        .requestMatchers("/home").permitAll()
 
-                        .requestMatchers("/login",
-                                "/dashboard").authenticated()
+                        .requestMatchers("/login").authenticated()
                         .anyRequest().authenticated()
                 )
                 .formLogin(form -> form
                         .loginPage("/login")
-                        .defaultSuccessUrl("/dashboard", true)
+                        .defaultSuccessUrl("/list", true)
                         .permitAll()
                 )
                 .httpBasic(httpBasic -> {})

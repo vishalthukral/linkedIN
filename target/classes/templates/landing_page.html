@@ -5,6 +5,10 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>LinkedIn Clone - Landing Page</title>
+        <link
+                rel="stylesheet"
+                href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
+        />
     <style>
         body {
           margin: 0;
@@ -39,7 +43,6 @@
           border: none;
           background-color: transparent;
           cursor: pointer;
-            font-weight: bold;
         }
 
         nav .sign-in-btn {
@@ -91,7 +94,6 @@
           background-color: white;
           border: 1px solid #888;
           color: #333;
-            text-align: center;
         }
 
         .illustration {
@@ -119,34 +121,33 @@
 
 <header>
     <div class="logo">
-        <img th:src="@{/images/LinkedIn-Logo.png}" alt="LinkedIn logo" />
-    </div>
+        <img src="../static/images/LinkedIn-Logo.png" alt="LinkedIn logo" />    </div>
 
     <nav>
-        <a href="#">Articles</a>
-        <a href="#">People</a>
-        <a href="#">Learning</a>
-        <a href="#">Jobs</a>
-        <a href="#">Games</a>
-        <a th:href="@{/register}" method="GET" class="join-btn">Join now</a>
-        <a th:href="@{/login}" method="GET" class="sign-in-btn">Sign in</a>
+        <a href="#"><i class="fas fa-newspaper"></i> Articles</a>
+        <a href="#"><i class="fas fa-user-friends"></i> People</a>
+        <a href="#"><i class="fas fa-chalkboard-teacher"></i> Learning</a>
+        <a href="#"><i class="fas fa-briefcase"></i> Jobs</a>
+        <a href="#"><i class="fas fa-gamepad"></i> Games</a>
+        <button class="join-btn">Join now</button>
+        <button class="sign-in-btn">Sign in</button>
     </nav>
+
 </header>
 
 <main class="landing">
     <section class="welcome-text">
         <h1>Welcome to your professional community</h1>
         <button class="google-btn">Continue with your Google account</button>
-        <a th:href="@{/login}" class="email-btn">Sign In </a>
+        <button class="email-btn">Sign in</button>
         <p>
             By clicking Continue, you agree to our <a href="#">User Agreement</a>, <a href="#">Privacy Policy</a>, and <a href="#">Cookie Policy</a>.
         </p>
-        <p>New to our site? <a th:href="@{/register}" method="GET">Join now</a></p>
+        <p>New to our site? <a href="#">Join now</a></p>
     </section>
 
     <section class="illustration">
-        <img th:src="@{/images/landing_page_person_.svg}" alt="Person using a laptop illustration" />
-    </section>
+        <img src="../static/images/landing_page_person_.svg" alt="Person using a laptop illustration" />    </section>
 </main>
 
 </body>

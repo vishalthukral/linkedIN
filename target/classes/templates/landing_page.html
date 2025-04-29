@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en" >
+    <head>
+
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>LinkedIn Clone - Landing Page</title>
+    <style>
+        body {
+          margin: 0;
+          font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+          background-color: #f3f2ef;
+          color: #333;
+        }
+
+        header {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          padding: 1rem 2rem;
+          background-color: white;
+          box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .logo img {
+          height: 40px;
+        }
+
+        nav a {
+          margin: 0 1rem;
+          text-decoration: none;
+          color: #555;
+        }
+
+        nav .join-btn,
+        nav .sign-in-btn {
+          margin-left: 1rem;
+          padding: 0.5rem 1rem;
+          border: none;
+          background-color: transparent;
+          cursor: pointer;
+            font-weight: bold;
+        }
+
+        nav .sign-in-btn {
+          border: 1px solid #0073b1;
+          color: #0073b1;
+          border-radius: 20px;
+        }
+
+        main.landing {
+          display: flex;
+          flex-wrap: wrap;
+          justify-content: center;
+          align-items: center;
+          padding: 2rem;
+          height: calc(100vh - 70px);
+          background-color: #f3f2ef;
+        }
+
+        .welcome-text {
+          flex: 1;
+          min-width: 300px;
+          max-width: 500px;
+          padding: 2rem;
+        }
+
+        .welcome-text h1 {
+          font-size: 2rem;
+          margin-bottom: 1.5rem;
+        }
+
+        .google-btn,
+        .email-btn {
+          display: block;
+          width: 100%;
+          padding: 0.75rem;
+          margin-bottom: 1rem;
+          border-radius: 25px;
+          font-size: 1rem;
+          cursor: pointer;
+        }
+
+        .google-btn {
+          background-color: #0073b1;
+          color: white;
+          border: none;
+        }
+
+        .email-btn {
+          background-color: white;
+          border: 1px solid #888;
+          color: #333;
+            text-align: center;
+        }
+
+        .illustration {
+          flex: 1;
+          min-width: 300px;
+          padding: 2rem;
+        }
+
+        .illustration img {
+          max-width: 100%;
+          height: auto;
+        }
+
+        a {
+          color: #0073b1;
+          text-decoration: none;
+        }
+
+        a:hover {
+          text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <div class="logo">
+        <img th:src="@{/images/LinkedIn-Logo.png}" alt="LinkedIn logo" />
+    </div>
+
+    <nav>
+        <a href="#">Articles</a>
+        <a href="#">People</a>
+        <a href="#">Learning</a>
+        <a href="#">Jobs</a>
+        <a href="#">Games</a>
+        <a th:href="@{/register}" method="GET" class="join-btn">Join now</a>
+        <a th:href="@{/login}" method="GET" class="sign-in-btn">Sign in</a>
+    </nav>
+</header>
+
+<main class="landing">
+    <section class="welcome-text">
+        <h1>Welcome to your professional community</h1>
+        <button class="google-btn">Continue with your Google account</button>
+        <a th:href="@{/login}" class="email-btn">Sign In </a>
+        <p>
+            By clicking Continue, you agree to our <a href="#">User Agreement</a>, <a href="#">Privacy Policy</a>, and <a href="#">Cookie Policy</a>.
+        </p>
+        <p>New to our site? <a th:href="@{/register}" method="GET">Join now</a></p>
+    </section>
+
+    <section class="illustration">
+        <img th:src="@{/images/landing_page_person_.svg}" alt="Person using a laptop illustration" />
+    </section>
+</main>
+
+</body>
+</html>

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" >
+<html lang="en" xmlns:th="http://www.thymeleaf.org" >
     <head>
 
     <meta charset="UTF-8" />
@@ -121,7 +121,7 @@
 
 <header>
     <div class="logo">
-        <img src="../static/images/LinkedIn-Logo.png" alt="LinkedIn logo" />    </div>
+        <img th:src="@{/images/LinkedIn-Logo.png}" alt="LinkedIn logo" />    </div>
 
     <nav>
         <a href="#"><i class="fas fa-newspaper"></i> Articles</a>
@@ -129,8 +129,8 @@
         <a href="#"><i class="fas fa-chalkboard-teacher"></i> Learning</a>
         <a href="#"><i class="fas fa-briefcase"></i> Jobs</a>
         <a href="#"><i class="fas fa-gamepad"></i> Games</a>
-        <button class="join-btn">Join now</button>
-        <button class="sign-in-btn">Sign in</button>
+        <a th:href="@{/register}"  class="join-btn">Join now</a>
+        <a th:href="@{/login}" class="sign-in-btn">Sign in</a>
     </nav>
 
 </header>
@@ -139,15 +139,15 @@
     <section class="welcome-text">
         <h1>Welcome to your professional community</h1>
         <button class="google-btn">Continue with your Google account</button>
-        <button class="email-btn">Sign in</button>
+        <a th:href="@{/login}" class="email-btn">Sign in</a>
         <p>
             By clicking Continue, you agree to our <a href="#">User Agreement</a>, <a href="#">Privacy Policy</a>, and <a href="#">Cookie Policy</a>.
         </p>
-        <p>New to our site? <a href="#">Join now</a></p>
+        <p>New to our site? <a th:href="@{/register}">Join now</a></p>
     </section>
 
     <section class="illustration">
-        <img src="../static/images/landing_page_person_.svg" alt="Person using a laptop illustration" />    </section>
+        <img th:src="@{/images/landing_page_person_.svg}" alt="Person using a laptop illustration" />    </section>
 </main>
 
 </body>

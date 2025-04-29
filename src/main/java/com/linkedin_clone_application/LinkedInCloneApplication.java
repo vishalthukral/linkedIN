@@ -4,10 +4,10 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class LinkedinCloneApplication {
+public class LinkedInCloneApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(LinkedinCloneApplication.class, args);
+		SpringApplication.run(LinkedInCloneApplication.class, args);
 	}
 
 }

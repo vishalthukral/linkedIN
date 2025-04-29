@@ -9,12 +9,12 @@
             font-family: Arial, sans-serif;
             display: flex;
             flex-direction: column;
-            align-items: center; /* Center horizontally */
-            justify-content: center; /* Center vertically */
+            align-items: center;
+            justify-content: center;
             min-height: 100vh;
             margin: 0;
             background-color: #FFFFFF;
-            position: relative; /* Ensure the body is positioned relatively for absolute positioning of logo */
+            position: relative;
         }
         .container {
             text-align: center;
@@ -24,10 +24,10 @@
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
             width: 100%;
             max-width: 400px;
-            margin: 0; /* Remove margin to allow flex centering to take full control */
+            margin: 0;
         }
         .logo {
-            position: absolute; /* Keep logo in top left */
+            position: absolute;
             top: 20px;
             left: 20px;
             margin: 0;
@@ -142,7 +142,7 @@
             text-align: center;
             font-size: 14px;
             color: #000000E6;
-            position: absolute; /* Position footer at the bottom */
+            position: absolute;
             bottom: 10px;
             width: 100%;
         }
@@ -186,7 +186,7 @@
         <button type="submit" class="sign-in-btn">Sign in</button>
     </form>
     <div class="join-now">
-        New to LinkedIn? <a href="#">Join now</a>
+        New to LinkedIn? <a th:href="@{/register}" th:method="GET">Join now</a>
     </div>
 </div>
 <footer>

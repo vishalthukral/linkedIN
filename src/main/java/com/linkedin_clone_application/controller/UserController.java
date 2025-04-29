@@ -44,9 +44,4 @@ public class UserController {
     public String dashboard(){
         return "dashboard";
     }
-
-    @GetMapping("/landingPage")
-    public String landingPage(){
-        return "landing_page";
-    }
 }

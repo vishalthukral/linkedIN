@@ -2,6 +2,7 @@ package com.linkedin_clone_application.model;
 
 import jakarta.persistence.*;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Entity
 @Table(name = "user_table")
@@ -52,6 +53,14 @@ public class User {
     public void preUpdate(){
         updatedAt = LocalDateTime.now();
     }
+
+@OneToMany
+    List<Post> posts;
+@OneToMany
+List<Comment> comments;
+@OneToMany
+List<Like> likes;
+
 
 
     public int getId() {

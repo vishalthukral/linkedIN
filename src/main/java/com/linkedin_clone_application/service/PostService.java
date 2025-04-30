@@ -7,7 +7,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.util.List;
 
 public interface PostService {
-    Post savePost(Post post, MultipartFile[] mediafiles, MediaType mediaType);
+    String savePost(Post post, MultipartFile[] mediafiles, MediaType mediaType);
     List<Post> getAllPost();
     void deletePostById(int id);
     Post getPostById(int id);

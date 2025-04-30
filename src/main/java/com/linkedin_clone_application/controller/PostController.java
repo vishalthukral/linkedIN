@@ -1,6 +1,8 @@
 package com.linkedin_clone_application.controller;
 
+import com.cloudinary.Cloudinary;
 import com.linkedin_clone_application.model.Post;
+import com.linkedin_clone_application.repository.PostRepo;
 import com.linkedin_clone_application.service.PostService;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
@@ -9,6 +11,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,8 +19,10 @@ import java.util.List;
 @Controller
 public class PostController {
     private final PostService postService;
-    PostController(PostService postService){
+    private final PostRepo postRepo;
+    PostController(PostService postService, PostRepo postRepo){
         this.postService = postService;
+        this.postRepo = postRepo;
     }
 
     @GetMapping("/createpost")
@@ -26,8 +31,8 @@ public class PostController {
     }
 
     @PostMapping("/savepost")
-    public String savePost(@ModelAttribute Post post){
-        postService.savePost(post);
+    public String savePost(@ModelAttribute Post post, MultipartFile[] multipartFiles, Cloudinary cloudinary){
+        postRepo.save(post);
         return "redirect:/";
     }
 

@@ -34,7 +34,7 @@ public class Post {
     @Column(name = "content", columnDefinition = "TEXT")
     private String content;
 
-   @OneToMany(mappedBy = "media",cascade = CascadeType.ALL,orphanRemoval = true)
+   @OneToMany(mappedBy = "post",cascade = CascadeType.ALL,orphanRemoval = true)
    private List<Media> mediaFile;
 
     @OneToMany(mappedBy = "post", cascade = CascadeType.ALL,orphanRemoval = true)

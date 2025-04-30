@@ -5,12 +5,13 @@ import com.linkedin_clone_application.model.Media;
 import com.linkedin_clone_application.model.Post;
 import com.linkedin_clone_application.repository.MediaRepo;
 import com.linkedin_clone_application.repository.PostRepo;
+import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-
+@Service
 public class PostServiceImpl implements PostService {
     private PostRepo postRepo;
     private MediaRepo mediaRepo;
@@ -23,7 +24,7 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
-    public Post savePost(Post post, MultipartFile[] mediaFiles, MediaType type) {
+    public String savePost(Post post, MultipartFile[] mediaFiles, MediaType type) {
         // save Post
         post = postRepo.save(post);
 
@@ -44,7 +45,7 @@ public class PostServiceImpl implements PostService {
                 }
             }
         }
-        return post;
+         return "hi";
     }
 
     @Override

@@ -34,18 +34,15 @@ public class Post {
     @Column(name = "content", columnDefinition = "TEXT")
     private String content;
 
-   @OneToMany(mappedBy = "post",cascade = CascadeType.ALL,orphanRemoval = true)
-   private List<Media> mediaFile;
+    @Column(name = "imageUrl")
+    private String imageUrl;
 
-    @OneToMany(mappedBy = "post", cascade = CascadeType.ALL,orphanRemoval = true)
-    private List<Comment> comments;
+    @Column(name = "likes")
+    private int like;
 
-    @OneToMany(mappedBy = "post",cascade = CascadeType.ALL,orphanRemoval = true)
-    private List<Like> likes;
-
-    private int likesCount;
-    private int CommentCount;
-    private int sharesCount;
+    @Column(name = "comment")
+    @OneToMany(mappedBy = "post", cascade = CascadeType.ALL)
+    private List<Comment> comments = new ArrayList<>();
 
     @PrePersist
     public void prePersist() {

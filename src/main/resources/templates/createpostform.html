@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create a Post</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+        }
+
+        body {
+            background-color: #f3f2ef;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .post-container {
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            width: 100%;
+            max-width: 500px;
+            padding: 16px;
+            position: relative;
+        }
+
+        .post-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 16px;
+        }
+
+        .profile-pic {
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            margin-right: 12px;
+        }
+
+        .user-info {
+            flex-grow: 1;
+        }
+
+        .user-name {
+            font-size: 16px;
+            font-weight: 600;
+            color: rgba(0, 0, 0, 0.9);
+            margin-bottom: 4px;
+        }
+
+        .visibility {
+            display: flex;
+            align-items: center;
+            font-size: 14px;
+            color: rgba(0, 0, 0, 0.6);
+        }
+
+        .visibility select {
+            appearance: none;
+            background: transparent;
+            border: none;
+            color: rgba(0, 0, 0, 0.6);
+            font-size: 14px;
+            cursor: pointer;
+            padding-right: 20px;
+        }
+
+        .visibility::after {
+            content: "▼";
+            font-size: 8px;
+            color: rgba(0, 0, 0, 0.6);
+            position: absolute;
+            right: 80px;
+            pointer-events: none;
+        }
+
+        .close-btn {
+            position: absolute;
+            top: 16px;
+            right: 16px;
+            background: none;
+            border: none;
+            font-size: 18px;
+            color: rgba(0, 0, 0, 0.6);
+            cursor: pointer;
+        }
+
+        .post-textarea {
+            width: 100%;
+            min-height: 100px;
+            border: none;
+            resize: none;
+            font-size: 16px;
+            color: rgba(0, 0, 0, 0.6);
+            padding: 8px 0;
+        }
+
+        .post-textarea:focus {
+            outline: none;
+        }
+
+        .post-actions {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-top: 16px;
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 12px;
+        }
+
+        .action-btn {
+            background: none;
+            border: none;
+            display: flex;
+            align-items: center;
+            font-size: 14px;
+            color: rgba(0, 0, 0, 0.6);
+            cursor: pointer;
+        }
+
+        .action-btn img {
+            width: 20px;
+            height: 20px;
+            margin-right: 4px;
+        }
+
+        .ai-btn {
+            color: #f5a623;
+            font-weight: 600;
+        }
+
+        .generate-btn {
+            position: absolute;
+            right: 16px;
+            top: 80px;
+            background-color: #e7f3ff;
+            border-radius: 50%;
+            padding: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+        }
+
+        .generate-btn img {
+            width: 20px;
+            height: 20px;
+        }
+
+        .post-btn {
+            background-color: #0073b1;
+            color: white;
+            border: none;
+            border-radius: 24px;
+            padding: 8px 16px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+        }
+
+        .post-btn:disabled {
+            background-color: #b0c6da;
+            cursor: not-allowed;
+        }
+
+        .post-btn img {
+            width: 16px;
+            height: 16px;
+            margin-left: 4px;
+        }
+    </style>
+</head>
+<body>
+<div class="post-container">
+    <form th:action="@{/post}" method="post" th:object="${postForm}">
+        <div class="post-header">
+            <img th:src="@{/images/profile-pic.jpg}" alt="Profile Picture" class="profile-pic" th:attr="src=${user.profilePictureUrl}">
+            <div class="user-info">
+                <div class="user-name" th:text="${user.name}">Chetan Bansal</div>
+                <div class="visibility">
+                    <select name="visibility" th:field="*{visibility}">
+                        <option value="anyone">Post to Anyone</option>
+                        <option value="connections">Connections Only</option>
+                        <option value="group">Group</option>
+                    </select>
+                </div>
+            </div>
+            <button type="button" class="close-btn">×</button>
+        </div>
+
+        <textarea class="post-textarea" placeholder="What do you want to talk about?" name="content" th:field="*{content}" required></textarea>
+
+        <div class="post-actions">
+            <div class="action-buttons">
+                <button type="button" class="action-btn">
+                    <img src="https://img.icons8.com/ios-filled/50/000000/image.png" alt="Image Icon">
+                </button>
+                <button type="button" class="action-btn">
+                    <img src="https://img.icons8.com/ios-filled/50/000000/calendar.png" alt="Calendar Icon">
+                </button>
+                <button type="button" class="action-btn">
+                    <img src="https://img.icons8.com/ios-filled/50/000000/settings.png" alt="Settings Icon">
+                </button>
+                <button type="button" class="action-btn">
+                    <img src="https://img.icons8.com/ios-filled/50/000000/plus-math.png" alt="Add Icon">
+                </button>
+            </div>
+            <button type="submit" class="post-btn" th:disabled="!${#fields.hasErrors()}">
+                Post
+                <img src="https://img.icons8.com/ios-filled/50/ffffff/clock.png" alt="Schedule Icon">
+            </button>
+        </div>
+    </form>
+</div>
+</body>
+</html>

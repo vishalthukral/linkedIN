@@ -53,7 +53,6 @@ public class PostServiceImpl implements PostService {
         return postRepo.findAll();
     }
     public List<Post> searchPosts(String content) {
-        // Implement search logic using PostRepository
         List<Post> list =postRepo.findByContentContainingIgnoreCase(content);
         System.out.println("listtttttt"+ list.toString());
         return list;

@@ -61,4 +61,5 @@ public class PostController {
     public String updatePost(@ModelAttribute int id){
         return "redirect:/";
     }
+
 }

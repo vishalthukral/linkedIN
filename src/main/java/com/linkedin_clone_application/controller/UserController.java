@@ -32,9 +32,10 @@ public class UserController {
     }
 
     @PostMapping("/register")
-    public String registerPost(@ModelAttribute User user) {
-        userService.registerNewUser(user);
-        return "redirect:/login";
+    public String registerNewUser(@ModelAttribute User user) {
+       User registeredUser= userService.registerNewUser(user);
+       int id=registeredUser.getId();
+        return "redirect:/complete_profile/"+id;
     }
 
     @GetMapping("/dashboard")
@@ -48,9 +49,9 @@ public class UserController {
     }
 
     @GetMapping("/create-profile/{Id}")
-    public String createProfile(@PathVariable int id, Model model) {
-        User user = userService.findById(id);
+    public String createProfile(@PathVariable int Id, Model model) {
+        User user = userService.findById(Id);
         model.addAttribute("user",user);
-        return "profile";
+        return "complete_profile";
     }
 }

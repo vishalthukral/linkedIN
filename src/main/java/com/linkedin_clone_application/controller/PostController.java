@@ -22,8 +22,9 @@ public class PostController {
 
     @GetMapping("/createpost")
     public String createPost(){
-        return "createpost";
+        return "createpostform";
     }
+
     @PostMapping("/savepost")
     public String savePost(@ModelAttribute Post post){
         postService.savePost(post);
@@ -47,7 +48,7 @@ public class PostController {
     @GetMapping("/updateform")
     @Transactional
     public String updatePost(){
-        return "createpost";
+        return "createpostform";
     }
 
     @PostMapping("/updatepost")

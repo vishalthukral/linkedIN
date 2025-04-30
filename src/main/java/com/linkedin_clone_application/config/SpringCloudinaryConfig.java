@@ -1,0 +1,28 @@
+package com.linkedin_clone_application.config;
+
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Bean;
+
+public class SpringCloudinaryConfig {
+    @Value("${cloudinary.cloud_name}")
+    private String cloudName;
+
+    @Value("${cloudinary.api_key}")
+    private String apiKey;
+
+    @Value("${cloudinary.api_secret}")
+    private String apiSecret;
+
+    //tell spring boot to create and manage an instance of cloudinary
+    //initialize cloudinary SDK with our credentials
+    @Bean
+    Cloudinary getCloudinary() {
+        return new Cloudinary(ObjectUtils.asMap(
+                "cloud_name", cloudName,
+                "api_key", apiKey,
+                "api_secret", apiSecret,
+                "secure", true,
+                "timeout", 60000
+        ));
+    }
+}

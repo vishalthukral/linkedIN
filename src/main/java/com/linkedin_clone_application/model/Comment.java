@@ -9,6 +9,8 @@ import org.jetbrains.annotations.NotNull;
 
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Getter
 @Setter
@@ -26,13 +28,12 @@ public class Comment {
     @Column(name = "user_id", nullable = false)
     private User user;
 
-
-    @Column(name = "commentContent", nullable = false)
-    private String commentContent;
-
     @ManyToOne(cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
     @JoinColumn(name = "post_id", nullable = false)
     private Post post;
+
+    @Column(name = "commentContent", nullable = false)
+    private String commentContent;
 
     @Column(name = "created_at", nullable = false, updatable = false)
     private LocalDateTime createdAt = LocalDateTime.now();
@@ -40,6 +41,12 @@ public class Comment {
     @Column(name = "updated_at", nullable = false)
     private LocalDateTime updatedAt = LocalDateTime.now();
 
+    @ManyToOne
+    @JoinColumn(name = "parent_comment_id")
+    private Comment parentComment;
+
+    @OneToMany(mappedBy = "parentComment",cascade = CascadeType.ALL,orphanRemoval = true)
+    private List<Comment> replies=new ArrayList<>();
     @PrePersist
     public void prePersist() {
         // Ensure the createdAt field is set only when the entity is first persisted

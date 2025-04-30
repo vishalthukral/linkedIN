@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title th:text="${user.firstName + ' ' + user.lastName + ' | Professional Profile'}">Profile</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+
+    <style>
+        body {
+            font-family: "Segoe UI", Roboto, Arial, sans-serif;
+            background-color: #f5f5f5;
+        }
+        .profile-container {
+            max-width: 1128px;
+            margin: 20px auto;
+            padding: 20px;
+        }
+        .profile-header {
+            background: white;
+            border-radius: 8px;
+            border: 1px solid #ddd;
+            padding: 24px;
+            margin-bottom: 20px;
+            position: relative;
+        }
+        .cover-photo-container {
+            position: relative;
+        }
+        .cover-photo {
+            height: 200px;
+            width: 100%;
+            background-color: #f5f5f5;
+            border-radius: 8px 8px 0 0;
+            background-size: cover;
+            background-position: center;
+        }
+        .profile-photo-container {
+            position: relative;
+            margin-top: -75px;
+            margin-left: 24px;
+            width: 152px;
+            height: 152px;
+        }
+        .profile-photo {
+            width: 152px;
+            height: 152px;
+            border-radius: 50%;
+            border: 4px solid white;
+            object-fit: cover;
+            background-color: #fff;
+        }
+        .edit-icon {
+            position: absolute;
+            background: white;
+            border-radius: 50%;
+            padding: 6px;
+            cursor: pointer;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 32px;
+            height: 32px;
+            z-index: 1;
+        }
+        .profile-photo-edit { bottom: 5px; right: 5px; }
+        .cover-photo-edit { top: 10px; right: 10px; }
+        .edit-icon svg { width: 20px; height: 20px; fill: #666; }
+
+        .section { background: white; border-radius: 8px; border: 1px solid #ddd; padding: 24px; margin-bottom: 20px; }
+        .section-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; }
+        .name { font-size: 22px; font-weight: 700; margin-bottom: 5px; }
+        .headline { font-size: 16px; font-weight: 500; color: #333; }
+        .location, .url a { font-size: 14px; color: #666; }
+        .url a { color: #0a66c2; text-decoration: none; }
+        .url a:hover { text-decoration: underline; }
+        .action-buttons { margin-top: 16px; display: flex; gap: 8px; }
+        .button {
+            background-color: #0a66c2;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 24px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+        }
+        .button.secondary {
+            background-color: white;
+            color: #0a66c2;
+            border: 1px solid #0a66c2;
+        }
+        .experience-item, .education-item { margin-bottom: 24px; }
+        .experience-item img, .education-item img {
+            width: 64px; height: 64px; border-radius: 8px; margin-right: 16px;
+        }
+        .skills-section {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        .skill-tag {
+            font-size: 16px;
+            font-weight: bold;
+            border-bottom: 1px solid #ccc;
+            padding-bottom: 5px;
+            width: fit-content;
+        }
+    </style>
+</head>
+<body>
+<div th:replace="~{fragments/navbar :: navbar}"></div>
+
+<div class="profile-container">
+    <!-- Profile Header -->
+    <div class="profile-header">
+        <div class="cover-photo-container">
+            <img class="cover-photo"
+                 th:src="${user.coverImageUrl != null and not #strings.isEmpty(user.coverImageUrl) ? user.coverImageUrl : '/images/default-cover.jpeg'}"
+                 th:alt="|${user.firstName} ${user.lastName}'s cover photo|"/>
+            <form th:action="@{/profile/uploadCoverPhoto/{userId}(userId=${user.id})}" method="post" enctype="multipart/form-data">
+                <label for="coverPhotoUpload" class="edit-icon cover-photo-edit">
+                    <svg viewBox="0 0 24 24"><path d="M21.13 2.86a3 3 0 00-4.17 0l-13 13V22h6.84l11.46-11.44a3 3 0 000-4.19z"/></svg>
+                </label>
+                <input type="file" id="coverPhotoUpload" name="file" style="display: none;" onchange="this.form.submit()"/>
+            </form>
+        </div>
+
+        <div class="profile-photo-container">
+            <img class="profile-photo"
+                 th:src="${user.profileImageUrl != null and not #strings.isEmpty(user.profileImageUrl) ? user.profileImageUrl : '/images/default-profile.jpg'}"
+                 th:alt="|${user.firstName} ${user.lastName}'s profile photo|"/>
+            <form th:action="@{/profile/uploadProfilePhoto/{userId}(userId=${user.id})}" method="post" enctype="multipart/form-data">
+                <label for="profilePhotoUpload" class="edit-icon profile-photo-edit">
+                    <svg viewBox="0 0 24 24"><path d="M21.13 2.86a3 3 0 00-4.17 0l-13 13V22h6.84l11.46-11.44a3 3 0 000-4.19z"/></svg>
+                </label>
+                <input type="file" id="profilePhotoUpload" name="file" style="display: none;" onchange="this.form.submit()"/>
+            </form>
+        </div>
+
+        <div class="profile-info">
+            <div class="section-header">
+                <h1 class="name" th:text="${user.firstName + ' ' + user.lastName}">Mohammed Tahir</h1>
+            </div>
+
+            <p class="headline" th:if="${user.headline != null and user.headline != ''}" th:text="${user.headline}">Lead Software Engineer</p>
+            <p class="location" th:if="${user.location != null and (user.location.city != null or user.location.country != null)}"
+               th:text="${(user.location.city != null ? user.location.city : '') +
+                            (user.location.city != null and user.location.country != null ? ', ' : '') +
+                            (user.location.country != null ? user.location.country : '')}">
+            </p>
+            <p class="url" th:if="${user.contactInfo != null and user.contactInfo.url != null}">
+                <a th:href="${user.contactInfo.url}" th:text="${user.contactInfo.url}" target="_blank"></a>
+            </p>
+
+            <div class="action-buttons">
+                <button class="button">Connect</button>
+                <button class="button secondary">Message</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- About Section -->
+    <div class="section" th:if="${user.about}">
+        <h2>About</h2>
+        <p th:text="${user.about}">SDE3 at Google.</p>
+    </div>
+
+    <!-- Experience Section -->
+    <div class="section" th:if="${user.experienceList != null and not #lists.isEmpty(user.experienceList)}">
+        <h2>Experience</h2>
+        <div th:each="experience : ${user.experienceList}" class="experience-item" style="display: flex;">
+            <img th:src="'/images/logo.png'" th:alt="${experience.companyName + ' logo'}"/>
+            <div>
+                <h3 th:text="${experience.jobTitle}">SDE3</h3>
+                <p th:text="${experience.companyName}">Google</p>
+                <p>
+                    <span th:text="${experience.startDate != null ? #temporals.format(experience.startDate, 'MMM yyyy') : ''}"></span>
+                    <span th:if="${experience.endDate != null}"> - </span>
+                    <span th:text="${experience.endDate != null ? #temporals.format(experience.endDate, 'MMM yyyy') : 'Present'}"></span>
+                    · <span th:text="${experience.duration}"></span>
+                </p>
+                <p th:text="${experience.jobDescription}">Lead SDE</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Education Section -->
+    <div class="section" th:if="${user.educationList != null and not #lists.isEmpty(user.educationList)}">
+        <h2>Education</h2>
+        <div th:each="education : ${user.educationList}" class="education-item" style="display: flex;">
+            <img th:src="'/images/logo.png'" th:alt="${education.institutionName + ' logo'}"/>
+            <div>
+                <h3 th:text="${education.institutionName}">SJC, Bangalore</h3>
+                <p th:text="${education.degree + ', ' + education.fieldOfStudy}">BSc, Computer Science</p>
+                <p><span th:text="${education.startDate}"></span> - <span th:text="${education.endDate}"></span></p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Skills Section -->
+    <div class="section" th:if="${user.skills != null and not #lists.isEmpty(user.skills)}">
+        <h2>Skills</h2>
+        <div class="skills-section" th:each="skill : ${user.skills}">
+            <div class="skill-tag" th:text="${skill}">Core Java, Springboot, Mysql, Postgresql, Rest APIs</div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

@@ -6,4 +6,5 @@ public interface UserService {
     User registerNewUser(User user);
     User findByEmail(String email);
     User findById(int id);
+    void saveUser(User user);
 }

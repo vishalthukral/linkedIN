@@ -35,7 +35,7 @@ public class UserController {
     public String registerNewUser(@ModelAttribute User user) {
        User registeredUser= userService.registerNewUser(user);
        int id=registeredUser.getId();
-        return "redirect:/complete_profile/"+id;
+       return "redirect:/complete_profile/"+id;
     }
 
     @GetMapping("/dashboard")
@@ -53,5 +53,34 @@ public class UserController {
         User user = userService.findById(Id);
         model.addAttribute("user",user);
         return "complete_profile";
+    }
+
+    @PostMapping("/userDeatils")
+    public String userProfile(@ModelAttribute User user) {
+//        User user = userService.findById(Id);
+        userService.saveUser(user);
+        int id = user.getId();
+        return "redirect:/jobDetails/" + id;
+    }
+
+    @GetMapping("/jobDetails/{Id}")
+    public String jobDetails(@PathVariable int Id, Model model) {
+        User user = userService.findById(Id);
+        model.addAttribute("user",user);
+        return "EnterJobDetails";
+    }
+
+    @PostMapping("/saveJobDetails")
+    public String jobDetails(@ModelAttribute User user) {
+        userService.saveUser(user);
+        int id = user.getId();
+        return "redirect:/dashboard/" + id;
+    }
+
+    @GetMapping("/dashboard/{id}")
+    public String dashboard(@PathVariable int id, Model model){
+        User user = userService.findById(id);
+        model.addAttribute("user",user);
+        return "dashboard";
     }
 }

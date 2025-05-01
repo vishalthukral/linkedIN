@@ -164,10 +164,13 @@
             <input type="file" id="upload" name="profileImage" accept="image/*" >
             <a class="upload-link" onclick="document.getElementById('upload').click();">Upload profile</a>
         </div>
+        <input type="hidden" th:field="*{id}">
+        <input type="hidden" th:field="*{email}">
+        <input type="hidden" th:field="*{password}">
 
         <input type="text" th:field="*{firstName}" placeholder="First Name" required>
         <input type="text" th:field="*{lastName}" placeholder="Last Name" required>
-        <input type="text" th:field="*{location.city}" placeholder="Location" required>
+        <input type="text" th:field="*{location}" placeholder="Location" required>
         <button type="submit">Next</button>
     </form>
 </div>
@@ -185,7 +188,7 @@
     </div>
 </div>
 
-<!-- Include Cropper.js -->
+<!--    Include Cropper.js-->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.13/cropper.min.js"></script>
 <script>
     let cropper;

@@ -90,8 +90,14 @@
   <p>Tell us about your recent job experience</p>
 
   <form th:action="@{/saveJobDetails}" th:object="${user}" method="post" enctype="multipart/form-data" >
-    <input type="text" th:field="*{Experience.jobTitle}" placeholder="Recent Job Title" required>
-    <input type="text" th:field="*{Experience.companyName}" placeholder="Company Name" required>
+    <input type="hidden" th:field="*{id}">
+    <input type="hidden" th:field="*{email}">
+    <input type="hidden" th:field="*{password}">
+    <input type="hidden" th:field="*{firstName}">
+    <input type="hidden" th:field="*{lastName}">
+    <input type="hidden" th:field="*{location}">
+    <input type="text" th:field="*{jobTitle}" placeholder="Recent Job Title" required>
+    <input type="text" th:field="*{companyName}" placeholder="Company Name" required>
     <input type="text" th:field="*{industry}" placeholder="Industry" required>
     <button type="submit">Finish</button>
   </form>

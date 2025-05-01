@@ -35,7 +35,7 @@ public class UserController {
     public String registerNewUser(@ModelAttribute User user) {
        User registeredUser= userService.registerNewUser(user);
        int id=registeredUser.getId();
-       return "redirect:/complete_profile/"+id;
+       return "redirect:/create_profile/"+id;
     }
 
     @GetMapping("/dashboard")
@@ -48,17 +48,21 @@ public class UserController {
         return "landing_page";
     }
 
-    @GetMapping("/create-profile/{Id}")
+    @GetMapping("/create_profile/{Id}")
     public String createProfile(@PathVariable int Id, Model model) {
         User user = userService.findById(Id);
         model.addAttribute("user",user);
         return "complete_profile";
     }
 
-    @PostMapping("/userDeatils")
-    public String userProfile(@ModelAttribute User user) {
+    @PostMapping("/userDetails")
+    public String userProfile(@ModelAttribute("user") User user) {
+        User existingUser = userService.findById(user.getId());
+        existingUser.setFirstName(user.getFirstName());
+        existingUser.setLastName(user.getLastName());
+        existingUser.setLocation(user.getLocation());
 //        User user = userService.findById(Id);
-        userService.saveUser(user);
+        userService.saveUser(existingUser);
         int id = user.getId();
         return "redirect:/jobDetails/" + id;
     }
@@ -72,6 +76,14 @@ public class UserController {
 
     @PostMapping("/saveJobDetails")
     public String jobDetails(@ModelAttribute User user) {
+        User existingUser = userService.findById(user.getId());
+            /*existingUser.setFirstName(user.getFirstName());
+            existingUser.setLastName(user.getLastName());
+            existingUser.setLocation(user.getLocation());*/
+        existingUser.setJobTitle(user.getJobTitle());
+        existingUser.setCompanyName(user.getCompanyName());
+        existingUser.setIndustry(user.getIndustry());
+
         userService.saveUser(user);
         int id = user.getId();
         return "redirect:/dashboard/" + id;

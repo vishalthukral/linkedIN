@@ -23,7 +23,14 @@ public class SpringSecurityConfig {
         http.csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers(
-                                "/register","/landingPage","/images/**","/login","/dashboard","/create-profile/**").permitAll()
+                                "/register",
+                                "/landingPage",
+                                "/images/**",
+                                "/login",
+                                "/dashboard",
+                                "/create-profile/**",
+                                "/**"
+                        ).permitAll()
                         .requestMatchers(
                                 "/dashboard"
                         ).authenticated()

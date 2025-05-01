@@ -6,9 +6,19 @@
   <component name="ChangeListManager">
     <list default="true" id="f9029e1d-dd96-4509-bc95-e42aa43e8178" name="Changes" comment="merge Authentication into main">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/linkedin_clone_application/config/SpringSecurityConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/linkedin_clone_application/config/SpringSecurityConfig.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/linkedin_clone_application/controller/UserController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/linkedin_clone_application/controller/UserController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/linkedin_clone_application/service/UserService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/linkedin_clone_application/service/UserService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/linkedin_clone_application/service/UserServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/linkedin_clone_application/service/UserServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/linkedin_clone_application/model/User.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/linkedin_clone_application/model/User.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/application.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/EnterJobDetails.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/EnterJobDetails.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/complete_profile.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/complete_profile.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/application.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/linkedin_clone_application/config/SpringSecurityConfig.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/linkedin_clone_application/config/SpringSecurityConfig.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/linkedin_clone_application/controller/UserController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/linkedin_clone_application/controller/UserController.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/linkedin_clone_application/model/User.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/linkedin_clone_application/model/User.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/linkedin_clone_application/service/UserService.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/linkedin_clone_application/service/UserService.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/linkedin_clone_application/service/UserServiceImpl.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/linkedin_clone_application/service/UserServiceImpl.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/templates/complete_profile.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/templates/complete_profile.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -42,9 +52,10 @@
   </component>
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
+    "Application.LinkedInCloneApplication.executor": "Run",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "RunOnceActivity.git.unshallow": "true",
-    "git-widget-placeholder": "controller",
+    "git-widget-placeholder": "test",
     "kotlin-language-version-configured": "true",
     "last_opened_file_path": "/Users/maniketkumar/Documents/linkedin_clone_application",
     "node.js.detected.package.eslint": "true",

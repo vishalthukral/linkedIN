@@ -16,4 +16,5 @@ public interface JobRepo extends JpaRepository<Job,Integer> {
 
     // Search jobs by tag or company role
     List<Job> findByJobTitleContainingOrJobDescriptionContaining(String jobTitle, String jobDescription);
+
 }

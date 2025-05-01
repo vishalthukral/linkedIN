@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Top Job Picks</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f3f2ef;
+            margin: 0;
+            padding: 30px;
+        }
+
+        .job-list-container {
+            background-color: #fff;
+            border-radius: 10px;
+            max-width: 800px;
+            margin: auto;
+            box-shadow: 0 1px 4px rgba(0,0,0,0.1);
+            padding: 20px;
+        }
+
+        .job-list-container h2 {
+            font-size: 18px;
+            margin-bottom: 10px;
+        }
+
+        .job-list-container p {
+            font-size: 13px;
+            color: #666;
+            margin-bottom: 20px;
+        }
+
+        .job-card {
+            display: flex;
+            align-items: flex-start;
+            padding: 15px 0;
+            border-top: 1px solid #eee;
+        }
+
+        .job-card:first-child {
+            border-top: none;
+        }
+
+        .company-logo {
+            width: 48px;
+            height: 48px;
+            border-radius: 5px;
+            background-color: #dbe7f1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            color: #0a66c2;
+            margin-right: 15px;
+            flex-shrink: 0;
+        }
+
+        .job-details {
+            flex-grow: 1;
+        }
+
+        .job-title {
+            font-weight: bold;
+            color: #0a66c2;
+            font-size: 15px;
+            margin-bottom: 2px;
+            text-decoration: none;
+            display: block;
+        }
+
+        .company-info {
+            font-size: 14px;
+            color: #333;
+        }
+
+        .meta-info {
+            font-size: 12px;
+            color: #777;
+            margin-top: 4px;
+        }
+
+        .close-btn {
+            font-size: 18px;
+            color: #888;
+            cursor: pointer;
+            margin-left: 10px;
+        }
+
+        .show-all {
+            display: block;
+            text-align: center;
+            padding: 15px;
+            font-weight: bold;
+            text-decoration: none;
+            color: #0a66c2;
+            border-top: 1px solid #ddd;
+            margin-top: 10px;
+        }
+
+        .show-all:hover {
+            background-color: #f3f3f3;
+        }
+    </style>
+</head>
+<body>
+<div class="job-list-container">
+    <h2>Top job picks for you</h2>
+    <p>Based on your profile, preferences, and activity like applies, searches, and saves</p>
+
+    <div th:each="job : ${jobs}" class="job-card">
+        <div class="company-logo" th:text="${job.jobTitle.substring(0,1)}">J</div>
+
+        <div class="job-details">
+            <a th:href="@{'/jobs/' + ${job.id}}" class="job-title" th:text="${job.jobTitle}">Java Developer</a>
+            <div class="company-info" th:text="${job.location}">Bengaluru, Karnataka, India</div>
+            <div class="meta-info">
+                <span th:text="${job.employmentType}">FULL_TIME</span> ·
+                <span th:text="${#temporals.format(job.createdAt, 'dd MMM yyyy')}">1 May 2025</span> ·
+                Posted by <span th:text="${'job.postedBy.firstName' + ' ' + 'job.postedBy.lastName'}">Admin</span>
+
+            </div>
+        </div>
+
+        <div class="close-btn">&times;</div>
+    </div>
+
+    <a href="/jobs" class="show-all">Show all →</a>
+</div>
+</body>
+</html>

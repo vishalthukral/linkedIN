@@ -70,6 +70,9 @@ public class User {
     @OneToMany
     List<Like> likes;
 
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    private List<Job> jobs;
+
     public int getId() {
         return id;
     }

@@ -89,7 +89,7 @@
   <h2>Job Details</h2>
   <p>Tell us about your recent job experience</p>
 
-  <form th:action="@{/dashboard}" th:object="${userDTO}" method="post" enctype="multipart/form-data" >
+  <form th:action="@{/saveJobDetails}" th:object="${user}" method="post" enctype="multipart/form-data" >
     <input type="text" th:field="*{Experience.jobTitle}" placeholder="Recent Job Title" required>
     <input type="text" th:field="*{Experience.companyName}" placeholder="Company Name" required>
     <input type="text" th:field="*{industry}" placeholder="Industry" required>

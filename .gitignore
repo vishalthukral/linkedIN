@@ -5,6 +5,7 @@
 .idea/
 *.iml
 .vscode/
+.idea/workspace.xml
 
 # OS
 .DS_Store

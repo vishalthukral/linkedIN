@@ -12,26 +12,26 @@ public class UserServiceImpl implements UserService {
     private final PasswordEncoder passwordEncoder;
 
     @Autowired
-    public UserServiceImpl(UserRepo userRepo, PasswordEncoder passwordEncoder){
+    public UserServiceImpl(UserRepo userRepo, PasswordEncoder passwordEncoder) {
         this.userRepo = userRepo;
         this.passwordEncoder = passwordEncoder;
     }
 
-    public User registerNewUser(User user){
+    public User registerNewUser(User user) {
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         user.setEmail(user.getEmail());
         return userRepo.save(user);
     }
 
-    public User findByEmail(String email){
+    public User findByEmail(String email) {
         return userRepo.findByEmail(email);
     }
 
-    public User login(User user){
+    public User login(User user) {
         return userRepo.findByEmail(user.getEmail());
     }
 
-    public User findById(int id){
+    public User findById(int id) {
         return userRepo.findById(id).orElse(null);
     }
 

@@ -96,6 +96,15 @@
     <input type="hidden" th:field="*{firstName}">
     <input type="hidden" th:field="*{lastName}">
     <input type="hidden" th:field="*{location}">
+    <input type="hidden" th:field="*{profilePictureUrl}">
+    <input type="hidden" th:field="*{phoneNumber}">
+    <input type="hidden" th:field="*{about}">
+    <input type="hidden" th:field="*{headline}">
+
+
+
+    <h3>Profile Picture:</h3>
+    <img th:src="${user.profilePictureUrl}" alt="Profile Image" width="200" />
     <input type="text" th:field="*{jobTitle}" placeholder="Recent Job Title" required>
     <input type="text" th:field="*{companyName}" placeholder="Company Name" required>
     <input type="text" th:field="*{industry}" placeholder="Industry" required>

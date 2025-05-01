@@ -17,8 +17,8 @@ public class Media {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    @ManyToOne
-    @JoinColumn(name = "post_id")
+    @OneToOne
+    @JoinColumn(name = "post_id",unique = true,nullable = false)
     private Post post;
 
     private String url;  // Store Cloudinary URL

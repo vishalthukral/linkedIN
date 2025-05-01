@@ -11,6 +11,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+
 @Service
 public class PostServiceImpl implements PostService {
     private PostRepo postRepo;
@@ -29,11 +30,11 @@ public class PostServiceImpl implements PostService {
         post = postRepo.save(post);
 
         List<Media> uploadedMedia = new ArrayList<>();
-        System.out.println("uploaded media : "+ uploadedMedia );
+        System.out.println("uploaded media : " + uploadedMedia);
         if (mediaFiles != null && mediaFiles.length > 0) {
             for (MultipartFile file : mediaFiles) {
                 if (file != null && !file.isEmpty()) {
-                    String url =  cloudinaryService.uploadFile(file);
+                    String url = cloudinaryService.uploadFile(file);
                     if (url != null) {
                         Media media = new Media();
                         media.setPost(post);
@@ -45,16 +46,17 @@ public class PostServiceImpl implements PostService {
                 }
             }
         }
-         return "hi";
+        return "hi";
     }
 
     @Override
     public List<Post> getAllPost() {
         return postRepo.findAll();
     }
+
     public List<Post> searchPosts(String content) {
-        List<Post> list =postRepo.findByContentContainingIgnoreCase(content);
-        System.out.println("listtttttt"+ list.toString());
+        List<Post> list = postRepo.findByContentContainingIgnoreCase(content);
+        System.out.println("listtttttt" + list.toString());
         return list;
     }
 
@@ -73,5 +75,10 @@ public class PostServiceImpl implements PostService {
             throw new RuntimeException("Post doesn't exist");
         }
         return result;
+    }
+
+    @Override
+    public List<Post> getPostsByUserId(int id) {
+        return postRepo.getPostsByUserId(id);
     }
 }

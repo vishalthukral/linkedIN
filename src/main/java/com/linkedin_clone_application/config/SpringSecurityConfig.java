@@ -1,5 +1,6 @@
 package com.linkedin_clone_application.config;
 
+import com.linkedin_clone_application.service.CustomLoginSuccessHandler;
 import com.linkedin_clone_application.service.UserDetailsServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -18,6 +19,9 @@ public class SpringSecurityConfig {
     @Autowired
     private UserDetailsServiceImpl userDetailsService;
 
+    @Autowired
+    private CustomLoginSuccessHandler customLoginSuccessHandler;
+
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http.csrf(csrf -> csrf.disable())
@@ -32,13 +36,14 @@ public class SpringSecurityConfig {
                                 "/**"
                         ).permitAll()
                         .requestMatchers(
-                                "/dashboard","/jobs/**"
+                                "/dashboard","/dashboard/**"
                         ).authenticated()
                         .anyRequest().authenticated()
                 )
                 .formLogin(form -> form
                         .loginPage("/login")
-                        .defaultSuccessUrl("/dashboard", true)
+                        //.defaultSuccessUrl("/dashboard", true)
+                        .successHandler(customLoginSuccessHandler)
                         .permitAll()
                 )
                 .httpBasic(httpBasic -> {})

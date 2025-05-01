@@ -12,4 +12,5 @@ public interface PostRepo extends JpaRepository<Post,Integer> {
 
     List<Post> findByContentContainingIgnoreCase(String content);
 
+    List<Post> getPostsByUserId(int id);
 }

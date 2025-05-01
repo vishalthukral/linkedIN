@@ -11,4 +11,6 @@ public interface PostService {
     List<Post> getAllPost();
     void deletePostById(int id);
     Post getPostById(int id);
+
+    List<Post> getPostsByUserId(int id);
 }

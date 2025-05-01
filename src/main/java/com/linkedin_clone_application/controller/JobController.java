@@ -80,6 +80,13 @@ public class JobController {
         return "redirect:/jobs";
     }
 
+    @GetMapping("/{id}")
+    public String viewFullJob(@PathVariable int id, Model model){
+        Job job = jobService.findById(id); // Implement findById in your service layer
+        model.addAttribute("job", job);
+        return "viewfulljob";
+    }
+
     private String getLoggedInUserEmail() {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         if (auth != null && auth.getPrincipal() instanceof UserDetails) {

@@ -26,4 +26,6 @@ public interface JobService {
 
     // Delete a job by ID
     void deleteJobById(int id);
+
+    Job findById(int id);
 }

@@ -116,4 +116,6 @@
         public void setWorkPlaceType(WorkPlaceType workPlaceType) {
             this.workPlaceType = workPlaceType;
         }
+
+
     }

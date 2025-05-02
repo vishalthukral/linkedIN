@@ -7,4 +7,5 @@ public interface UserService {
     User findByEmail(String email);
     User findById(int id);
     void saveUser(User user);
+    User findByfirstName(String firstName);
 }

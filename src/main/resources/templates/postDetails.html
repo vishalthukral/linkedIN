@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Post Details</title>
+    <style>
+        body {
+            font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #eef3f8;
+            margin: 0;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 700px;
+            margin: auto;
+            background: #ffffff;
+            padding: 25px 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+        }
+
+        .post-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .post-header h1 {
+            font-size: 20px;
+            color: #333;
+            margin: 0;
+        }
+
+        .post {
+            margin-bottom: 30px;
+        }
+
+        .post h2 {
+            font-size: 24px;
+            color: #0a66c2;
+            margin-bottom: 10px;
+        }
+
+        .post p {
+            font-size: 16px;
+            color: #444;
+            line-height: 1.6;
+        }
+
+        .comment-form {
+            border-top: 1px solid #ddd;
+            padding-top: 20px;
+            margin-top: 30px;
+        }
+
+        .comment-form h3 {
+            font-size: 18px;
+            color: #333;
+            margin-bottom: 10px;
+        }
+
+        .comment-form textarea {
+            width: 100%;
+            height: 100px;
+            padding: 12px;
+            border-radius: 8px;
+            border: 1px solid #ccc;
+            resize: vertical;
+            font-size: 14px;
+        }
+
+        .comment-form button {
+            margin-top: 10px;
+            background-color: #0a66c2;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 600;
+        }
+
+        .comment-form button:hover {
+            background-color: #004182;
+        }
+
+        .comments-section {
+            margin-top: 40px;
+        }
+
+        .comments-section h3 {
+            font-size: 18px;
+            color: #333;
+            margin-bottom: 15px;
+        }
+
+        .comment-list {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        .comment {
+            background: #f3f6f8;
+            padding: 15px 20px;
+            border-radius: 10px;
+            margin-bottom: 15px;
+            position: relative;
+        }
+
+        .comment strong {
+            color: #0a66c2;
+            font-size: 15px;
+        }
+
+        .comment span {
+            display: block;
+            margin-top: 5px;
+            font-size: 14px;
+            color: #444;
+        }
+
+        .comment small {
+            position: absolute;
+            right: 20px;
+            top: 15px;
+            color: #888;
+            font-size: 12px;
+        }
+        .comment-actions a.edit-btn,
+.comment-actions button.delete-btn {
+    font-size: 12px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+}
+
+.comment-actions a.edit-btn {
+    color: #0a66c2;
+    margin-right: 10px;
+}
+
+.comment-actions button.delete-btn {
+    color: #d93025;
+}
+
+.comment-actions button:hover,
+.comment-actions a:hover {
+    text-decoration: underline;
+}
+
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="post-header">
+        <h1>Post Details</h1>
+    </div>
+
+    <!-- Post Details -->
+    <div class="post">
+        <h2 th:text="${post.title}">Post Title</h2>
+        <p th:text="${post.content}">Post content...</p>
+    </div>
+
+    <!-- Comment Form -->
+    <div class="comment-form">
+        <h3>Add a Comment</h3>
+        <form th:action="@{/post/{id}/comment(id=${post.id})}" method="post">
+            <textarea name="content" placeholder="Add a comment..." required></textarea>
+            <button type="submit">Comment</button>
+        </form>
+    </div>
+
+    <!-- Comments Section -->
+    <div class="comments-section">
+        <h3>Comments</h3>
+        <ul class="comment-list">
+            <li th:each="comment : ${comments}">
+                <div class="comment">
+                    <strong th:text="${comment.user.firstName}">Username</strong>
+                    <span th:text="${comment.commentContent}">Comment content</span>
+                    <small th:text="${#temporals.format(comment.createdAt, 'dd MMM yyyy HH:mm')}">Time</small>
+                    <div class="comment-actions">
+                        <a th:href="@{/comments/update/{id}(id=${comment.id})}" class="edit-btn">Update</a>
+                        <form th:action="@{/comments/delete/{id}(id=${comment.id})}" method="post">
+                            <input type="hidden" name="_method" value="delete"/>
+                            <button type="submit" class="delete-btn">Delete</button>
+                        </form>
+                    </div>
+                </div>
+            </li>
+        </ul>
+    </div>
+</div>
+
+</body>
+</html>

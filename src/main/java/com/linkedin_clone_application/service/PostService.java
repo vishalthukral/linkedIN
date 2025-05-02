@@ -18,5 +18,5 @@ public interface PostService {
 
     List<Post> getPostsByUserId(int id);
 
-
+    List<Post> getAllPostsWithComments();
 }

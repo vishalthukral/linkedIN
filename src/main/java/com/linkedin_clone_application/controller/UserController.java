@@ -88,7 +88,6 @@ public class UserController {
         User existingUser = userService.findById(user.getId());
         userService.saveUser(user);
         int id = user.getId();
-//        return "redirect:/dashboard/" + id;
         return "redirect:/login";
     }
 
@@ -97,7 +96,7 @@ public class UserController {
     public String userDashboard(@PathVariable int id, Model model){
         User user = userService.findById(id); // Get the user by ID
         List<Post> posts = postRepo.getPostsByUserId(id); // Get posts of the user
-        List<Post> allPosts= postRepo.findAll();
+        List<Post> allPosts= postRepo.findAllByOrderByCreatedAt();
         Post post= new Post();
         String email=user.getEmail();
         System.out.println(email);
@@ -106,14 +105,7 @@ public class UserController {
         model.addAttribute("allPosts", allPosts);
         model.addAttribute("post", post);
         model.addAttribute("email",email);
-        return "dashboard"; // Return to the user dashboard view
+        return "dashboard";
     }
 
-//    @GetMapping("/dashboard/{id}")
-//    public String dashboard(@PathVariable int id, Model model) {
-//        User user = userService.findById(id);
-//        model.addAttribute("user", user);
-//        return "dashboard";
-//    }
-    // Get method to show the upload form
 }

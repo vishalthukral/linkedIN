@@ -13,4 +13,8 @@ public interface PostRepo extends JpaRepository<Post,Integer> {
     List<Post> findByContentContainingIgnoreCase(String content);
 
     List<Post> getPostsByUserId(int id);
+
+    @Query("SELECT p FROM Post p LEFT JOIN FETCH p.comments")
+    List<Post> findAllWithComments();
+
 }

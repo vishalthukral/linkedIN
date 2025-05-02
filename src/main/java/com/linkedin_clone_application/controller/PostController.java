@@ -7,10 +7,7 @@ import com.linkedin_clone_application.model.Post;
 import com.linkedin_clone_application.model.User;
 import com.linkedin_clone_application.repository.PostRepo;
 import com.linkedin_clone_application.repository.UserRepo;
-import com.linkedin_clone_application.service.CloudinaryService;
-import com.linkedin_clone_application.service.LikeService;
-import com.linkedin_clone_application.service.PostService;
-import com.linkedin_clone_application.service.UserService;
+import com.linkedin_clone_application.service.*;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -23,6 +20,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 
 @Controller
 public class PostController {
@@ -32,9 +30,10 @@ public class PostController {
     private final UserRepo userRepo;
     private final UserService userService;
     private final LikeService likeService;
+    private final CommentService commentService;
 
     PostController(PostService postService, PostRepo postRepo, CloudinaryService cloudinaryService, UserRepo userRepo, UserService userService,
-                   LikeService likeService){
+                   LikeService likeService, CommentService commentService){
         this.postService = postService;
         this.postRepo = postRepo;
         this.cloudinaryService = cloudinaryService;
@@ -42,6 +41,7 @@ public class PostController {
 
         this.userService = userService;
         this.likeService = likeService;
+        this.commentService = commentService;
     }
 
     @GetMapping("/createpost")
@@ -77,72 +77,28 @@ public class PostController {
         }
         postRepo.save(post);
         return "redirect:/dashboard/"+post.getUser().getId();
-//        return "redirect:/dashboard/1";
     }
 
     @PostMapping("/deletepost/{id}")
     @Transactional
     public String deletePost(@PathVariable int id){
-        Post post = postRepo.findById(id).orElseThrow();
+        Post post = postService.getPostById(id);
         postService.deletePostById(id);
         return "redirect:/dashboard/"+post.getUser().getId();
     }
 
-//    @GetMapping("/")
-//    public String getAllPosts(Model model){
-//        List<Post> postList = postService.getAllPost();
-//        model.addAttribute("allposts",postList);
-//        return "showallposts";
-//    }
-
-
+    @GetMapping("/")
+    public String getAllPosts(Model model){
+        return "redirect:/login";
+    }
     @GetMapping("/updateform/{id}")
     @Transactional
     public String updatePostForm(@PathVariable int id, Model model){
-        Post post = postRepo.findById(id).orElseThrow();
-        model.addAttribute("post", post);
+        Post post = postService.getPostById(id);
+        model.addAttribute("posting", post);
         return "createPostForm";
     }
 
-    @PostMapping("/updatepost")
-    @Transactional
-    public String updatePost(@ModelAttribute Post post){
-        post.setUpdatedAt(LocalDateTime.now());
-        postRepo.save(post);
-        return "redirect:/dashboard/"+post.getUser().getId();
-    }
-
-    @GetMapping("/detailed-post/{postId}")
-    public String viewPost(@PathVariable("postId") int id, Model model) {
-        Post post = postService.getPostById(id);
-        Comment comment = new Comment();
-
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        if (auth != null && auth.getPrincipal() instanceof UserDetails userDetails) {
-            String email = userDetails.getUsername();
-
-            User user = userService.findByEmail(email);
-            String role = user.getRole();
-            model.addAttribute("loggedInEmail", email);
-            comment.setUser(user);
-        }
-        model.addAttribute("post", post);
-        model.addAttribute("commenting", comment);
-        model.addAttribute("comments", post.getComments());
-        return "post-detail";
-    }
-//    @PostMapping("/like/{id}")
-//    public String likePost(@PathVariable int id) {
-//        String email = getLoggedInUserEmail();
-//        if (email == null) {
-//            return "redirect:/login";
-//        }
-//        User user = userService.findByEmail(email);
-//
-//        String status=likeService.toggleLike(id, user.getId());
-//        System.out.println(status);
-//        return "redirect:/dashboard/"+user.getId();
-//    }
 @PostMapping("/toggle/{postId}")
 public String likePost(@PathVariable int postId) {
     // Get the logged-in user's email
@@ -156,6 +112,34 @@ public String likePost(@PathVariable int postId) {
 
     return "redirect:/dashboard/" + user.getId();  // Redirect back to user's dashboard
 }
+
+    @GetMapping("/post/{id}")
+    public String viewPost(@PathVariable("id") int postId, Model model) {
+        Post post = postService.getPostById(postId);
+        List<Comment> comments = commentService.getCommentsByPost(post);
+
+        model.addAttribute("post", post);
+        model.addAttribute("comments", comments);
+//        System.out.println(comments.get(0).getCommentContent());
+        return "postDetails";  // This should match your Thymeleaf template name
+    }
+    @PostMapping("/post/{id}/comment")
+    public String addComment(@PathVariable("id") int postId,
+                             @RequestParam("content") String content) {
+        String email = getLoggedInUserEmail();
+        if (email == null) {
+            return "redirect:/login";  // If not logged in, redirect to login
+        }
+
+        User user = userService.findByEmail(email);  // Get the logged-in user
+        Post post = postService.getPostById(postId);
+
+
+        commentService.addComment(content, post, user);  // Use your service method
+
+        return "redirect:/dashboard/"+post.getUser().getId();  // Redirect back to the post details page
+    }
+
     private String getLoggedInUserEmail() {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         if (auth != null && auth.getPrincipal() instanceof UserDetails) {

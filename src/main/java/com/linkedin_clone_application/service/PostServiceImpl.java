@@ -82,5 +82,7 @@ public class PostServiceImpl implements PostService {
         return postRepo.getPostsByUserId(id);
     }
 
-
+    public List<Post> getAllPostsWithComments() {
+        return postRepo.findAllWithComments();
+    }
 }

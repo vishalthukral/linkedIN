@@ -2,6 +2,7 @@ package com.linkedin_clone_application.service;
 
 import com.linkedin_clone_application.model.Comment;
 import com.linkedin_clone_application.model.Post;
+import com.linkedin_clone_application.model.User;
 import com.linkedin_clone_application.repository.CommentRepo;
 import com.linkedin_clone_application.repository.PostRepo;
 import com.linkedin_clone_application.service.CommentService;
@@ -9,6 +10,7 @@ import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -16,46 +18,27 @@ public class CommentServiceImpl implements CommentService {
     private CommentRepo commentRepository;
     private PostRepo postRepository;
 
-    public CommentServiceImpl(CommentRepo  commentRepository,PostRepo  postRepository) {
+
+    public CommentServiceImpl(CommentRepo commentRepository, PostRepo postRepository) {
         this.commentRepository = commentRepository;
-        this.postRepository=postRepository;
+        this.postRepository = postRepository;
     }
 
-    @Override
-    @Transactional
-    public void createComment(Comment comment, int postId) {
-        //get the post
-        Optional<Post> optionalPost = postRepository.findById(postId);
 
-        //no post available with this id then throw exception
-        if(optionalPost.isEmpty()){
-            throw new RuntimeException("Post ID not found: " + postId);
-        }
-
-        Post post = optionalPost.get();
-
-        //add all other fields that are necessary
-        comment.setCreatedAt(LocalDateTime.now());
+    public void addComment(String content, Post post, User user) {
+        Comment comment = new Comment();
+        comment.setCommentContent(content);
         comment.setPost(post);
-        //check the request is for new or update
-        if(comment.getId() == 0){
-            comment.setUpdatedAt(null);
-        }else {
-            comment.setUpdatedAt(LocalDateTime.now());
-        }
-
+        comment.setUser(user);
+        comment.setCreatedAt(LocalDateTime.now());
         commentRepository.save(comment);
     }
 
-    @Override
-    public Comment saveComment(Comment comment) {
-        return commentRepository.save(comment);
-    }
 
     @Override
     public Comment getCommentById(int commentId) {
         Optional<Comment> result = commentRepository.findById(commentId);
-        Comment comment =null;
+        Comment comment = null;
         if (result.isPresent()) {
             comment = result.get();
         } else {
@@ -68,5 +51,25 @@ public class CommentServiceImpl implements CommentService {
     @Override
     public void deleteCommentById(int commentId) {
         commentRepository.deleteById(commentId);
+    }
+
+    public List<Comment> getCommentsByPostId(int postId) {
+        return commentRepository.findByPostId(postId);
+    }
+
+    public List<Comment> getCommentsByPost(Post post) {
+        return commentRepository.findByPostOrderByCreatedAtDesc(post);
+    }
+
+    public int getPostIdByCommentId(int commentId) {
+        Comment comment = getCommentById(commentId);
+        return comment.getPost().getId();
+    }
+    public void updateComment(int id, String content) {
+        Comment comment = commentRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("Comment not found with id: " + id));
+
+        comment.setCommentContent(content);
+        commentRepository.save(comment);
     }
 }

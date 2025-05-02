@@ -5,6 +5,7 @@ import com.linkedin_clone_application.model.Post;
 import com.linkedin_clone_application.model.User;
 import com.linkedin_clone_application.repository.LikeRepo;
 import com.linkedin_clone_application.repository.PostRepo;
+import com.linkedin_clone_application.repository.UserRepo;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -14,38 +15,35 @@ public class LikeService {
 
     private final LikeRepo likeRepo;
     private final PostRepo postRepo;
+    private final UserRepo userRepo;
 
-    public LikeService(LikeRepo likeRepo, PostRepo postRepo) {
+    public LikeService(LikeRepo likeRepo, PostRepo postRepo, UserRepo userRepo) {
         this.likeRepo = likeRepo;
         this.postRepo = postRepo;
+        this.userRepo = userRepo;
     }
 
     // Toggle like status (like or remove like)
     public void toggleLike(int postId, int userId) {
-        Post post = new Post();  // Retrieve the post by its ID
-        post.setId(postId);
+        Post post = postRepo.findById(postId).orElseThrow();
+        User user = userRepo.findById(userId).orElseThrow();
 
-        User user = new User();  // Retrieve the user by its ID
-        user.setId(userId);
+        Optional<Like> existing = likeRepo.findByPostAndUser(post, user);
 
-        // Check if the user has already liked the post
-
-        Optional<Like> liked=likeRepo.findByPostAndUser(post,user);
-
-        if (liked.isPresent()) {
-            // If the user has already liked the post, remove the like
-            likeRepo.delete(liked.get());
-            post.setLikesCount(post.getLikesCount() -1);
+        if (existing.isPresent()) {
+            likeRepo.delete(existing.get());
+            post.setLikesCount(post.getLikesCount() - 1);
         } else {
-            // Otherwise, add the like
             Like like = new Like();
             like.setPost(post);
             like.setUser(user);
             likeRepo.save(like);
             post.setLikesCount(post.getLikesCount() + 1);
         }
-        postRepo.save(post);
+
+        postRepo.save(post); // only save likeCount update, not the full post
     }
+
 
     // Get total likes for a post
     public int getLikeCount(Post post) {

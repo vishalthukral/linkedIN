@@ -20,14 +20,13 @@
         @JoinColumn(name = "user_id")
         private User user;
 
-    //    private int  companyId;
         private String company;
         private String jobTitle;
         private String location;
         private String jobDescription;
 
         @Enumerated(EnumType.STRING)
-        private EmploymentType employmentType;  // FULL_TIME, PART_TIME, CONTRACT
+        private EmploymentType employmentType;
 
         @Enumerated(EnumType.STRING)
         private WorkPlaceType workPlaceType;

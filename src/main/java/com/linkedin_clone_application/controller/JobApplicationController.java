@@ -6,6 +6,7 @@ import com.linkedin_clone_application.model.JobApplication;
 import com.linkedin_clone_application.model.User;
 import com.linkedin_clone_application.repository.*;
 import com.linkedin_clone_application.service.CloudinaryService;
+import com.linkedin_clone_application.service.CustomUserDetails;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -37,8 +38,15 @@ public class JobApplicationController {
     public String showApplicationForm(@PathVariable("jobId") Integer jobId, Model model) {
         // Get the current logged-in user
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        String currentUsername = authentication.getName();
-        User currentUser = userRepo.findByEmail(currentUsername);
+        CustomUserDetails customUserDetails = (CustomUserDetails) authentication.getPrincipal();
+        User currentUser = customUserDetails.getUser(); // Access the full User object
+
+// Access firstName and lastName
+        String firstName = currentUser.getFirstName();
+        String lastName = currentUser.getLastName();
+
+// Now you can use currentUser or firstName, lastName as needed
+        model.addAttribute("user", currentUser);
 
         // Get the job
         Job job = jobRepo.findById(jobId)
@@ -60,7 +68,7 @@ public class JobApplicationController {
         model.addAttribute("job", job);
         model.addAttribute("jobApplication", jobApplication);
 
-        return "job-application-form";
+        return "jobApplication";
     }
 
     // Process the job application submission
@@ -73,8 +81,8 @@ public class JobApplicationController {
 
         // Get the current logged-in user
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        String currentUsername = authentication.getName();
-        User currentUser = userRepo.findByEmail(currentUsername);
+        CustomUserDetails customUserDetails = (CustomUserDetails) authentication.getPrincipal();
+        User currentUser = customUserDetails.getUser();
 
         // Get the job
         Job job = jobRepo.findById(jobId)

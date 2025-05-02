@@ -74,7 +74,7 @@
     <div class="application-container">
         <a th:href="@{/jobs/{id}(id=${job.id})}" class="close-btn">&times;</a>
 
-        <h2 class="mb-4">Apply to <span th:text="${job.title}">Job Title</span></h2>
+        <h2 class="mb-4">Apply to <span th:text="${job.jobTitle}">Job Title</span></h2>
 
         <div class="progress-container">
             <div class="progress-bar"></div>
@@ -84,22 +84,23 @@
         <h4 class="mb-4">Contact info</h4>
 
         <div class="user-info">
-            <img th:src="${user.profileImageUrl != null ? user.profileImageUrl : '/images/default-avatar.png'}"
-                 alt="Profile Picture" class="user-avatar">
+<!--            <img th:src="${user.profileImageUrl != null ? user.profileImageUrl : '/images/default-avatar.png'}"-->
+<!--                 alt="Profile Picture" class="user-avatar">-->
             <div>
-                <h5 th:text="${user.firstName + ' ' + user.lastName}">Full Name</h5>
-                <p th:text="${user.headline != null ? user.headline : 'LinkedIn User'}">Job Title</p>
-                <p th:text="${user.location != null ? user.location : ''}">Location</p>
+<!--                <h5 th:text="${user.firstName + ' ' + user.lastName}">Full Name</h5>-->
+                <h5 th:text="${user != null ? user.firstName + ' ' + user.lastName : 'Anonymous'}">Full Name</h5>
+                <p th:text="${#strings.defaultString(user.headline, 'LinkedIn User')}">Job Title</p>
+<!--                <p th:text="${#strings.defaultString(user.location, '')}">Location</p>-->
             </div>
         </div>
 
         <form th:action="@{/jobs/{jobId}/apply(jobId=${job.id})}" method="post" th:object="${jobApplication}" enctype="multipart/form-data">
             <input type="hidden" th:field="*{job}" th:value="${job.id}" />
-            <input type="hidden" th:field="*{user}" th:value="${user.id}" />
+            <input type="hidden" th:if="${user != null}" th:field="*{user}" th:value="${user.id}" />
 
             <div class="mb-3">
                 <label for="email" class="form-label required">Email address</label>
-                <input type="email" class="form-control" id="email" th:value="${user.email}" readonly>
+                <input type="email" class="form-control" id="email" th:value="${user != null ? user.email : ''}" >
             </div>
 
             <div class="mb-3">
@@ -115,7 +116,7 @@
             <div class="mb-3">
                 <label for="phone" class="form-label required">Mobile phone number</label>
                 <input type="tel" class="form-control" id="phone" required
-                       th:value="${user.phoneNumber != null ? user.phoneNumber : ''}">
+                       th:value="${'user.phoneNumber' != null ? 'user.phoneNumber' : ''}">
             </div>
 
             <div class="mb-3">

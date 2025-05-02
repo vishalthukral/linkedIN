@@ -28,7 +28,6 @@ public class JobController {
         this.userService=userService;
     }
 
-    // Show all jobs
     @GetMapping
     public String viewAllJobs(Model model) {
         List<Job> jobs = jobService.getAllJobs();
@@ -36,14 +35,12 @@ public class JobController {
         return "jobslist"; // Thymeleaf template: jobs/list.html
     }
 
-    // Show job creation form
     @GetMapping("/create")
     public String showCreateJobForm(Model model) {
         model.addAttribute("job", new Job());
         return "createjob"; // Thymeleaf template: jobs/createjob.html
     }
 
-    // Process job creation form
     @PostMapping("/create")
     public String createJob(@ModelAttribute("job") Job job) {
         String email = getLoggedInUserEmail();
@@ -57,23 +54,20 @@ public class JobController {
         return "redirect:/jobs";
     }
 
-    // Show job edit form
     @GetMapping("/edit/{id}")
     public String showEditJobForm(@PathVariable int id, Model model) {
         Job job = jobService.getJobById(id).orElseThrow(() -> new IllegalArgumentException("Invalid job ID:" + id));
         model.addAttribute("job", job);
-        return "jobs/edit"; // Thymeleaf template: jobs/edit.html
+        return "jobs/edit";
     }
 
-    // Process job edit form
     @PostMapping("/edit/{id}")
     public String editJob(@PathVariable int id, @ModelAttribute("job") Job job) {
-        job.setId(id); // Ensure the ID remains consistent
+        job.setId(id);
         jobService.saveJob(job);
         return "redirect:/jobs";
     }
 
-    // Delete a job
     @GetMapping("/delete/{id}")
     public String deleteJob(@PathVariable int id) {
         jobService.deleteJobById(id);
@@ -82,7 +76,7 @@ public class JobController {
 
     @GetMapping("/{id}")
     public String viewFullJob(@PathVariable int id, Model model){
-        Job job = jobService.findById(id); // Implement findById in your service layer
+        Job job = jobService.findById(id);
         model.addAttribute("job", job);
         return "viewfulljob";
     }
@@ -90,7 +84,7 @@ public class JobController {
     private String getLoggedInUserEmail() {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         if (auth != null && auth.getPrincipal() instanceof UserDetails) {
-            return ((UserDetails) auth.getPrincipal()).getUsername(); // this returns email
+            return ((UserDetails) auth.getPrincipal()).getUsername();
         }
         return null;
     }

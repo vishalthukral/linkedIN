@@ -1,12 +1,14 @@
 package com.linkedin_clone_application.controller;
 
 import com.cloudinary.Cloudinary;
+import com.linkedin_clone_application.model.Comment;
 import com.linkedin_clone_application.model.Media;
 import com.linkedin_clone_application.model.Post;
 import com.linkedin_clone_application.model.User;
 import com.linkedin_clone_application.repository.PostRepo;
 import com.linkedin_clone_application.repository.UserRepo;
 import com.linkedin_clone_application.service.CloudinaryService;
+import com.linkedin_clone_application.service.LikeService;
 import com.linkedin_clone_application.service.PostService;
 import com.linkedin_clone_application.service.UserService;
 import org.springframework.security.core.Authentication;
@@ -29,14 +31,17 @@ public class PostController {
     private final CloudinaryService cloudinaryService;
     private final UserRepo userRepo;
     private final UserService userService;
+    private final LikeService likeService;
 
-    PostController(PostService postService, PostRepo postRepo, CloudinaryService cloudinaryService, UserRepo userRepo, UserService userService){
+    PostController(PostService postService, PostRepo postRepo, CloudinaryService cloudinaryService, UserRepo userRepo, UserService userService,
+                   LikeService likeService){
         this.postService = postService;
         this.postRepo = postRepo;
         this.cloudinaryService = cloudinaryService;
         this.userRepo = userRepo;
 
         this.userService = userService;
+        this.likeService = likeService;
     }
 
     @GetMapping("/createpost")
@@ -70,10 +75,9 @@ public class PostController {
             User user=userService.findByEmail(email);
             post.setUser(user);
         }
-
         postRepo.save(post);
-        //return "redirect:/dashboard/1"+post.getUser().getId();
-        return "redirect:/dashboard/1";
+        return "redirect:/dashboard/"+post.getUser().getId();
+//        return "redirect:/dashboard/1";
     }
 
     @PostMapping("/deletepost/{id}")
@@ -108,6 +112,50 @@ public class PostController {
         return "redirect:/dashboard/"+post.getUser().getId();
     }
 
+    @GetMapping("/detailed-post/{postId}")
+    public String viewPost(@PathVariable("postId") int id, Model model) {
+        Post post = postService.getPostById(id);
+        Comment comment = new Comment();
+
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        if (auth != null && auth.getPrincipal() instanceof UserDetails userDetails) {
+            String email = userDetails.getUsername();
+
+            User user = userService.findByEmail(email);
+            String role = user.getRole();
+            model.addAttribute("loggedInEmail", email);
+            comment.setUser(user);
+        }
+        model.addAttribute("post", post);
+        model.addAttribute("commenting", comment);
+        model.addAttribute("comments", post.getComments());
+        return "post-detail";
+    }
+//    @PostMapping("/like/{id}")
+//    public String likePost(@PathVariable int id) {
+//        String email = getLoggedInUserEmail();
+//        if (email == null) {
+//            return "redirect:/login";
+//        }
+//        User user = userService.findByEmail(email);
+//
+//        String status=likeService.toggleLike(id, user.getId());
+//        System.out.println(status);
+//        return "redirect:/dashboard/"+user.getId();
+//    }
+@PostMapping("/toggle/{postId}")
+public String likePost(@PathVariable int postId) {
+    // Get the logged-in user's email
+    String email = getLoggedInUserEmail();
+    if (email == null) {
+        return "redirect:/login";  // If not logged in, redirect to login
+    }
+
+    User user = userService.findByEmail(email); // Find the user by email
+    likeService.toggleLike(postId, user.getId());  // Toggle like for the post
+
+    return "redirect:/dashboard/" + user.getId();  // Redirect back to user's dashboard
+}
     private String getLoggedInUserEmail() {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         if (auth != null && auth.getPrincipal() instanceof UserDetails) {

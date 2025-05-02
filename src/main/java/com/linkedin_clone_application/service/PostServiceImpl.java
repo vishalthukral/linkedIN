@@ -81,4 +81,6 @@ public class PostServiceImpl implements PostService {
     public List<Post> getPostsByUserId(int id) {
         return postRepo.getPostsByUserId(id);
     }
+
+
 }

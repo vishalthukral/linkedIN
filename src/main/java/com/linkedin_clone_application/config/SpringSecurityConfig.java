@@ -27,22 +27,20 @@ public class SpringSecurityConfig {
         http.csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers(
-                                "/register",
-                                "/landingPage",
-                                "/images/**",
+                                "/register"
+                                ,"/images/**",
                                 "/login",
-                                "/dashboard",
                                 "/create-profile/**",
                                 "/**"
                         ).permitAll()
                         .requestMatchers(
-                                "/dashboard","/dashboard/**"
+                                 "/savepost","/dashboard/**","/landingPage","/like/**"
                         ).authenticated()
                         .anyRequest().authenticated()
                 )
                 .formLogin(form -> form
                         .loginPage("/login")
-                        //.defaultSuccessUrl("/dashboard", true)
+//                        .defaultSuccessUrl("/login", true)
                         .successHandler(customLoginSuccessHandler)
                         .permitAll()
                 )

@@ -15,7 +15,7 @@ import lombok.Setter;
 public class Like {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private int id;
 
     @ManyToOne
     @JoinColumn(name = "post_id", nullable = false)
@@ -25,11 +25,11 @@ public class Like {
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
-    public Long getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(int id) {
         this.id = id;
     }
 

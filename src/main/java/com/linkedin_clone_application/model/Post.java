@@ -48,6 +48,9 @@ public class Post {
     private int CommentCount;
     private int sharesCount;
 
+    public Post(int postId) {
+    }
+
     @PrePersist
     public void prePersist() {
         // Ensure the createdAt field is set only when the entity is first persisted

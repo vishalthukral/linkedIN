@@ -88,8 +88,10 @@ public class UserController {
         User existingUser = userService.findById(user.getId());
         userService.saveUser(user);
         int id = user.getId();
-        return "redirect:/dashboard/" + id;
+//        return "redirect:/dashboard/" + id;
+        return "redirect:/login";
     }
+
 
     @GetMapping("/dashboard/{id}")
     public String userDashboard(@PathVariable int id, Model model){

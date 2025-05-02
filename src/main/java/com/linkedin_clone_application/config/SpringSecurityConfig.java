@@ -32,7 +32,7 @@ public class SpringSecurityConfig {
                                 "/**"
                         ).permitAll()
                         .requestMatchers(
-                                "/dashboard"
+                                "/dashboard","/jobs/**"
                         ).authenticated()
                         .anyRequest().authenticated()
                 )

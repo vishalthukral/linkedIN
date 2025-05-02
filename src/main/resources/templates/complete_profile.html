@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>LinkedIn Signup Clone</title>
-    <!-- Add Cropper.js CSS file -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.13/cropper.min.css">
     <style>
         body {
@@ -94,7 +93,7 @@
        }
 
        #upload {
-           display: none; /* Hide the default file input */
+           display: none;
        }
 
        /* Modal Styles */
@@ -196,7 +195,6 @@
     </div>
 </div>
 
-<!--    Include Cropper.js-->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.13/cropper.min.js"></script>
 <script>
     let cropper;
@@ -211,7 +209,6 @@
                 let cropImage = document.getElementById('crop-image');
                 cropImage.src = e.target.result;
 
-                // Open modal after image is loaded
                 setTimeout(openModal, 100);
             };
             reader.readAsDataURL(selectedFile);
@@ -224,12 +221,10 @@
 
         let image = document.getElementById('crop-image');
 
-        // Destroy previous Cropper instance if exists
         if (cropper) {
             cropper.destroy();
         }
 
-        // Initialize Cropper
         cropper = new Cropper(image, {
             aspectRatio: 1,
             viewMode: 1,
@@ -237,7 +232,6 @@
             autoCropArea: 0.8,
             responsive: true,
             ready: function() {
-                // Ensure the cropper is properly initialized
                 this.cropper.crop();
             }
         });
@@ -246,27 +240,21 @@
     function applyCrop() {
         if (!cropper) return;
 
-        // Get the cropped canvas
         let canvas = cropper.getCroppedCanvas({
             width: 140,
             height: 140
         });
 
-        // Update the profile picture preview
         document.getElementById('profile-pic').src = canvas.toDataURL();
 
-        // Convert canvas to blob for form submission
         canvas.toBlob(function(blob) {
-            // Create a new File object
             let file = new File([blob], "profile.png", { type: "image/png" });
 
-            // Update the file input
             const dataTransfer = new DataTransfer();
             dataTransfer.items.add(file);
             document.getElementById('upload').files = dataTransfer.files;
         });
 
-        // Close the modal
         closeModal();
     }
 

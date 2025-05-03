@@ -47,12 +47,13 @@ public class Post {
     @Transient
     private String timeAgo;
 
+    @Transient
+    private String postUrl;
+
     private int likesCount;
     private int CommentCount;
     private int sharesCount;
 
-    public Post(int postId) {
-    }
 
     @PrePersist
     public void prePersist() {
@@ -171,5 +172,13 @@ public class Post {
 
     public void setTimeAgo(String timeAgo) {
         this.timeAgo = timeAgo;
+    }
+
+    public String getPostUrl() {
+        return postUrl;
+    }
+
+    public void setPostUrl(String postUrl) {
+        this.postUrl = postUrl;
     }
 }

@@ -93,8 +93,11 @@ public class UserController {
         User user = userService.findById(id); // Get the user by ID
         List<Post> posts = postRepo.getPostsByUserId(id); // Get posts of the user
         List<Post> allPosts= postRepo.findAllByOrderByCreatedAt();
+        String baseUrl = "localhost:8080";
         allPosts.forEach(post -> {
             post.setTimeAgo(TimeAgoUtil.toTimeAgo(post.getCreatedAt()));
+            String fullUrl = baseUrl + "/post/" + post.getId();
+            post.setPostUrl(fullUrl);
         });
         Post post= new Post();
         String email=user.getEmail();

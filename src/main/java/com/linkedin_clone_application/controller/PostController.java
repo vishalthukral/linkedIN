@@ -43,7 +43,7 @@ public class PostController {
         this.commentService = commentService;
     }
 
-    @GetMapping("/createpost")
+    @GetMapping("/createPost")
     public String createPost(Model model){
         String email = getLoggedInUserEmail();
         if(email!=null){
@@ -52,8 +52,10 @@ public class PostController {
             post.setUser(user);
             model.addAttribute("post", post);
             model.addAttribute("email",email);
+        }else{
+            return "redirect:/login";
         }
-        return "createPostForm";
+        return "createPost";
     }
 
     @PostMapping("/savepost")

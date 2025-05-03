@@ -468,7 +468,8 @@
             <span>My Network</span>
         </div>
         <div class="nav-item">
-            <a th:href="@{/jobs/}" class="fas fa-briefcase">Jobs</a>
+            <i class="fas fa-briefcase"></i>
+            <a th:href="@{/jobs/}">Jobs</a>
         </div>
         <div class="nav-item">
             <i class="fas fa-comment-dots"></i>
@@ -514,21 +515,21 @@
 
         <!-- Create Post -->
         <div class="create-post">
-            <form action="/savepost" method="post" enctype="multipart/form-data">
+            <form th:action="@{/createPost}"  >
                 <div class="post-input">
                     <img th:src="@{${user.profilePictureUrl}}" alt="Profile">
-                    <input type="text" name="title" placeholder="Title" required>
+                    <input type="hidden" name="title" placeholder="Title" required>
                 </div>
-                <textarea name="content" rows="3" placeholder="What do you want to talk about?" required></textarea>
-
                 <div class="post-actions">
                     <div class="post-action photo">
+                        <label for="image">Image</label>
                         <i class="far fa-image"></i>
-                        <span>Photo</span>
+                        <input type="file" id="image"   placeholder="Image" style="display : none;">
                     </div>
                     <div class="post-action video">
+                        <label for="video">Video</label>
                         <i class="fas fa-video"></i>
-                        <span>Video</span>
+                        <input type="file" id="video" placeholder="Video" style="display : none;">
                     </div>
                     <div class="post-action event">
                         <i class="far fa-calendar"></i>
@@ -539,9 +540,7 @@
                         <span>Article</span>
                     </div>
                 </div>
-
-                <input type="file" name="image">
-                <button type="submit">Post</button>
+                <button type="submit">Create Post</button>
             </form>
         </div>
 
@@ -576,7 +575,8 @@
                 </div>
                 <div class="action-button">
                     <i class="fas fa-share"></i>
-                    <span>Share</span>
+                    <input type="text" id="postUrlInput" th:value="${post.postUrl}" readonly hidden />
+                    <button type="button" onclick="copyPostUrl()">Share</button>
                 </div>
                 <div class="action-button">
                     <i class="far fa-paper-plane"></i>
@@ -638,4 +638,15 @@
 </div>
 
 </body>
+
+<script>
+    function copyPostUrl() {
+        const input = document.getElementById("postUrlInput");
+        input.removeAttribute("hidden");
+        input.select();
+        document.execCommand("copy");
+        input.setAttribute("hidden", "true");
+        alert("Copied!");
+    }
+</script>
 </html>

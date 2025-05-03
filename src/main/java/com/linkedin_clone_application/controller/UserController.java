@@ -30,6 +30,7 @@ public class UserController {
         this.postRepo = postRepo;
     }
 
+
     @GetMapping("/login")
     public String login() {
         return "login";
@@ -62,7 +63,7 @@ public class UserController {
     }
 
     @PostMapping("/userDetails")
-    public String userProfile(@ModelAttribute("user") User user,@RequestParam("image") MultipartFile image) throws IOException {
+    public String userProfile(@ModelAttribute("user") User user, @RequestParam("image") MultipartFile image) throws IOException {
         if (image != null && !image.isEmpty()) {
             String imageUrl = cloudinaryService.uploadImage(image);
             user.setProfilePictureUrl(imageUrl);
@@ -89,25 +90,35 @@ public class UserController {
 
 
     @GetMapping("/dashboard/{id}")
-    public String userDashboard(@PathVariable int id, Model model){
+    public String userDashboard(@PathVariable int id, Model model) {
         User user = userService.findById(id); // Get the user by ID
         List<Post> posts = postRepo.getPostsByUserId(id); // Get posts of the user
-        List<Post> allPosts= postRepo.findAllByOrderByCreatedAt();
+        List<Post> allPosts = postRepo.findAllByOrderByCreatedAt();
         String baseUrl = "localhost:8080";
         allPosts.forEach(post -> {
             post.setTimeAgo(TimeAgoUtil.toTimeAgo(post.getCreatedAt()));
             String fullUrl = baseUrl + "/post/" + post.getId();
             post.setPostUrl(fullUrl);
+            post.setPostTags(post.getPostTags());
         });
-        Post post= new Post();
-        String email=user.getEmail();
+        Post post = new Post();
+        String email = user.getEmail();
         System.out.println(email);
         model.addAttribute("user", user);
         model.addAttribute("posts", posts);
         model.addAttribute("allPosts", allPosts);
         model.addAttribute("post", post);
-        model.addAttribute("email",email);
+        model.addAttribute("email", email);
         return "dashboard";
+    }
+
+    @GetMapping("/view/{id}")
+    public String userView(Model model, @PathVariable("id") int userId) {
+        User user = userService.findById(userId);
+        model.addAttribute(user);
+        List<Post> postsByUser = postRepo.getPostsByUserId(userId);
+        model.addAttribute("postsByUser",postsByUser);
+        return "userDetails";
     }
 
 }

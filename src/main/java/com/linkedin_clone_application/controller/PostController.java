@@ -1,11 +1,9 @@
 package com.linkedin_clone_application.controller;
 
 import com.linkedin_clone_application.Util.TimeAgoUtil;
-import com.linkedin_clone_application.model.Comment;
-import com.linkedin_clone_application.model.Media;
-import com.linkedin_clone_application.model.Post;
-import com.linkedin_clone_application.model.User;
+import com.linkedin_clone_application.model.*;
 import com.linkedin_clone_application.repository.PostRepo;
+import com.linkedin_clone_application.repository.TagRepo;
 import com.linkedin_clone_application.repository.UserRepo;
 import com.linkedin_clone_application.service.*;
 import org.springframework.security.core.Authentication;
@@ -30,9 +28,12 @@ public class PostController {
     private final UserService userService;
     private final LikeService likeService;
     private final CommentService commentService;
+    private final PostTagService postTagService;
+    private final TagRepo tagRepo;
 
-    PostController(PostService postService, PostRepo postRepo, CloudinaryService cloudinaryService, UserRepo userRepo, UserService userService,
-                   LikeService likeService, CommentService commentService){
+    PostController(PostService postService, PostRepo postRepo, CloudinaryService cloudinaryService, UserRepo userRepo,
+                   UserService userService,
+                   LikeService likeService, CommentService commentService, PostTagService postTagService, TagRepo tagRepo) {
         this.postService = postService;
         this.postRepo = postRepo;
         this.cloudinaryService = cloudinaryService;
@@ -41,27 +42,68 @@ public class PostController {
         this.userService = userService;
         this.likeService = likeService;
         this.commentService = commentService;
+        this.postTagService = postTagService;
+        this.tagRepo = tagRepo;
     }
 
     @GetMapping("/createPost")
-    public String createPost(Model model){
+    public String createPost(Model model) {
         String email = getLoggedInUserEmail();
-        if(email!=null){
+        if (email != null) {
             User user = userService.findByEmail(email);
             Post post = new Post();
             post.setUser(user);
             model.addAttribute("post", post);
-            model.addAttribute("email",email);
-        }else{
+            model.addAttribute("email", email);
+        } else {
             return "redirect:/login";
         }
         return "createPost";
     }
 
+
     @PostMapping("/savepost")
-    public String savePost(@ModelAttribute Post post, @RequestParam("image") MultipartFile image) throws IOException {
+    public String savePost(@ModelAttribute Post post, @RequestParam("tags") String tags, @RequestParam("image") MultipartFile image)
+            throws IOException {
         post.setCreatedAt(LocalDateTime.now());
         post.setUpdatedAt(LocalDateTime.now());
+
+        if (post.getId() != 0) {
+            // Existing Post -> Update
+            Post existingPost = postRepo.findById(post.getId())
+                    .orElseThrow(() -> new RuntimeException("Post not found with id: " + post.getId()));
+            post.setCreatedAt(existingPost.getCreatedAt());
+            post.setUpdatedAt(LocalDateTime.now());  // set updatedAt
+
+            // Delete old PostTags
+            postTagService.deleteByPostId(post.getId());
+        }else {
+            post.setCreatedAt(LocalDateTime.now());
+            post.setUpdatedAt(LocalDateTime.now());
+        }
+        Post savedPost = postRepo.save(post);
+        String[] tagArray = tags.split(",");
+        for (String tagName : tagArray) {
+            final String trimmedTagName = tagName.trim();
+
+            Tag tag = tagRepo.findByName(trimmedTagName)
+                    .orElseGet(() -> {
+                        Tag newTag = new Tag();
+                        newTag.setName(trimmedTagName);
+                        newTag.setCreatedAt(LocalDateTime.now());
+                        newTag.setUpdatedAt(LocalDateTime.now());
+                        return tagRepo.save(newTag);
+                    });
+
+            PostTag postTag = new PostTag();
+            postTag.setPost(savedPost);
+            postTag.setTag(tag);
+            postTag.setCreatedAt(LocalDateTime.now());
+            postTag.setUpdatedAt(LocalDateTime.now());
+
+            postTagService.save(postTag);
+        }
+
         if (image != null && !image.isEmpty()) {
             String imageUrl = cloudinaryService.uploadImage(image);
             Media media = new Media();
@@ -72,58 +114,61 @@ public class PostController {
 
         String email = getLoggedInUserEmail();
         System.out.println(email);
-        if (email!=null){
-            User user=userService.findByEmail(email);
+        if (email != null) {
+            User user = userService.findByEmail(email);
             post.setUser(user);
         }
         postRepo.save(post);
-        return "redirect:/dashboard/"+post.getUser().getId();
+
+        return "redirect:/dashboard/" + post.getUser().getId();
     }
 
     @PostMapping("/deletepost/{id}")
     @Transactional
-    public String deletePost(@PathVariable int id){
+    public String deletePost(@PathVariable int id) {
         Post post = postService.getPostById(id);
         postService.deletePostById(id);
-        return "redirect:/dashboard/"+post.getUser().getId();
+        return "redirect:/dashboard/" + post.getUser().getId();
     }
 
     @GetMapping("/")
-    public String getAllPosts(Model model){
+    public String getAllPosts(Model model) {
         return "redirect:/login";
     }
+
     @GetMapping("/updateform/{id}")
     @Transactional
-    public String updatePostForm(@PathVariable int id, Model model){
+    public String updatePostForm(@PathVariable int id, Model model) {
         Post post = postService.getPostById(id);
         model.addAttribute("posting", post);
         return "createPostForm";
     }
 
-@PostMapping("/toggle/{postId}")
-public String likePost(@PathVariable int postId) {
-    // Get the logged-in user's email
-    String email = getLoggedInUserEmail();
-    if (email == null) {
-        return "redirect:/login";  // If not logged in, redirect to login
+    @PostMapping("/toggle/{postId}")
+    public String likePost(@PathVariable int postId) {
+        // Get the logged-in user's email
+        String email = getLoggedInUserEmail();
+        if (email == null) {
+            return "redirect:/login";  // If not logged in, redirect to login
+        }
+
+        User user = userService.findByEmail(email); // Find the user by email
+        likeService.toggleLike(postId, user.getId());  // Toggle like for the post
+
+        return "redirect:/dashboard/" + user.getId();  // Redirect back to user's dashboard
     }
-
-    User user = userService.findByEmail(email); // Find the user by email
-    likeService.toggleLike(postId, user.getId());  // Toggle like for the post
-
-    return "redirect:/dashboard/" + user.getId();  // Redirect back to user's dashboard
-}
 
     @GetMapping("/post/{id}")
     public String viewPost(@PathVariable("id") int postId, Model model) {
         Post post = postService.getPostById(postId);
         List<Comment> comments = commentService.getCommentsByPost(post);
-post.setTimeAgo(TimeAgoUtil.toTimeAgo(post.getCreatedAt()));
+        post.setTimeAgo(TimeAgoUtil.toTimeAgo(post.getCreatedAt()));
         model.addAttribute("post", post);
         model.addAttribute("comments", comments);
 //        System.out.println(comments.get(0).getCommentContent());
         return "postDetails";  // This should match your Thymeleaf template name
     }
+
     @PostMapping("/post/{id}/comment")
     public String addComment(@PathVariable("id") int postId,
                              @RequestParam("content") String content) {
@@ -138,7 +183,7 @@ post.setTimeAgo(TimeAgoUtil.toTimeAgo(post.getCreatedAt()));
 
         commentService.addComment(content, post, user);  // Use your service method
 
-        return "redirect:/dashboard/"+post.getUser().getId();  // Redirect back to the post details page
+        return "redirect:/dashboard/" + post.getUser().getId();  // Redirect back to the post details page
     }
 
     private String getLoggedInUserEmail() {

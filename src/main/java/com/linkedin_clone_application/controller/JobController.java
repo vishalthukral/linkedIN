@@ -51,7 +51,7 @@ public class JobController {
         job.setCreatedAt(LocalDateTime.now());
         job.setUpdatedAt(LocalDateTime.now());
         jobService.saveJob(job);
-        return "redirect:/jobs";
+        return "redirect:/jobs/";
     }
 
     @GetMapping("/edit/{id}")
@@ -65,13 +65,13 @@ public class JobController {
     public String editJob(@PathVariable int id, @ModelAttribute("job") Job job) {
         job.setId(id);
         jobService.saveJob(job);
-        return "redirect:/jobs";
+        return "redirect:/jobs/";
     }
 
     @GetMapping("/delete/{id}")
     public String deleteJob(@PathVariable int id) {
         jobService.deleteJobById(id);
-        return "redirect:/jobs";
+        return "redirect:/jobs/";
     }
 
     @GetMapping("/{id}")

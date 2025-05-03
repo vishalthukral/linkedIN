@@ -28,7 +28,7 @@ public class JobController {
         this.userService=userService;
     }
 
-    @GetMapping
+    @GetMapping("/")
     public String viewAllJobs(Model model) {
         List<Job> jobs = jobService.getAllJobs();
         model.addAttribute("jobs", jobs);

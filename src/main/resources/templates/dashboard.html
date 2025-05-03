@@ -468,8 +468,7 @@
             <span>My Network</span>
         </div>
         <div class="nav-item">
-            <i class="fas fa-briefcase"></i>
-            <span>Jobs</span>
+            <a th:href="@{/jobs/}" class="fas fa-briefcase">Jobs</a>
         </div>
         <div class="nav-item">
             <i class="fas fa-comment-dots"></i>
@@ -552,7 +551,8 @@
                 <img th:src="@{${post.user.profilePictureUrl}}" alt="User">
                 <div class="post-user">
                     <h4 th:text="${post.user.firstName} + ' ' + ${post.user.lastName}">User Name</h4>
-                    <p th:text="${post.user.jobTitle}">Job Title</p>
+                    <p th:text="${post.user.jobTitle} + ' at ' + ${post.user.companyName}">Job Title</p>
+                    <p th:text="${post.timeAgo}">Posted</p>
                 </div>
                 <i class="fas fa-ellipsis-h"></i>
             </div>

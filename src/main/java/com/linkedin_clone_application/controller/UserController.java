@@ -2,6 +2,7 @@ package com.linkedin_clone_application.controller;
 
 import com.cloudinary.Cloudinary;
 import com.cloudinary.utils.ObjectUtils;
+import com.linkedin_clone_application.helper.TimeAgoUtil;
 import com.linkedin_clone_application.model.Post;
 import com.linkedin_clone_application.model.User;
 import com.linkedin_clone_application.repository.PostRepo;
@@ -97,6 +98,9 @@ public class UserController {
         User user = userService.findById(id); // Get the user by ID
         List<Post> posts = postRepo.getPostsByUserId(id); // Get posts of the user
         List<Post> allPosts= postRepo.findAllByOrderByCreatedAt();
+        allPosts.forEach(post -> {
+            post.setTimeAgo(TimeAgoUtil.toTimeAgo(post.getCreatedAt()));
+        });
         Post post= new Post();
         String email=user.getEmail();
         System.out.println(email);

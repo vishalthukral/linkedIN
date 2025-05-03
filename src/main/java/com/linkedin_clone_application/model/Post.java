@@ -35,14 +35,17 @@ public class Post {
     @Column(name = "content", columnDefinition = "TEXT")
     private String content;
 
-   @OneToOne( mappedBy = "post", cascade = CascadeType.ALL,orphanRemoval = true)
-   private Media mediaFile;
+    @OneToOne(mappedBy = "post", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Media mediaFile;
 
-    @OneToMany(mappedBy = "post", cascade = CascadeType.ALL,orphanRemoval = true)
+    @OneToMany(mappedBy = "post", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Comment> comments;
 
-    @OneToMany(mappedBy = "post",cascade = CascadeType.ALL,orphanRemoval = true)
+    @OneToMany(mappedBy = "post", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Like> likes;
+
+    @Transient
+    private String timeAgo;
 
     private int likesCount;
     private int CommentCount;
@@ -160,5 +163,13 @@ public class Post {
 
     public void setSharesCount(int sharesCount) {
         this.sharesCount = sharesCount;
+    }
+
+    public String getTimeAgo() {
+        return timeAgo;
+    }
+
+    public void setTimeAgo(String timeAgo) {
+        this.timeAgo = timeAgo;
     }
 }

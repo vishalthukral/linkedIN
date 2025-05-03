@@ -33,7 +33,12 @@ public class SpringSecurityConfig {
                                 "/create-profile/**","/**"
                         ).permitAll()
                         .requestMatchers(
-                                 "/savepost","/dashboard/**","/landingPage","/like/**","/toggle/**"
+                                 "/savepost",
+                                "/dashboard/**",
+                                "/landingPage",
+                                "/like/**",
+                                "/toggle/**",
+                                "/jobs/**"
                         ).authenticated()
                         .anyRequest().authenticated()
                 )

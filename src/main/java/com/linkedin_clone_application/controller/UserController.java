@@ -1,15 +1,11 @@
 package com.linkedin_clone_application.controller;
 
-import com.cloudinary.Cloudinary;
-import com.cloudinary.utils.ObjectUtils;
-import com.linkedin_clone_application.helper.TimeAgoUtil;
+import com.linkedin_clone_application.Util.TimeAgoUtil;
 import com.linkedin_clone_application.model.Post;
 import com.linkedin_clone_application.model.User;
 import com.linkedin_clone_application.repository.PostRepo;
-import com.linkedin_clone_application.repository.UserRepo;
 import com.linkedin_clone_application.service.CloudinaryService;
 import com.linkedin_clone_application.service.UserService;
-import jakarta.persistence.Id;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -18,7 +14,6 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.util.List;
-import java.util.Map;
 
 @Controller
 @RequestMapping("/")

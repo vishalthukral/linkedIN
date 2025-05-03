@@ -148,6 +148,10 @@
 .comment-actions a:hover {
     text-decoration: underline;
 }
+        .imageSize{
+        max-width:400px;
+        max-height:400px;
+        }
 
     </style>
 </head>
@@ -161,6 +165,10 @@
     <!-- Post Details -->
     <div class="post">
 
+        <h4 th:text="${post.user.firstName} + ' ' + ${post.user.lastName}">User Name</h4>
+        <p th:text="${post.user.jobTitle} + ' at ' + ${post.user.companyName}">Job Title</p>
+        <p th:text="${post.timeAgo}">Posted</p>
+        <img th:if="${post.mediaFile != null}" th:src="${post.mediaFile.url}" class="imageSize" alt="Post Image">
 <!--        <h2 th:text="${post.title}">Post Title</h2>-->
         <p th:text="${post.content}">Post content...</p>
     </div>

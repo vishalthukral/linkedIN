@@ -12,8 +12,7 @@
     public class Job{
 
         @Id
-        @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "job_sequence_generator")
-        @SequenceGenerator(name = "job_sequence_generator", sequenceName = "job_sequence", allocationSize = 1)
+        @GeneratedValue(strategy = GenerationType.IDENTITY)
         private int id;
 
         @ManyToOne

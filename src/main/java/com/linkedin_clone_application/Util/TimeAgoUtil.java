@@ -1,4 +1,4 @@
-package com.linkedin_clone_application.helper;
+package com.linkedin_clone_application.Util;
 
 import java.time.Duration;
 import java.time.LocalDateTime;

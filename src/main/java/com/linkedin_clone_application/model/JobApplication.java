@@ -9,8 +9,7 @@ import java.time.LocalDateTime;
 @Table(name = "job_applications")
 public class JobApplication {
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "jobapp_sequence_generator")
-    @SequenceGenerator(name = "jobapp_sequence_generator", sequenceName = "jobapp_sequence", allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @ManyToOne

@@ -1,6 +1,6 @@
 package com.linkedin_clone_application.controller;
 
-import com.cloudinary.Cloudinary;
+import com.linkedin_clone_application.Util.TimeAgoUtil;
 import com.linkedin_clone_application.model.Comment;
 import com.linkedin_clone_application.model.Media;
 import com.linkedin_clone_application.model.Post;
@@ -20,7 +20,6 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Optional;
 
 @Controller
 public class PostController {
@@ -117,7 +116,7 @@ public String likePost(@PathVariable int postId) {
     public String viewPost(@PathVariable("id") int postId, Model model) {
         Post post = postService.getPostById(postId);
         List<Comment> comments = commentService.getCommentsByPost(post);
-
+post.setTimeAgo(TimeAgoUtil.toTimeAgo(post.getCreatedAt()));
         model.addAttribute("post", post);
         model.addAttribute("comments", comments);
 //        System.out.println(comments.get(0).getCommentContent());

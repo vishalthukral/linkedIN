@@ -554,10 +554,10 @@
                     <p th:text="${post.user.jobTitle} + ' at ' + ${post.user.companyName}">Job Title</p>
                     <p th:text="${post.timeAgo}">Posted</p>
                 </div>
-                <i class="fas fa-ellipsis-h"></i>
+<!--                <i class="fas fa-ellipsis-h"></i>-->
             </div>
 
-            <p th:text="${post.title}">Post title</p>
+            <h3 th:text="${post.title}">Post title</h3>
             <p th:text="${post.content}">Post content...</p>
             <img th:if="${post.mediaFile != null}" th:src="${post.mediaFile.url}" alt="Post Image">
 

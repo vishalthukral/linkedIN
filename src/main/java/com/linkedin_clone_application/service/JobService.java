@@ -28,4 +28,6 @@ public interface JobService {
     void deleteJobById(int id);
 
     Job findById(int id);
+
+    Job updateJob(Job job);
 }

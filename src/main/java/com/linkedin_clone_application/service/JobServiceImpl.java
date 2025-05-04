@@ -4,7 +4,9 @@ import com.linkedin_clone_application.model.Job;
 import com.linkedin_clone_application.repository.JobRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -52,5 +54,20 @@ public class JobServiceImpl implements JobService{
     @Override
     public Job findById(int id) {
         return jobRepo.findById(id).get();
+    }
+
+    @Override
+    @Transactional
+    public Job updateJob(Job job) {
+        Job existingJob = jobRepo.findById(job.getId()).get();
+        existingJob.setJobTitle(job.getJobTitle());
+        existingJob.setJobDescription(job.getJobDescription());
+        existingJob.setCompany(job.getCompany());
+        existingJob.setWorkPlaceType(job.getWorkPlaceType());
+        existingJob.setLocation(job.getLocation());
+        existingJob.setEmploymentType(job.getEmploymentType());
+        existingJob.setJobDescription(job.getJobDescription());
+        existingJob.setUpdatedAt(LocalDateTime.now());
+        return jobRepo.save(existingJob);
     }
 }

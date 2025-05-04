@@ -295,6 +295,56 @@
             margin-right: 4px;
         }
 
+                .linkedin-button {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            padding: 8px 16px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 14px;
+            color: #666;
+            font-weight: 600;
+            background-color: transparent;
+            border: none;
+            transition: background-color 0.2s ease, color 0.2s ease;
+            text-decoration: none;
+        }
+
+        .linkedin-button:hover {
+            background-color: rgba(0, 0, 0, 0.05);
+            color: #0a66c2;
+        }
+
+        .linkedin-button i {
+            font-size: 18px;
+        }
+
+        .post-management {
+            display: flex;
+            justify-content: flex-end;
+            gap: 8px;
+            margin-top: 8px;
+            border-top: 1px solid #eee;
+            padding-top: 12px;
+        }
+
+        .linkedin-button.delete {
+            color: #d11124;
+        }
+
+        .linkedin-button.delete:hover {
+            background-color: rgba(209, 17, 36, 0.1);
+        }
+
+        .linkedin-button.edit {
+            color: #0a66c2;
+        }
+
+        .linkedin-button.edit:hover {
+            background-color: rgba(10, 102, 194, 0.1);
+        }
     </style>
     <!-- Include Font Awesome for icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
@@ -343,7 +393,7 @@
                 <div class="job-info">
                     <h4 th:text="${user.jobTitle}"></h4>
                     <p th:text="${user.companyName}"></p>
-                    <p>Apr 2020 - Present · 5 yrs 1 mo</p>
+<!--                    <p>Apr 2020 - Present · 5 yrs 1 mo</p>-->
                     <p th:text="${user.location}"></p>
                 </div>
             </div>
@@ -375,7 +425,7 @@
         <!-- Activity Section -->
         <div class="profile-section">
             <h3>Activity</h3>
-            <p><span th:text="${postsByUser.size()}"></span> posts · <span>42</span> articles</p>
+            <p><span th:text="${postsByUser.size()}"></span> posts </p>
 
             <!-- Iterate over the user's posts -->
             <div th:each="post, postStat : ${postsByUser}" class="post-card">
@@ -391,25 +441,33 @@
                 <div class="post-content">
                     <h3 th:text="${post.title}"></h3>
                     <p th:text="${post.content.length() > 150 ? post.content.substring(0, 150) + '...' : post.content}"></p>
+                    <img th:if="${post.mediaFile != null}" th:src="${post.mediaFile.url}" alt="Post Image">
                 </div>
 
                 <div class="post-stats">
                     <div class="likes">
                         <span class="likes-icon"><i class="fas fa-thumbs-up"></i></span>
-                        <span th:text="${45 + postStat.index * 12}"></span> likes
+                        <span th:text="${post.likesCount}"></span> likes
                     </div>
                     <div class="comments-count">
-                        <span th:text="${8 + postStat.index * 3}"></span> comments
+<!--                        <span th:text="${8 + postStat.index * 3}"></span> comments-->
                     </div>
                 </div>
 
                 <div class="post-actions">
                     <div class="post-action">
-                        <i class="far fa-thumbs-up"></i> Like
+                        <form th:action="@{/toggle/{postId}(postId=${post.id})}" method="post" style="margin: 0;">
+                            <button type="submit" class="linkedin-button">
+                                <i class="far fa-thumbs-up"></i>
+                                <span>Like</span>
+                            </button>
+                        </form>
                     </div>
                     <div class="post-action">
-                        <i class="far fa-comment"></i> Comment
-                    </div>
+                        <a th:href="@{/post/{id}(id=${post.id})}" class="linkedin-button">
+                            <i class="far fa-comment"></i>
+                            <span>Comment</span>
+                        </a>                    </div>
                     <div class="post-action">
                         <i class="fas fa-share"></i> Share
                     </div>

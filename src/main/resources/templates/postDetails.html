@@ -126,33 +126,46 @@
             color: #888;
             font-size: 12px;
         }
-        .comment-actions a.edit-btn,
-.comment-actions button.delete-btn {
-    font-size: 12px;
-    background: none;
-    border: none;
-    cursor: pointer;
-    padding: 0;
-}
 
-.comment-actions a.edit-btn {
-    color: #0a66c2;
-    margin-right: 10px;
-}
-
-.comment-actions button.delete-btn {
-    color: #d93025;
-}
-
-.comment-actions button:hover,
-.comment-actions a:hover {
-    text-decoration: underline;
-}
-        .imageSize{
-        max-width:400px;
-        max-height:400px;
+        .comment-actions {
+            display: flex;
+            margin-top: 8px;
         }
 
+        .edit-btn, .delete-btn {
+            font-size: 13px;
+            padding: 4px 10px;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-right: 8px;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .edit-btn {
+            color: #ffffff;
+            background-color: #0a66c2;
+            border: none;
+        }
+
+        .delete-btn {
+            color: #ffffff;
+            background-color: #d93025;
+            border: none;
+        }
+
+        .edit-btn:hover {
+            background-color: #084b8a;
+        }
+
+        .delete-btn:hover {
+            background-color: #b7271d;
+        }
+
+        .imageSize {
+            max-width: 400px;
+            max-height: 400px;
+        }
     </style>
 </head>
 <body>
@@ -164,12 +177,10 @@
 
     <!-- Post Details -->
     <div class="post">
-
         <h4 th:text="${post.user.firstName} + ' ' + ${post.user.lastName}">User Name</h4>
         <p th:text="${post.user.jobTitle} + ' at ' + ${post.user.companyName}">Job Title</p>
         <p th:text="${post.timeAgo}">Posted</p>
         <img th:if="${post.mediaFile != null}" th:src="${post.mediaFile.url}" class="imageSize" alt="Post Image">
-<!--        <h2 th:text="${post.title}">Post Title</h2>-->
         <p th:text="${post.content}">Post content...</p>
     </div>
 
@@ -193,7 +204,7 @@
                     <small th:text="${#temporals.format(comment.createdAt, 'dd MMM yyyy HH:mm')}">Time</small>
                     <div class="comment-actions">
                         <a th:href="@{/comments/update/{id}(id=${comment.id})}" class="edit-btn">Update</a>
-                        <form th:action="@{/comments/delete/{id}(id=${comment.id})}" method="post">
+                        <form th:action="@{/comments/delete/{id}(id=${comment.id})}" method="post" style="display: inline;">
                             <input type="hidden" name="_method" value="delete"/>
                             <button type="submit" class="delete-btn">Delete</button>
                         </form>

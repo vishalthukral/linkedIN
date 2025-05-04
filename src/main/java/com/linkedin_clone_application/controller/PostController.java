@@ -137,11 +137,10 @@ public class PostController {
     }
 
     @GetMapping("/updateform/{id}")
-    @Transactional
     public String updatePostForm(@PathVariable int id, Model model) {
         Post post = postService.getPostById(id);
         model.addAttribute("posting", post);
-        return "createPostForm";
+        return "updateForm";
     }
 
     @PostMapping("/toggle/{postId}")

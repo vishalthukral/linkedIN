@@ -6,6 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class UserServiceImpl implements UserService {
     private final UserRepo userRepo;
@@ -43,5 +45,10 @@ public class UserServiceImpl implements UserService {
     @Override
     public User findByfirstName(String firstName) {
         return userRepo.findByfirstName(firstName);
+    }
+
+    @Override
+    public List<User> searchUsersByName(String searchName) {
+        return userRepo.searchByName(searchName);
     }
 }

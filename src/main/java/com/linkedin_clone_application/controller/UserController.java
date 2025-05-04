@@ -127,4 +127,9 @@ public class UserController {
         model.addAttribute("searchTerm", searchName);
         return "User_search_results"; // corresponds to user_search_results.html
     }
+
+    @GetMapping("/articles")
+    public String articlesPage() {
+        return "articles";
+    }
 }

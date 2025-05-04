@@ -51,4 +51,8 @@ public class UserServiceImpl implements UserService {
     public List<User> searchUsersByName(String searchName) {
         return userRepo.searchByName(searchName);
     }
+    @Override
+    public List<User> findAllExcept(User user) {
+        return userRepo.findAllExcept(user.getId());
+    }
 }

@@ -10,6 +10,7 @@ import com.linkedin_clone_application.service.CustomUserDetails;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -36,10 +37,13 @@ public class JobApplicationController {
 
     @GetMapping("/jobs/{jobId}/apply")
     public String showApplicationForm(@PathVariable("jobId") Integer jobId, Model model) {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        CustomUserDetails customUserDetails = (CustomUserDetails) authentication.getPrincipal(); // Use your custom UserDetails
-        User user = customUserDetails.getUser();
+        String email=getLoggedInUserEmail();
 
+        User user = userRepo.findByEmail(email);
+
+        if (email == null) {
+            return "redirect:/login";  // If not logged in, redirect to login
+        }
         model.addAttribute("user", user);
 
         Job job = jobRepo.findById(jobId)
@@ -103,5 +107,12 @@ public class JobApplicationController {
                     "Error submitting application: " + e.getMessage());
             return "redirect:/jobs/" + jobId + "/apply";
         }
+    }
+    private String getLoggedInUserEmail() {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        if (auth != null && auth.getPrincipal() instanceof UserDetails) {
+            return ((UserDetails) auth.getPrincipal()).getUsername(); // this returns email
+        }
+        return null;
     }
 }

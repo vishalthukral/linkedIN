@@ -48,6 +48,9 @@ public class SpringSecurityConfig {
                         .successHandler(customLoginSuccessHandler)
                         .permitAll()
                 )
+                .exceptionHandling(exception -> exception
+                        .accessDeniedPage("/login") // Redirect on access denied
+                )
                 .httpBasic(httpBasic -> {})
                 .logout(logout -> logout
                         .logoutUrl("/logout")

@@ -5,11 +5,18 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="f9029e1d-dd96-4509-bc95-e42aa43e8178" name="Changes" comment="merge Authentication into main">
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/linkedin_clone_application/controller/ConnectionController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/linkedin_clone_application/model/ConnectionRequest.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/linkedin_clone_application/repository/ConnectionRequestRepo.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/linkedin_clone_application/service/ConnectionService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/linkedin_clone_application/controller/UserController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/linkedin_clone_application/controller/UserController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/linkedin_clone_application/controller/ConnectionController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/linkedin_clone_application/controller/ConnectionController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/linkedin_clone_application/service/ConnectionService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/linkedin_clone_application/service/ConnectionService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/application.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/dashboard.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/dashboard.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/userDetails.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/userDetails.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/viewfulljob.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/viewfulljob.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/application.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/linkedin_clone_application/controller/UserController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/linkedin_clone_application/controller/UserController.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/linkedin_clone_application/model/Like.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/linkedin_clone_application/model/Like.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/linkedin_clone_application/model/Post.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/linkedin_clone_application/model/Post.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/templates/dashboard.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/templates/dashboard.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -58,6 +65,7 @@
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "RunOnceActivity.git.unshallow": "true",
     "Spring Boot.LinkedInCloneApplication (1).executor": "Run",
+    "Spring Boot.LinkedInCloneApplication.executor": "Run",
     "git-widget-placeholder": "integrationjob1.3",
     "kotlin-language-version-configured": "true",
     "last_opened_file_path": "/Users/maniketkumar/Documents/linkedin_clone_application",
@@ -69,7 +77,7 @@
     "vue.rearranger.settings.migration": "true"
   }
 }]]></component>
-  <component name="RunManager" selected="Application.LinkedInCloneApplication">
+  <component name="RunManager" selected="Spring Boot.LinkedInCloneApplication">
     <configuration name="LinkedInCloneApplication" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="com.linkedin_clone_application.LinkedInCloneApplication" />
       <module name="linkedin_clone_application" />
@@ -83,7 +91,7 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="LinkedInCloneApplication (1)" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" temporary="true" nameIsGenerated="true">
+    <configuration name="LinkedInCloneApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" temporary="true" nameIsGenerated="true">
       <option name="FRAME_DEACTIVATION_UPDATE_POLICY" value="UpdateClassesAndResources" />
       <module name="linkedin_clone_application" />
       <option name="SPRING_BOOT_MAIN_CLASS" value="com.linkedin_clone_application.LinkedInCloneApplication" />
@@ -97,24 +105,9 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="LinkedInCloneApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
-      <option name="FRAME_DEACTIVATION_UPDATE_POLICY" value="UpdateClassesAndResources" />
-      <module name="LinkedIn_Clone_Application" />
-      <option name="SPRING_BOOT_MAIN_CLASS" value="com.linkedin_clone_application.LinkedInCloneApplication" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="LinkedinCloneApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
-      <option name="FRAME_DEACTIVATION_UPDATE_POLICY" value="UpdateClassesAndResources" />
-      <module name="linkedin_clone_application" />
-      <option name="SPRING_BOOT_MAIN_CLASS" value="com.linkedin_clone_application.LinkedinCloneApplication" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Spring Boot.LinkedInCloneApplication" />
         <item itemvalue="Application.LinkedInCloneApplication" />
         <item itemvalue="Application.LinkedInCloneApplication" />
       </list>

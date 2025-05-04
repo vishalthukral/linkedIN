@@ -1,0 +1,618 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Collaborative Articles</title>
+  <style>
+    body {
+        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+        margin: 0;
+        padding: 0;
+        background: #f3f2ef;
+        color: rgba(0, 0, 0, 0.9);
+        display: flex;
+        flex-direction: column;
+    }
+
+    .page-container {
+        display: flex;
+        max-width: 1128px;
+        margin: 0 auto;
+        padding: 24px 16px;
+        gap: 24px;
+    }
+
+    .container {
+        flex: 3;
+        background: #fff;
+        border-radius: 8px;
+        padding: 24px;
+        box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.08);
+    }
+
+    .sidebar {
+        flex: 1;
+    }
+
+    .sidebar h3 {
+        font-size: 20px;
+        font-weight: 600;
+        margin-top: 0;
+        margin-bottom: 16px;
+        color: rgba(0, 0, 0, 0.9);
+    }
+
+    .article {
+        border-bottom: 1px solid #ebebeb;
+        padding: 24px 0;
+        display: flex;
+        gap: 16px;
+    }
+
+    .article:first-child {
+        padding-top: 0;
+    }
+
+    .article-image {
+        width: 100px;
+        height: 100px;
+        border-radius: 0;
+        overflow: hidden;
+        flex-shrink: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background-color: #f3f2ef;
+    }
+
+    .article-image img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+
+    .article-content {
+        flex-grow: 1;
+    }
+
+    .article-title {
+        font-weight: 600;
+        font-size: 18px;
+        margin-bottom: 8px;
+        color: rgba(0, 0, 0, 0.9);
+        line-height: 1.4;
+    }
+
+    .meta {
+        display: flex;
+        align-items: center;
+        margin-bottom: 8px;
+    }
+
+    .meta-text {
+        font-size: 14px;
+        color: rgba(0, 0, 0, 0.6);
+    }
+
+    .description {
+        margin-top: 8px;
+        font-size: 14px;
+        color: rgba(0, 0, 0, 0.9);
+        line-height: 1.4;
+    }
+
+    .tags {
+        margin-top: 12px;
+        font-size: 14px;
+        color: rgba(0, 0, 0, 0.6);
+    }
+
+    .tag-button {
+        display: block;
+        padding: 6px 16px;
+        margin: 6px 0;
+        border: 1px solid rgba(0, 0, 0, 0.08);
+        border-radius: 28px;
+        background: #fff;
+        cursor: pointer;
+        font-size: 14px;
+        text-align: center;
+        width: 100%;
+        color: rgba(0, 0, 0, 0.6);
+        font-weight: normal;
+    }
+
+    .tag-button:hover {
+        background: rgba(0, 0, 0, 0.08);
+    }
+
+    .pagination {
+        margin-top: 20px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .pagination button {
+        margin: 0 5px;
+        padding: 6px 12px;
+        border: 1px solid #0a66c2;
+        background: #fff;
+        color: #0a66c2;
+        border-radius: 16px;
+        cursor: pointer;
+        font-weight: 600;
+    }
+
+    .pagination button:hover {
+        background: rgba(10, 102, 194, 0.1);
+    }
+
+    #page-info {
+        margin: 0 10px;
+        font-size: 14px;
+        color: rgba(0, 0, 0, 0.6);
+    }
+
+    h2 {
+        font-size: 24px;
+        font-weight: 600;
+        margin-bottom: 8px;
+        color: rgba(0, 0, 0, 0.9);
+    }
+
+    p {
+        font-size: 16px;
+        line-height: 1.5;
+        color: rgba(0, 0, 0, 0.9);
+        margin-bottom: 24px;
+    }
+
+    /* LinkedIn Header Styles */
+    .linkedin-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 0 24px;
+        height: 52px;
+        border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+        background-color: white;
+        width: 100%;
+        box-sizing: border-box;
+        position: relative;
+        flex-wrap: nowrap;
+    }
+
+    .linkedin-header .left {
+        display: flex;
+        align-items: center;
+        gap: 20px;
+    }
+
+    .linkedin-header .left img {
+        height: 34px;
+        margin-right: 10px;
+    }
+
+    .linkedin-header .left nav {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 30px;
+        height: 52px;
+    }
+
+    .linkedin-header .left nav a {
+        text-decoration: none;
+        color: rgba(0, 0, 0, 0.6);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        font-size: 12px;
+        height: 52px;
+        padding-top: 0;
+        box-sizing: border-box;
+        position: relative;
+    }
+
+    .linkedin-header .left nav a i {
+        font-size: 18px;
+        margin-bottom: 6px;
+        line-height: 1;
+    }
+
+    .linkedin-header .left nav a.active {
+        color: rgba(0, 0, 0, 0.9);
+    }
+
+    .linkedin-header .left nav a.active::after {
+        content: '';
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        height: 2px;
+        background-color: rgba(0, 0, 0, 0.9);
+    }
+
+    .linkedin-header .left nav a:hover {
+        color: rgba(0, 0, 0, 0.9);
+    }
+
+    .linkedin-header .right {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+    }
+
+    .linkedin-header .right a {
+        padding: 8px 24px;
+        font-size: 16px;
+        cursor: pointer;
+        font-weight: 600;
+        border-radius: 24px;
+        transition: background 0.2s ease-in-out;
+        text-decoration: none;
+    }
+
+    .linkedin-header .right a.join {
+        color: rgba(0, 0, 0, 0.6);
+    }
+
+    .linkedin-header .right a.join:hover {
+        background-color: rgba(0, 0, 0, 0.08);
+    }
+
+    .linkedin-header .right a.signin {
+        border: 1px solid #0a66c2;
+        color: #0a66c2;
+    }
+
+    .linkedin-header .right a.signin:hover {
+        background-color: rgba(10, 102, 194, 0.1);
+    }
+
+    .intro-text {
+        margin-bottom: 12px;
+    }
+
+    .intro-text p {
+        margin-bottom: 12px;
+        font-size: 14px;
+        line-height: 1.4;
+    }
+
+    .intro-text a {
+        color: #0a66c2;
+        text-decoration: none;
+        font-weight: 600;
+    }
+
+    .intro-text a:hover {
+        text-decoration: underline;
+    }
+
+    /* Styles for category tags in the main article area */
+    .category-tags {
+        display: flex;
+        margin-top: 8px;
+        gap: 8px;
+    }
+
+    .category-tag {
+        font-size: 14px;
+        color: rgba(0, 0, 0, 0.6);
+        background: none;
+        border: none;
+        padding: 0;
+        cursor: pointer;
+    }
+
+    .category-tag:after {
+        content: "·";
+        display: inline-block;
+        margin-left: 8px;
+    }
+
+    .category-tag:last-child:after {
+        content: "";
+    }
+
+    /* Cookie policy banner */
+    .cookie-banner {
+        position: fixed;
+        bottom: 20px;
+        right: 20px;
+        background: white;
+        border-radius: 8px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        padding: 16px;
+        max-width: 320px;
+        z-index: 1000;
+    }
+
+    .cookie-banner h3 {
+        margin-top: 0;
+        font-size: 16px;
+        font-weight: 600;
+    }
+
+    .cookie-banner p {
+        font-size: 14px;
+        margin-bottom: 0;
+    }
+
+    .cookie-banner a {
+        color: #0a66c2;
+        text-decoration: none;
+        font-weight: 600;
+    }
+  </style>
+</head>
+<body>
+<header class="linkedin-header">
+  <div class="left">
+    <img src="/api/placeholder/34/34" alt="LinkedIn Logo">
+    <nav>
+      <a href="/articles" class="active">
+        <i class="fas fa-newspaper"></i>
+        Articles
+      </a>
+      <a href="#">
+        <i class="fas fa-user-friends"></i>
+        People
+      </a>
+      <a href="#">
+        <i class="fas fa-graduation-cap"></i>
+        Learning
+      </a>
+      <a href="/jobs">
+        <i class="fas fa-briefcase"></i>
+        Jobs
+      </a>
+      <a href="#">
+        <i class="fas fa-gamepad"></i>
+        Games
+      </a>
+    </nav>
+  </div>
+  <div class="right">
+    <a href="#" class="join">Join now</a>
+    <a href="#" class="signin">Sign in</a>
+  </div>
+</header>
+
+<!-- Include Font Awesome CDN -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+<div class="page-container">
+  <div class="container">
+    <h2>Learn more about Collaborative Articles</h2>
+    <div class="intro-text">
+      <p>We're unlocking community knowledge in an all new way. It starts with an article on a professional topic or skill, written with the help of AI. <a href="#">Learn more</a></p>
+    </div>
+    <div id="article-list"></div>
+    <div class="pagination">
+      <button onclick="prevPage()">Prev</button>
+      <span id="page-info"></span>
+      <button onclick="nextPage()">Next</button>
+    </div>
+  </div>
+  <div class="sidebar">
+    <h3>More to explore</h3>
+    <div id="filter-tags"></div>
+  </div>
+</div>
+
+<script>
+  const articles = [
+      {
+          title: "You're facing time constraints in statistical analysis. How do you balance thoroughness and efficiency?",
+          time: "9 minutes ago",
+          desc: "Learn how to balance thoroughness with efficiency in statistical analysis when facing tight deadlines in our latest article.",
+          tags: ["Statistics", "Engineering"],
+          image: "statistics"
+      },
+      {
+          title: "You need to align with stakeholders on data project timelines. How can you set clear expectations?",
+          time: "8 minutes ago",
+          desc: "Setting clear expectations is crucial in data projects. Discover effective ways to align stakeholders and manage project timelines successfully.",
+          tags: ["Data Analytics", "Engineering"],
+          image: "data-project"
+      },
+      {
+          title: "How would you handle conflicting data sets from different sources during your analysis process?",
+          time: "6 minutes ago",
+          desc: "Master Data Analytics: Handling Conflicting Data Sets",
+          tags: ["Data Analytics", "Engineering"],
+          image: "conflicting-data"
+      },
+      {
+          title: "A previous speaker has eaten into your presentation time. How do you manage the remaining minutes?",
+          time: "8 hours ago",
+          desc: "Optimize your presentation when time is cut short. Learn effective strategies to handle limited speaking time and keep your audience engaged.",
+          tags: ["Public Speaking", "Soft Skills"],
+          image: "presentation"
+      },
+      {
+          title: "Your small business is facing cash flow issues. Should you cut costs or seek additional funding?",
+          time: "9 hours ago",
+          desc: "Should you cut costs or seek funding?",
+          tags: ["Small Business", "Business Administration"],
+          image: "business"
+      },
+      {
+          title: "How can you adapt your analysis techniques when confronted with unforeseen data quality issues?",
+          time: "1 hour ago",
+          desc: "Handle unforeseen data quality issues.",
+          tags: ["Data Analytics", "Quality"],
+          image: "data-quality"
+      }
+  ];
+
+  // Extract unique tags from the articles to only show relevant tags
+  const allTags = [...new Set(articles.flatMap(article => article.tags))];
+
+  const articlesPerPage = 5;
+  let currentPage = 1;
+  let currentTag = null;
+
+  // Create SVG images for each article category
+  const svgIcons = {
+      "statistics": `<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+          <rect x="10" y="60" width="15" height="30" fill="#0077B5" />
+          <rect x="30" y="40" width="15" height="50" fill="#0077B5" />
+          <rect x="50" y="20" width="15" height="70" fill="#0077B5" />
+          <rect x="70" y="30" width="15" height="60" fill="#0077B5" />
+          <line x1="5" y1="90" x2="95" y2="90" stroke="#333" stroke-width="2" />
+          <line x1="10" y1="95" x2="10" y2="10" stroke="#333" stroke-width="2" />
+      </svg>`,
+      "data-project": `<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+          <rect x="10" y="20" width="80" height="15" rx="2" fill="#0077B5" opacity="0.8" />
+          <rect x="10" y="40" width="60" height="15" rx="2" fill="#0077B5" />
+          <rect x="10" y="60" width="70" height="15" rx="2" fill="#0077B5" opacity="0.9" />
+          <line x1="5" y1="90" x2="95" y2="90" stroke="#333" stroke-width="2" />
+          <line x1="10" y1="95" x2="10" y2="10" stroke="#333" stroke-width="2" />
+          <circle cx="90" cy="20" r="5" fill="#E06C00" />
+          <circle cx="70" cy="40" r="5" fill="#E06C00" />
+          <circle cx="80" cy="60" r="5" fill="#E06C00" />
+      </svg>`,
+      "conflicting-data": `<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+          <path d="M10,80 Q30,20 50,60 T90,40" stroke="#0077B5" stroke-width="3" fill="none" />
+          <path d="M10,40 Q30,70 50,30 T90,60" stroke="#E06C00" stroke-width="3" fill="none" />
+          <circle cx="30" cy="50" r="5" fill="#0077B5" />
+          <circle cx="50" cy="45" r="5" fill="#E06C00" />
+          <circle cx="70" cy="50" r="5" fill="#0077B5" />
+          <line x1="5" y1="90" x2="95" y2="90" stroke="#333" stroke-width="2" />
+          <line x1="10" y1="95" x2="10" y2="10" stroke="#333" stroke-width="2" />
+      </svg>`,
+      "presentation": `<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+          <rect x="20" y="20" width="60" height="40" fill="#EEE" stroke="#333" />
+          <rect x="25" y="25" width="50" height="30" fill="#0077B5" opacity="0.7" />
+          <circle cx="50" cy="75" r="10" fill="#333" />
+          <rect x="48" y="60" width="4" height="15" fill="#333" />
+          <circle cx="35" cy="85" r="3" fill="#666" />
+          <circle cx="65" cy="85" r="3" fill="#666" />
+          <path d="M20,60 L80,60" stroke="#333" stroke-width="2" />
+      </svg>`,
+      "business": `<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+          <rect x="20" y="40" width="20" height="40" fill="#0077B5" />
+          <rect x="45" y="20" width="20" height="60" fill="#0077B5" />
+          <rect x="70" y="50" width="20" height="30" fill="#0077B5" />
+          <circle cx="30" cy="25" r="15" fill="#E06C00" />
+          <text x="25" y="30" font-family="sans-serif" font-size="20" fill="white">$</text>
+          <line x1="10" y1="80" x2="90" y2="80" stroke="#333" stroke-width="2" />
+      </svg>`,
+      "data-quality": `<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+          <rect x="15" y="15" width="70" height="70" rx="5" fill="#EEE" stroke="#333" />
+          <line x1="20" y1="35" x2="80" y2="35" stroke="#333" stroke-width="1" />
+          <line x1="20" y1="55" x2="80" y2="55" stroke="#333" stroke-width="1" />
+          <line x1="20" y1="75" x2="80" y2="75" stroke="#333" stroke-width="1" />
+          <circle cx="30" cy="25" r="5" fill="#E06C00" />
+          <circle cx="30" cy="45" r="5" fill="#0077B5" />
+          <circle cx="30" cy="65" r="5" fill="#83C9F4" />
+          <rect x="40" y="21" width="30" height="8" rx="2" fill="#DDD" />
+          <rect x="40" y="41" width="35" height="8" rx="2" fill="#DDD" />
+          <rect x="40" y="61" width="25" height="8" rx="2" fill="#DDD" />
+          <path d="M65,25 L75,15 L85,25 L75,35 Z" fill="#0077B5" />
+      </svg>`
+  };
+
+  // Image mapping for each article category
+  const imageMap = {
+      "statistics": {
+          svg: svgIcons.statistics,
+          alt: "Bar charts and statistical graphs"
+      },
+      "data-project": {
+          svg: svgIcons["data-project"],
+          alt: "Project timeline dashboard"
+      },
+      "conflicting-data": {
+          svg: svgIcons["conflicting-data"],
+          alt: "Data comparison visualization"
+      },
+      "presentation": {
+          svg: svgIcons.presentation,
+          alt: "Person presenting to audience"
+      },
+      "business": {
+          svg: svgIcons.business,
+          alt: "Financial chart with cash flow"
+      },
+      "data-quality": {
+          svg: svgIcons["data-quality"],
+          alt: "Data quality assessment dashboard"
+      }
+  };
+
+  function renderTags() {
+      const tagContainer = document.getElementById("filter-tags");
+      tagContainer.innerHTML = '<button class="tag-button" onclick="filterByTag(null)">All</button>';
+      allTags.forEach(tag => {
+          tagContainer.innerHTML += `<button class="tag-button" onclick="filterByTag('${tag}')">${tag}</button>`;
+      });
+  }
+
+  function filterByTag(tag) {
+      currentTag = tag;
+      currentPage = 1;
+      renderArticles();
+  }
+
+  function renderArticles() {
+      const list = document.getElementById("article-list");
+      let filtered = currentTag ? articles.filter(a => a.tags.includes(currentTag)) : articles;
+      const totalPages = Math.ceil(filtered.length / articlesPerPage);
+      const start = (currentPage - 1) * articlesPerPage;
+      const end = start + articlesPerPage;
+      const currentArticles = filtered.slice(start, end);
+
+      list.innerHTML = "";
+      currentArticles.forEach((article, index) => {
+          // Get the image for this article
+          const imageInfo = imageMap[article.image];
+
+          list.innerHTML += `
+              <div class="article">
+                  <div class="article-image">
+                      ${imageInfo.svg}
+                  </div>
+                  <div class="article-content">
+                      <div class="article-title">${article.title}</div>
+                      <div class="meta">
+                          <span class="meta-text">${article.time}</span>
+                      </div>
+                      <div class="description">${article.desc}</div>
+                      <div class="tags">${article.tags.join(" · ")}</div>
+                  </div>
+              </div>
+          `;
+      });
+
+      document.getElementById("page-info").innerText = `Page ${currentPage} of ${totalPages}`;
+  }
+
+  function nextPage() {
+      const total = currentTag ? articles.filter(a => a.tags.includes(currentTag)) : articles;
+      const totalPages = Math.ceil(total.length / articlesPerPage);
+      if (currentPage < totalPages) {
+          currentPage++;
+          renderArticles();
+      }
+  }
+
+  function prevPage() {
+      if (currentPage > 1) {
+          currentPage--;
+          renderArticles();
+      }
+  }
+
+  renderTags();
+  renderArticles();
+</script>
+</body>
+</html>

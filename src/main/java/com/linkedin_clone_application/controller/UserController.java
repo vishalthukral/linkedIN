@@ -88,7 +88,6 @@ public class UserController {
         return "redirect:/login";
     }
 
-
     @GetMapping("/dashboard/{id}")
     public String userDashboard(@PathVariable int id, Model model) {
         User user = userService.findById(id); // Get the user by ID
@@ -121,4 +120,11 @@ public class UserController {
         return "userDetails";
     }
 
+    @GetMapping("/search")
+    public String searchUsers(@RequestParam("searchName") String searchName, Model model) {
+        List<User> users = userService.searchUsersByName(searchName);
+        model.addAttribute("users", users);
+        model.addAttribute("searchTerm", searchName);
+        return "User_search_results"; // corresponds to user_search_results.html
+    }
 }

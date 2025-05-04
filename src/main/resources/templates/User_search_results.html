@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <title>User Search Results</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 20px;
+      background-color: #f3f2ef;
+    }
+
+    h1 {
+      color: #333;
+      margin-bottom: 25px;
+    }
+
+    ul {
+      list-style-type: none;
+      padding: 0;
+    }
+
+    li {
+      display: flex;
+      align-items: center;
+      background-color: #fff;
+      padding: 15px 20px;
+      margin-bottom: 15px;
+      border-radius: 10px;
+      box-shadow: 0 1px 4px rgba(0, 0, 0, 0.05);
+      transition: box-shadow 0.2s ease;
+    }
+
+    li:hover {
+      box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+    }
+
+    .profile-img {
+      width: 70px;
+      height: 70px;
+      border-radius: 50%;
+      object-fit: cover;
+      margin-right: 20px;
+      border: 2px solid #e1e9ee;
+      transition: transform 0.2s ease;
+    }
+
+    .profile-img:hover {
+      transform: scale(1.05);
+    }
+
+    .user-info {
+      flex: 1;
+    }
+
+    a {
+      text-decoration: none;
+      color: #0a66c2;
+    }
+
+    a:hover h2 {
+      text-decoration: underline;
+    }
+
+    h2 {
+      margin: 0;
+      font-size: 20px;
+    }
+
+    span {
+      display: block;
+      margin-top: 6px;
+      color: #555;
+    }
+
+    p {
+      font-size: 18px;
+      color: #888;
+    }
+  </style>
+</head>
+<body>
+<h1>Search Results for "<span th:text="${searchTerm}">search</span>"</h1>
+
+<div th:if="${users.size() > 0}">
+  <ul>
+    <li th:each="user : ${users}">
+      <a th:href="@{/view/{id}(id=${user.id})}">
+        <img th:src="${user.profilePictureUrl != null && !user.profilePictureUrl.isEmpty() ? user.profilePictureUrl : '/images/'}"
+             alt="Profile Picture"
+             class="profile-img"/>
+
+        alt="Profile Picture"
+        class="profile-img"/>
+      </a>
+      <div class="user-info">
+        <a th:href="@{/view/{id}(id=${user.id})}">
+          <h2 th:text="${user.firstName} + ' ' + ${user.lastName}">User Name</h2>
+        </a>
+        <span>Email:</span> <span th:text="${user.email}">email</span>
+        <span>Headline:</span> <span th:text="${user.headline}">headline</span>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<div th:unless="${users.size() > 0}">
+  <p>No users found.</p>
+</div>
+</body>
+</html>

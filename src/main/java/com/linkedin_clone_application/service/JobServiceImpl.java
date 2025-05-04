@@ -42,6 +42,7 @@ public class JobServiceImpl implements JobService{
     }
 
     // Search jobs by tag or description
+    @Override
     public List<Job> searchJobs(String jobTitle, String jobDescription) {
         return jobRepo.findByJobTitleContainingOrJobDescriptionContaining(jobTitle, jobDescription);
     }
@@ -69,5 +70,9 @@ public class JobServiceImpl implements JobService{
         existingJob.setJobDescription(job.getJobDescription());
         existingJob.setUpdatedAt(LocalDateTime.now());
         return jobRepo.save(existingJob);
+    }
+    @Override
+    public List<Job> searchJobsByKeyword(String keyword) {
+        return jobRepo.searchByTitleOrDescription(keyword);
     }
 }

@@ -1,10 +1,12 @@
 package com.linkedin_clone_application.controller;
 
 import com.linkedin_clone_application.Util.TimeAgoUtil;
+import com.linkedin_clone_application.model.Job;
 import com.linkedin_clone_application.model.Post;
 import com.linkedin_clone_application.model.User;
 import com.linkedin_clone_application.repository.PostRepo;
 import com.linkedin_clone_application.service.CloudinaryService;
+import com.linkedin_clone_application.service.JobService;
 import com.linkedin_clone_application.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -22,12 +24,14 @@ public class UserController {
     private final UserService userService;
     private final CloudinaryService cloudinaryService;
     private final PostRepo postRepo;
+    private final JobService jobService;
 
     @Autowired
-    public UserController(UserService userService, CloudinaryService cloudinaryService, PostRepo postRepo) {
+    public UserController(UserService userService, CloudinaryService cloudinaryService, PostRepo postRepo, JobService jobService) {
         this.userService = userService;
         this.cloudinaryService = cloudinaryService;
         this.postRepo = postRepo;
+        this.jobService = jobService;
     }
 
 
@@ -123,8 +127,11 @@ public class UserController {
     @GetMapping("/search")
     public String searchUsers(@RequestParam("searchName") String searchName, Model model) {
         List<User> users = userService.searchUsersByName(searchName);
+        List<Job> jobsByTitleAndDescription= jobService.searchJobsByKeyword(searchName);
         model.addAttribute("users", users);
+
         model.addAttribute("searchTerm", searchName);
+        model.addAttribute("jobs",jobsByTitleAndDescription);
         return "User_search_results"; // corresponds to user_search_results.html
     }
 

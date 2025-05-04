@@ -21,9 +21,9 @@ public interface JobService {
     // Get jobs matching user's interested roles
     List<Job> getJobsByInterestedRoles(List<String> interestedRoles);
 
-    // Search jobs by tag or description
     List<Job> searchJobs(String jobTitle, String jobDescription);
 
+    List<Job> searchJobsByKeyword(String keyword);
     // Delete a job by ID
     void deleteJobById(int id);
 

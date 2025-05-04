@@ -163,6 +163,8 @@
     </style>
 </head>
 <body>
+<div th:if="${errorMessage}" class="alert alert-danger" th:text="${errorMessage}"></div>
+
 <div class="job-container">
 
     <div class="job-card">

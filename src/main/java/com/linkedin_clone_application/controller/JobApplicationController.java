@@ -36,7 +36,7 @@ public class JobApplicationController {
     private CloudinaryService cloudinaryService;
 
     @GetMapping("/jobs/{jobId}/apply")
-    public String showApplicationForm(@PathVariable("jobId") Integer jobId, Model model) {
+    public String showApplicationForm(@PathVariable("jobId") Integer jobId, Model model,RedirectAttributes redirectAttributes) {
         String email=getLoggedInUserEmail();
 
         User user = userRepo.findByEmail(email);
@@ -53,7 +53,8 @@ public class JobApplicationController {
                 .findByJobAndUser(job, user);
 
         if (existingApplication != null) {
-            return "redirect:/jobs/" + jobId + "?alreadyApplied=true";
+            redirectAttributes.addFlashAttribute("errorMessage", "You have already applied to this job");
+            return "redirect:/jobs/" +jobId;
         }
 
         JobApplication jobApplication = new JobApplication();

@@ -30,8 +30,10 @@ public class JobController {
 
     @GetMapping("/")
     public String viewAllJobs(Model model) {
+        String email = getLoggedInUserEmail();
         List<Job> jobs = jobService.getAllJobs();
         model.addAttribute("jobs", jobs);
+        model.addAttribute("email",email);
         return "jobslist"; // Thymeleaf template: jobs/list.html
     }
 
@@ -58,13 +60,13 @@ public class JobController {
     public String showEditJobForm(@PathVariable int id, Model model) {
         Job job = jobService.getJobById(id).orElseThrow(() -> new IllegalArgumentException("Invalid job ID:" + id));
         model.addAttribute("job", job);
-        return "jobs/edit";
+        return "createjob";
     }
 
     @PostMapping("/edit/{id}")
     public String editJob(@PathVariable int id, @ModelAttribute("job") Job job) {
         job.setId(id);
-        jobService.saveJob(job);
+        jobService.updateJob(job);
         return "redirect:/jobs/";
     }
 

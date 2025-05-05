@@ -160,14 +160,17 @@ public class PostController {
     }
 
     @GetMapping("/post/{id}")
-    public String viewPost(@PathVariable("id") int postId, Model model, HttpSession session) {
+    public String viewPost(@PathVariable("id") int postId, Model model) {
         Post post = postService.getPostById(postId);
-
+        String email = getLoggedInUserEmail();
+        if(email == null){
+            return "redirect:/login";
+        }
         if (post == null) {
             return "redirect:/dashboard";
         }
 
-        User currentUser = (User) session.getAttribute("user");
+        User currentUser = userService.findByEmail(email);
         if (currentUser != null) {
             model.addAttribute("user", currentUser);
         }
@@ -183,6 +186,7 @@ public class PostController {
         }
 
         model.addAttribute("post", post);
+        model.addAttribute("email", email);
         model.addAttribute("comments", comments);
         return "postDetails";  // This should match your Thymeleaf template name
     }

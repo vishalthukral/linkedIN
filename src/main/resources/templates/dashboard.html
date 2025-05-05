@@ -729,8 +729,11 @@
 
         <!-- Posts List -->
         <div th:each="post: ${allPosts}" class="post">
-            <div th:if="${post.repostedBy !=null}" class="repost-info">
-                <p th:text = "'Reposted by ' + ${post.repostedBy.firstName}"></p>
+            <div th:if="${post.repostedBy != null}" class="repost-info" style="display: flex; align-items: center; gap: 8px;">
+                <img th:src="@{${post.repostedBy.profilePictureUrl}}"
+                     alt="User"
+                     class="repost-img">
+                <p th:text="'Reposted by ' + ${post.repostedBy.firstName}"></p>
             </div>
             <div class="post-header">
                 <img th:src="@{${post.user.profilePictureUrl}}" alt="User" id="post-list-img">

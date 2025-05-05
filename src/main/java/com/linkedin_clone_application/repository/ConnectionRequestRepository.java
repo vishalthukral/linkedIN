@@ -9,6 +9,8 @@ import org.springframework.data.repository.query.*;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @Repository
 public interface ConnectionRequestRepository extends JpaRepository<ConnectionRequest, Integer> {
@@ -29,5 +31,11 @@ public interface ConnectionRequestRepository extends JpaRepository<ConnectionReq
                                                             @Param("receiver") User receiver,
                                                             @Param("status") ConnectionStatus status);
 
-
+    @Query("SELECT COUNT(cr) > 0 FROM ConnectionRequest cr " +
+            "WHERE ((cr.sender = :user1 AND cr.receiver = :user2) " +
+            "   OR (cr.sender = :user2 AND cr.receiver = :user1)) " +
+            "AND cr.status IN :statuses")
+    boolean existsBetweenUsersWithStatuses(@Param("user1") User user1,
+                                           @Param("user2") User user2,
+                                           @Param("statuses") List<ConnectionStatus> statuses);
 }

@@ -6,6 +6,7 @@ import com.linkedin_clone_application.model.Post;
 import com.linkedin_clone_application.model.User;
 import com.linkedin_clone_application.repository.PostRepository;
 import com.linkedin_clone_application.service.CloudinaryService;
+import com.linkedin_clone_application.service.ConnectionService;
 import com.linkedin_clone_application.service.JobService;
 import com.linkedin_clone_application.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,7 +19,9 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Controller
 @RequestMapping("/")
@@ -28,14 +31,16 @@ public class UserController {
     private final CloudinaryService cloudinaryService;
     private final PostRepository postRepository;
     private final JobService jobService;
+    private final ConnectionService connectionService;
 
     @Autowired
     public UserController(UserService userService, CloudinaryService cloudinaryService, PostRepository postRepository,
-                          JobService jobService) {
+                          JobService jobService, ConnectionService connectionService) {
         this.userService = userService;
         this.cloudinaryService = cloudinaryService;
         this.postRepository = postRepository;
         this.jobService = jobService;
+        this.connectionService = connectionService;
     }
 
 
@@ -91,6 +96,8 @@ public class UserController {
         if (image != null && !image.isEmpty()) {
             String imageUrl = cloudinaryService.uploadImage(image);
             user.setProfilePictureUrl(imageUrl);
+        }else if (user.getProfilePictureUrl() == null || user.getProfilePictureUrl().isEmpty()) {
+            user.setProfilePictureUrl("/images/default-profile.jpg");
         }
         userService.saveUser(user);
         int id = user.getId();
@@ -137,16 +144,35 @@ public class UserController {
 
     @GetMapping("/view/{id}")
     public String userView(Model model, @PathVariable("id") int userId) {
+        String email = getLoggedInUserEmail();
+        User currentUser=userService.findByEmail(email);
+        if(email == null){
+            return "redirect:/login";
+        }
+        List<User> users = userService.findAllExcept(currentUser);
+        Map<Integer, Boolean> connectionStatusMap = new HashMap<>();
+        for (User u : users) {
+            boolean alreadyRequested = connectionService.isRequestSentOrConnected(currentUser, u);
+            connectionStatusMap.put(u.getId(), alreadyRequested);
+        }
         User user = userService.findById(userId);
-        model.addAttribute(user);
         List<Post> postsByUser = postRepository.getPostsByUserId(userId);
+        model.addAttribute("user",user);
         model.addAttribute("postsByUser", postsByUser);
+        model.addAttribute("email", email);
+        model.addAttribute("currentUser", currentUser);
+        model.addAttribute("connectionStatusMap", connectionStatusMap);
         return "userDetails";
     }
 
     @GetMapping("/search")
     public String searchUsers(@RequestParam("searchName") String searchName, Model model) {
-        List<User> users = userService.searchUsersByName(searchName);
+        String email = getLoggedInUserEmail();
+        if(email == null){
+            return "redirect:/login";
+        }
+        int userId = userService.findByEmail(email).getId();
+        List<User> users = userService.searchUsersByName(searchName,userId);
         List<Job> jobsByTitleAndDescription = jobService.searchJobsByKeyword(searchName);
         model.addAttribute("users", users);
 

@@ -5,6 +5,7 @@ import com.linkedin_clone_application.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -19,6 +20,7 @@ public class UserServiceImpl implements UserService {
         this.passwordEncoder = passwordEncoder;
     }
 
+    @Transactional
     public User registerNewUser(User user) {
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         user.setEmail(user.getEmail());
@@ -38,6 +40,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    @Transactional
     public void saveUser(User user) {
         userRepository.save(user);
     }
@@ -48,8 +51,8 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public List<User> searchUsersByName(String searchName) {
-        return userRepository.searchByName(searchName);
+    public List<User> searchUsersByName(String searchName, int userId) {
+        return userRepository.searchByNameExcludingCurrentUser(searchName,userId);
     }
     @Override
     public List<User> findAllExcept(User user) {

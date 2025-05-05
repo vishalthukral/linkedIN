@@ -51,4 +51,9 @@ public class ConnectionService {
         User user = userRepository.findById(userId).orElseThrow(() -> new RuntimeException("User not found"));
         return connectionRequestRepository.findBySenderOrReceiverAndStatus(user, user, ConnectionStatus.ACCEPTED);
     }
+
+    public boolean isRequestSentOrConnected(User user1, User user2) {
+        List<ConnectionStatus> statuses = List.of(ConnectionStatus.PENDING, ConnectionStatus.ACCEPTED);
+        return connectionRequestRepository.existsBetweenUsersWithStatuses(user1, user2, statuses);
+    }
 }

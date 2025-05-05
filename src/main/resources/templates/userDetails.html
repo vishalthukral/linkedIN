@@ -345,6 +345,9 @@
         .linkedin-button.edit:hover {
             background-color: rgba(10, 102, 194, 0.1);
         }
+        .post-content{
+            white-space:pre-wrap;
+        }
     </style>
     <!-- Include Font Awesome for icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
@@ -367,10 +370,14 @@
                 </p>
 
                 <div class="profile-actions">
-                    <div>
-                        <button class="connect-btn">Connect</button>
-                        <button class="message-btn">Message</button>
-                        <button class="more-btn">More</button>
+                    <div th:if="${email != user.email}">
+                        <div th:if="${!connectionStatusMap[user.id]}">
+                            <form th:action="@{/connections/send}" method="post">
+                                <input type="hidden" name="senderId" th:value="${currentUser.id}"/>
+                                <input type="hidden" name="receiverId" th:value="${user.id}"/>
+                                <button type="submit">Connect</button>
+                            </form>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -392,7 +399,7 @@
                 <div class="job-info">
                     <h4 th:text="${user.jobTitle}"></h4>
                     <p th:text="${user.companyName}"></p>
-<!--                    <p>Apr 2020 - Present · 5 yrs 1 mo</p>-->
+                    <!--                    <p>Apr 2020 - Present · 5 yrs 1 mo</p>-->
                     <p th:text="${user.location}"></p>
                 </div>
             </div>
@@ -409,13 +416,6 @@
                 <div class="contact-item">
                     <p class="contact-label">Phone</p>
                     <p class="contact-value" th:text="${user.phoneNumber}"></p>
-                </div>
-                <div class="contact-item">
-                    <p class="contact-label">LinkedIn</p>
-                    <p class="contact-value">linkedin.com/in/username</p>
-                </div>
-                <div class="contact-item">
-                    <p class="contact-label">Website</p>
                 </div>
             </div>
         </div>
@@ -448,7 +448,7 @@
                         <span th:text="${post.likesCount}"></span> likes
                     </div>
                     <div class="comments-count">
-<!--                        <span th:text="${8 + postStat.index * 3}"></span> comments-->
+                        <!--                        <span th:text="${8 + postStat.index * 3}"></span> comments-->
                     </div>
                 </div>
 
@@ -465,13 +465,18 @@
                         <a th:href="@{/post/{id}(id=${post.id})}" class="linkedin-button">
                             <i class="far fa-comment"></i>
                             <span>Comment</span>
-                        </a>                    </div>
-                    <div class="post-action">
-                        <i class="fas fa-share"></i> Share
-                    </div>
-                    <div class="post-action">
-                        <i class="far fa-paper-plane"></i> Send
-                    </div>
+                        </a></div>
+                    <button type="button" class="linkedin-button" onclick="copyPostUrl()">
+                        <i class="fas fa-share"></i>
+                        <span>Share</span>
+                        <input type="text" id="postUrlInput" th:value="${post.postUrl}" readonly hidden/>
+                    </button>
+                    <form th:action="@{/repost/{id}(id=${post.id})}" method="post" style="margin: 0;">
+                        <button type="submit" class="linkedin-button">
+                            <i class="fas fa-retweet"></i>
+                            <span>Repost</span>
+                        </button>
+                    </form>
                 </div>
             </div>
         </div>
@@ -479,4 +484,22 @@
 </div>
 
 </body>
+<script>
+    function copyPostUrl() {
+        const input = document.getElementById("postUrlInput");
+        input.removeAttribute("hidden");
+        input.select();
+        document.execCommand("copy");
+        input.setAttribute("hidden", "true");
+        alert("Copied!");
+    }
+
+    window.addEventListener("DOMContentLoaded", () => {
+        const popup = document.getElementById("popup");
+        if (popup) {
+            popup.style.display = "block";
+            setTimeout(() => popup.style.display = "none", 3000);
+        }
+    });
+</script>
 </html>

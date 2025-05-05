@@ -206,7 +206,7 @@
                     <strong th:text="${comment.user.firstName}">Username</strong>
                     <span th:text="${comment.commentContent}">Comment content</span>
                     <small th:text="${#temporals.format(comment.createdAt, 'dd MMM yyyy HH:mm')}">Time</small>
-                    <div class="comment-actions">
+                    <div class="comment-actions" th:if="${email == comment.user.email}">
                         <a th:href="@{/comments/update/{id}(id=${comment.id})}" class="edit-btn">Update</a>
                         <form th:action="@{/comments/delete/{id}(id=${comment.id})}" method="post" style="display: inline;">
                             <input type="hidden" name="_method" value="delete"/>

@@ -11,7 +11,7 @@ public interface UserService {
     void saveUser(User user);
     User findByfirstName(String firstName);
 
-    List<User> searchUsersByName(String searchName);
+    List<User> searchUsersByName(String searchName, int userId);
 
     List<User> findAllExcept(User user);
 }

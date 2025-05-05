@@ -15,7 +15,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Controller
 @RequestMapping("/connections")
@@ -44,6 +46,12 @@ public class ConnectionController {
         User user = userService.findByEmail(email);
         List<User> users = userService.findAllExcept(user);
         int senderId = user.getId();
+        Map<Integer, Boolean> connectionStatusMap = new HashMap<>();
+        for (User u : users) {
+            boolean alreadyRequested = connectionService.isRequestSentOrConnected(user, u);
+            connectionStatusMap.put(u.getId(), alreadyRequested);
+        }
+        model.addAttribute("connectionStatusMap", connectionStatusMap);
         model.addAttribute("senderId", senderId);
         model.addAttribute("users", users);
         List<ConnectionRequest> requests = connectionService.getPendingRequests(userId);

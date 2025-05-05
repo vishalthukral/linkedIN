@@ -61,7 +61,7 @@ public class Post {
     private User repostedBy;
 
     private int likesCount;
-    private int CommentCount;
+    private int commentCount;
     private int sharesCount;
 
 
@@ -78,6 +78,14 @@ public class Post {
     @PreUpdate
     public void preUpdate() {
         this.updatedAt = LocalDateTime.now();
+    }
+
+    public int getCommentCount() {
+        return commentCount;
+    }
+
+    public void setCommentCount(int commentCount) {
+        this.commentCount = commentCount;
     }
 
     public Post getOriginalPost() {
@@ -174,14 +182,6 @@ public class Post {
 
     public void setLikesCount(int likesCount) {
         this.likesCount = likesCount;
-    }
-
-    public int getCommentCount() {
-        return CommentCount;
-    }
-
-    public void setCommentCount(int commentCount) {
-        CommentCount = commentCount;
     }
 
     public int getSharesCount() {

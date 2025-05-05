@@ -6,6 +6,7 @@ import com.linkedin_clone_application.repository.PostRepository;
 import com.linkedin_clone_application.repository.TagRepository;
 import com.linkedin_clone_application.repository.UserRepository;
 import com.linkedin_clone_application.service.*;
+import jakarta.servlet.http.HttpSession;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -78,7 +79,7 @@ public class PostController {
 
             // Delete old PostTags
             postTagService.deleteByPostId(post.getId());
-        }else {
+        } else {
             post.setCreatedAt(LocalDateTime.now());
             post.setUpdatedAt(LocalDateTime.now());
         }
@@ -105,13 +106,13 @@ public class PostController {
             postTagService.save(postTag);
         }
 
-        if (image != null && !image.isEmpty()) {
-            String imageUrl = cloudinaryService.uploadImage(image);
-            Media media = new Media();
-            media.setUrl(imageUrl);
-            media.setPost(post);
-            post.setMediaFile(media);
-        }
+            if (image != null && !image.isEmpty()) {
+                String imageUrl = cloudinaryService.uploadImage(image);
+                Media media = new Media();
+                media.setUrl(imageUrl);
+                media.setPost(post);
+                post.setMediaFile(media);
+            }
 
         String email = getLoggedInUserEmail();
         System.out.println(email);
@@ -159,13 +160,30 @@ public class PostController {
     }
 
     @GetMapping("/post/{id}")
-    public String viewPost(@PathVariable("id") int postId, Model model) {
+    public String viewPost(@PathVariable("id") int postId, Model model, HttpSession session) {
         Post post = postService.getPostById(postId);
+
+        if (post == null) {
+            return "redirect:/dashboard";
+        }
+
+        User currentUser = (User) session.getAttribute("user");
+        if (currentUser != null) {
+            model.addAttribute("user", currentUser);
+        }
+
         List<Comment> comments = commentService.getCommentsByPost(post);
+
+        post.setCommentCount(comments.size());
+
         post.setTimeAgo(TimeAgoUtil.toTimeAgo(post.getCreatedAt()));
+
+        for (Comment comment : comments) {
+            comment.setTimeAgo(TimeAgoUtil.toTimeAgo(comment.getCreatedAt()));
+        }
+
         model.addAttribute("post", post);
         model.addAttribute("comments", comments);
-//        System.out.println(comments.get(0).getCommentContent());
         return "postDetails";  // This should match your Thymeleaf template name
     }
 

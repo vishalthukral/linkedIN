@@ -29,7 +29,9 @@ public class CommentServiceImpl implements CommentService {
         comment.setPost(post);
         comment.setUser(user);
         comment.setCreatedAt(LocalDateTime.now());
+        post.setCommentCount(post.getCommentCount() + 1);
         commentRepository.save(comment);
+        postRepository.save(post);
     }
 
 
@@ -48,6 +50,8 @@ public class CommentServiceImpl implements CommentService {
 
     @Override
     public void deleteCommentById(int commentId) {
+        Post post = commentRepository.findById(commentId).get().getPost();
+        post.setCommentCount(post.getCommentCount()-1);
         commentRepository.deleteById(commentId);
     }
 
@@ -69,5 +73,10 @@ public class CommentServiceImpl implements CommentService {
 
         comment.setCommentContent(content);
         commentRepository.save(comment);
+    }
+
+    @Override
+    public int getCommentCountByPost(Post post) {
+        return commentRepository.countByPost(post);
     }
 }

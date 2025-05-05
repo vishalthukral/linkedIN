@@ -1,8 +1,6 @@
 package com.linkedin_clone_application.controller;
 
 import com.linkedin_clone_application.model.Comment;
-import com.linkedin_clone_application.model.Post;
-import com.linkedin_clone_application.model.User;
 import com.linkedin_clone_application.service.CommentService;
 import com.linkedin_clone_application.service.PostService;
 import com.linkedin_clone_application.service.UserService;
@@ -13,7 +11,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
 @Controller
 @RequestMapping("comments")
 public class CommentController {

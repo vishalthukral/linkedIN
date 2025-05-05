@@ -10,6 +10,8 @@
             box-sizing: border-box;
             margin: 0;
             padding: 0;
+            text-decoration: none;
+            font-weight: bold;
         }
 
         body {
@@ -339,47 +341,11 @@
             margin: 8px 0;
         }
 
-        .post-reactions {
-            display: flex;
-            align-items: center;
-            gap: 4px;
-        }
-
-        .reaction-icon {
-            width: 16px;
-            height: 16px;
-            border-radius: 50%;
-            background-color: #0a66c2;
-            color: white;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 8px;
-        }
-
         .post-actions-bottom {
             display: flex;
             justify-content: space-around;
             padding: 8px 0;
             margin-bottom: 12px;
-        }
-
-        .action-button {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 6px;
-            padding: 8px 12px;
-            border-radius: 4px;
-            cursor: pointer;
-            font-size: 14px;
-            color: #666;
-            font-weight: 600;
-            transition: background-color 0.2s ease;
-        }
-
-        .action-button:hover {
-            background-color: #f3f2ef;
         }
 
         .action-button i {
@@ -401,7 +367,6 @@
             background-color: transparent;
             border: none;
             transition: background-color 0.2s ease, color 0.2s ease;
-            text-decoration: none;
         }
 
         .linkedin-button:hover {
@@ -655,7 +620,12 @@
         }
 
         .right{
-            margin-right:350px
+            margin-right:350px;
+            text-decoration: none;
+        }
+
+        .post-content-text{
+            white-space: pre-wrap;
         }
     </style>
 </head>
@@ -772,7 +742,7 @@
             </div>
 
             <h3 th:text="${post.title}">Post title</h3>
-            <p th:text="${post.content}">Post content...</p>
+            <p th:text="${post.content}" class="post-content-text">Post content...</p>
 
             <!-- Tag Bubbles -->
             <div class="tags-container" th:if="${post.postTags != null && !post.postTags.isEmpty()}">
@@ -786,7 +756,8 @@
 
             <div class="post-metrics">
                 <p>Likes: <span th:text="${post.likesCount}"></span></p>
-                <div class="post-comments">10 comments</div>
+<!--                <div class="post-comments">10 comments</div>-->
+                <p>Comments: <span th:text="${post.commentCount}"></span></p>
             </div>
 
             <div class="post-actions-bottom">
@@ -891,5 +862,13 @@
         input.setAttribute("hidden", "true");
         alert("Copied!");
     }
+
+    window.addEventListener("DOMContentLoaded", () => {
+        const popup = document.getElementById("popup");
+        if (popup) {
+            popup.style.display = "block";
+            setTimeout(() => popup.style.display = "none", 3000);
+        }
+    });
 </script>
 </html>

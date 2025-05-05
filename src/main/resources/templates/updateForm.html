@@ -196,7 +196,6 @@
             <img th:src="@{${posting.user != null ? posting.user.profilePictureUrl : '/images/default-profile.png'}}" alt="Profile">
             <input type="text" th:field="*{title}" placeholder="Title" required>
         </div>
-
         <textarea th:field="*{content}" rows="5" class="preserve-whitespace" placeholder="What do you want to talk about?" required></textarea>
 
         <div class="tags-input">

@@ -166,6 +166,10 @@
             max-width: 400px;
             max-height: 400px;
         }
+
+        #content-text{
+            white-space: pre-wrap;
+        }
     </style>
 </head>
 <body>
@@ -181,7 +185,7 @@
         <p th:text="${post.user.jobTitle} + ' at ' + ${post.user.companyName}">Job Title</p>
         <p th:text="${post.timeAgo}">Posted</p>
         <img th:if="${post.mediaFile != null}" th:src="${post.mediaFile.url}" class="imageSize" alt="Post Image">
-        <p th:text="${post.content}">Post content...</p>
+        <p id="content-text" th:text="${post.content}">Post content...</p>
     </div>
 
     <!-- Comment Form -->

@@ -49,6 +49,17 @@ public class Comment {
         this.updatedAt = LocalDateTime.now();
     }
 
+    @Transient
+    private String timeAgo;
+
+    public String getTimeAgo() {
+        return timeAgo;
+    }
+
+    public void setTimeAgo(String timeAgo) {
+        this.timeAgo = timeAgo;
+    }
+
     @PreUpdate
     public void preUpdate() {
         this.updatedAt = LocalDateTime.now();

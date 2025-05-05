@@ -297,7 +297,9 @@
 <body>
 <header class="logo-container">
     <a href="#" th:href="@{/}">
-        <img class="logo" src="https://content.linkedin.com/content/dam/me/business/en-us/amp/brand-site/v2/bg/LI-Logo.svg.original.svg" alt="LinkedIn">
+        <img class="logo"
+             src="https://content.linkedin.com/content/dam/me/business/en-us/amp/brand-site/v2/bg/LI-Logo.svg.original.svg"
+             alt="LinkedIn">
     </a>
 </header>
 
@@ -316,15 +318,7 @@
                 <div class="password-field">
                     <input type="password" id="password" name="password" th:field="*{password}" required>
                     <!-- Using HTML forms to handle password visibility without JavaScript -->
-                    <span class="show-btn">
-                            <a href="#" th:href="@{#}" >Show</a>
-                        </span>
                 </div>
-            </div>
-
-            <div class="checkbox-container">
-                <input type="checkbox" id="remember" name="remember">
-                <label for="remember">Remember me</label>
             </div>
 
             <p class="terms-text">
@@ -339,20 +333,10 @@
             <div class="divider">
                 <span>or</span>
             </div>
-
-            <button type="button" class="social-btn">
-                <img src="https://developers.google.com/identity/images/g-logo.png" alt="Google logo">
-                Continue with Google
-            </button>
-
             <div class="login-link">
                 Already on LinkedIn? <a href="#" th:href="@{/login}">Sign in</a>
             </div>
         </form>
-    </div>
-
-    <div class="help-link">
-        Looking to create a page for a business? <a href="#" th:href="@{/business/help}">Get help</a>
     </div>
 </main>
 
@@ -361,7 +345,8 @@
 
     <div class="footer-links">
         <div class="footer-logo">
-            <img src="https://content.linkedin.com/content/dam/me/business/en-us/amp/brand-site/v2/bg/LI-Logo.svg.original.svg" alt="LinkedIn">
+            <img src="https://content.linkedin.com/content/dam/me/business/en-us/amp/brand-site/v2/bg/LI-Logo.svg.original.svg"
+                 alt="LinkedIn">
             <span>© 2025</span>
         </div>
         <a href="#" th:href="@{/about}">About</a>

@@ -49,22 +49,6 @@ public class UserController {
         return "login";
     }
 
-    @GetMapping("/allUsers")
-    public String allUsers(Model model) {
-        String email = getLoggedInUserEmail();
-        if (email == null) {
-            return "redirect:/login";  // If not logged in, redirect to login
-        }
-
-        User user = userService.findByEmail(email);
-        List<User> users = userService.findAllExcept(user);
-        int senderId = user.getId();
-        model.addAttribute("senderId",senderId);
-        model.addAttribute("users", users);
-        return "allUsers";
-    }
-
-
     @GetMapping("/register")
     public String register(Model model) {
         User user = new User();

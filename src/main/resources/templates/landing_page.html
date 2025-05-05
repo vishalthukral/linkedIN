@@ -1,14 +1,14 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org" >
-    <head>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
 
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <title>LinkedIn Clone - Landing Page</title>
-        <link
-                rel="stylesheet"
-                href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
-        />
+    <link
+            rel="stylesheet"
+            href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
+    />
     <style>
         body {
           margin: 0;
@@ -125,7 +125,8 @@
 
 <header>
     <div class="logo">
-        <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAARwAAACxCAMAAAAh3/JWAAAAk1BMVEX///8oZ7IAWq0gZLEQX6wVYK/u8vWhttHn7PEDXK0cYrB4mMLAz97W3+z///0AWa0paK/4+vhfiLvV3+h+ncXk6vPO2eWyw9hfh75ojb8bY6yQqc28ytyHo8nc5Ovz9vY7crKovNQAU6eSrMtTgLdtkb6KpM49c7OZsNG5ydoAUqota610lcZ5mr5PfbiVrNJki7dBwf0qAAAH6klEQVR4nO2c7WKiOBRAMRA0SAGREVsViuBq64w77/90K0KSC0IVhaLde/7BpPk4huQmgVEUBEEQBEEQBEEQBEEQBEEQBEEQBEEQBEEQBEEQBEEQBEEQBEEQBEEQBEEQBEGQ72fkD+/AtPquf5d4hNE7IM607xZ0h8cG96Hao77b0BVT+043g4Hx2ncjumJH75Yz0CZ9t6IjPON+OUzvuxUdMUY59aCcL+hPjv74kxyUozI6MEhzWyU5vsCsLXYSO4S8eU2sjmS+XcSdMndZKSCH7j90azLdkDvlMA5J6moSOqfoitLg+tovP3m+WhdyNJ7754u4J+XQ17xMv2lYWJIj7qtuXU2cvFRVDa+uvSmq5XQh543nTirkqFtR5LChncZypH4aX137PuWwpUzodCzHFd1Vfb+69n3K0UDCVbOwubEcIP/t6ob2KWcPEvody9k/s5xhx3Jkz1RrJ7Qz+pRDwOpx0yzWaSwn+ORJ7I+ra9+nHDBvjLqerZRVvlHCGux29ClnwERAlqhdy1EWa2oY1N40aGavcgZsdroTJk23eG6Qo+jD3793DeLjvuUM7CTyfY81XlzdIqc5PcsZqJTRG1bp/w85N/K8ckBGd8o59ivGKD0frZvLsQSV1yPfG4/HqyiAFmrkWFY5szwHd7vfb+cLs2aDO1x6h/0xxWY3vUKOQTh5LVjhmrIkXi6X0SrRWMlPYzkTzcnRTjX7Ja5Xx6upS5hxJD0Ti+WqvVLOZOsI3v5wM/H+mIOqpqt+yrRxxa7aaKwdU6R1NCjZD60LcozxiPNxqgab8esZO/aaWBiY+NtiINRcjjgPsjM5/Jr+oyixDTozpWLDrEqOdZAzK82D7dAjxd5tkHH5OdwVZh2V7YMLcjxxb3aqBhHCdUK3xfbHhdOuO+SQTA7fXzvK2ZQiUNv/Qs5GujHyLRdfO49EqFPoPBO3HOWqWiAWww3ljD5fy+oLG2Ityvk3PovOeT0q5OzkpqX6llXCqzykVB1YxUNVIHeznIqlswcKaE/OYHtebyOpkxMBEXkdyv1O2pHj8ubrILfpY1XxqoAFsmtRThX2S7WcGfirdRbdr6QbNX3LQSagG154dOEAvKGcSsA5csdy6KpSTgA6iZ1tYy5Fvqp92A13K0emsTN9SnhpcdSGHF2W27KcNJ6C802+lVqSEzoyCRlm2Wr8huFkKqyhyFk9ZGXHUI7BiG2XJrc25CjvIst25ZDEN03/APtFeC7HepeTMVmU2g0OC2ZrkerXqWhQlEE8Uw/DINrDkeoGOaN4Pt9EcGCWryC0KoflgQ04Asm2C4pyXPBU58OJJUIVeOCz4AnpLr0E0yx1RbIIdKfmcuI1VVWDDYAGmWGbcogI+uR2ZHYwUpAzlm00kvJ5Gx1WlZU9V3PR3yncaAOvKTWW49u8IvLeUtSvRTl8ZDgSiJs0KslRhiDAeee/v7BZrM9BBbcnUqpTqJLsqI3liAjJlrN60IWczMMJSwyvdFGUs/8AbkRntuQgZAJmYl8zLWsqK+0X63RrEKhMZeVlj5W/bItyGAipRKvKcgZgYURmPHkIBimInDd8OOQYpdW6OBFpKkce1RhjcXPURc8hIKvXWjkSKn//oOrfC2kjOKEdSnUSo0RTOQspR45iky5mK/h6oZgO6+XAJs4uyhmC/gF+5dwtr0NTOatKOWJM+HY54FBAjlHN5KSbI+3IccVz+xBy3sFZPhEnGH31nAeT41gyOlf3PDCdgimsEgbltDfmPJocGLOJ5TZY7M0rSXy4XKZtzVaPJseCL8kQPuyIO6z+dTGZSSGMhlswzy9HAWtylldURMildkN0+ewVAx05If8AOeDB4sOOXM+8Fdod78DFXjYlActoE6zuvkfOwDl/8A9mO3Lgg0WzmUeuyuES8LguZAf5nIHtHPrOZzprBXYHv0tOxbRx2rNrQw6Ysfg6SS4eaSJWXGm7DUOs9UdAg2on0ezlZenB/dTvk3MOa0tO4WMoeqqr7DoDQ4sDS5kEw7es3WTBn6HCi1mnQ9zSmxM/Qg58QvKtvxn0RTRHI3LPaZs3R7/0gdnPkGPJwZUPO3H9Tj3jUV/bpw+PKafwYOXnD7XfJlCxJ1ZztnXzfs6DylEWoJnZsAMPQQvFJiDjs9PgdOYwv3n50LkcELUch53slmmcH0ypZFWo4cIuvSdCndHomxee98oR2wu1cuCDxfIGTBas9JaFnZRfPpxtCTwYszehEvCsWKdytK9Ypy8eT9biMpMjrhmQ84fxm6ff3RSJwNF9TGTWnzyYCYdbwqiRhlUGZdpmppxhfSTslMQwGEnSBAHPfl0px5rk5HICfm1JOeqrSBXW7QRaX1NMUv6Tyoy+SFT9Ypeim7vN3HXn4+Gs7tPlcLkbu67r+aPK0gpyBqr4CXIVRvlGZapzOT+H9l6YnP75+9d7/O82m9CanGh87L+6W/F8Py9tyZlulOF4PFUO13+X+Pi0JcfTlUQP98o0ulzm09Dwo7xaOXNFSczoGIiVd/WfmcafAleQHsm/pnKO0Zm1uljk83DxLbArOk66ZbsIlIMSxcpyebHIJ8K07xt1VOamYZN+UI6xbxRu+25PuwQutcnN2Kd349NskpmuL5OfNFmdCEd3IHPxPW/5o/93MwRBEARBEARBEARBEARBEARBEARBEARBEARBEARBEARBEARBEARBEARBEOQp+Q8xCrcGiqW9jAAAAABJRU5ErkJggg==" alt="LinkedIn Logo"/>
+        <img src="data:image/png;base64,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"
+             alt="LinkedIn Logo"/>
     </div>
 
     <nav>
@@ -134,7 +135,7 @@
         <a href="#"><i class="fas fa-chalkboard-teacher"></i> Learning</a>
         <a href="#"><i class="fas fa-briefcase"></i> Jobs</a>
         <a href="#"><i class="fas fa-gamepad"></i> Games</a>
-        <a th:href="@{/register}"  class="join-btn">Join now</a>
+        <a th:href="@{/register}" class="join-btn">Join now</a>
         <a th:href="@{/login}" class="sign-in-btn">Sign in</a>
     </nav>
 
@@ -146,13 +147,14 @@
         <button class="google-btn">Continue with your Google account</button>
         <a th:href="@{/login}" class="email-btn">Sign in</a>
         <p>
-            By clicking Continue, you agree to our <a href="#">User Agreement</a>, <a href="#">Privacy Policy</a>, and <a href="#">Cookie Policy</a>.
+            By clicking Continue, you agree to our <a href="#">User Agreement</a>, <a href="#">Privacy Policy</a>, and
+            <a href="#">Cookie Policy</a>.
         </p>
         <p>New to our site? <a th:href="@{/register}">Join now</a></p>
     </section>
 
     <section class="illustration">
-        <img src="/images/landing_page_person.svg" alt="Person with Laptop Illustration" />
+        <img src="/images/landing_page_person.svg" alt="Person with Laptop Illustration"/>
     </section>
 </main>
 

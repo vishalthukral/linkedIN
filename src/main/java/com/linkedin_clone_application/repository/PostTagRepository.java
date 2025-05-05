@@ -12,7 +12,6 @@ import java.util.List;
 public interface PostTagRepository extends JpaRepository<PostTag, Integer> {
     PostTag findByPostIdAndTagId(int postId, int tagId);
 
-
     @Query("SELECT pt.tag.name FROM PostTag pt WHERE pt.post.id = :postId")
     List<String> findTagsByPostId(@Param("postId") int postId);
 

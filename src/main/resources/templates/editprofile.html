@@ -123,11 +123,15 @@
             <img class="cover-photo"
                  th:src="${user.coverImageUrl != null and not #strings.isEmpty(user.coverImageUrl) ? user.coverImageUrl : '/images/default-cover.jpeg'}"
                  th:alt="|${user.firstName} ${user.lastName}'s cover photo|"/>
-            <form th:action="@{/profile/uploadCoverPhoto/{userId}(userId=${user.id})}" method="post" enctype="multipart/form-data">
+            <form th:action="@{/profile/uploadCoverPhoto/{userId}(userId=${user.id})}" method="post"
+                  enctype="multipart/form-data">
                 <label for="coverPhotoUpload" class="edit-icon cover-photo-edit">
-                    <svg viewBox="0 0 24 24"><path d="M21.13 2.86a3 3 0 00-4.17 0l-13 13V22h6.84l11.46-11.44a3 3 0 000-4.19z"/></svg>
+                    <svg viewBox="0 0 24 24">
+                        <path d="M21.13 2.86a3 3 0 00-4.17 0l-13 13V22h6.84l11.46-11.44a3 3 0 000-4.19z"/>
+                    </svg>
                 </label>
-                <input type="file" id="coverPhotoUpload" name="file" style="display: none;" onchange="this.form.submit()"/>
+                <input type="file" id="coverPhotoUpload" name="file" style="display: none;"
+                       onchange="this.form.submit()"/>
             </form>
         </div>
 
@@ -135,11 +139,15 @@
             <img class="profile-photo"
                  th:src="${user.profileImageUrl != null and not #strings.isEmpty(user.profileImageUrl) ? user.profileImageUrl : '/images/default-profile.jpg'}"
                  th:alt="|${user.firstName} ${user.lastName}'s profile photo|"/>
-            <form th:action="@{/profile/uploadProfilePhoto/{userId}(userId=${user.id})}" method="post" enctype="multipart/form-data">
+            <form th:action="@{/profile/uploadProfilePhoto/{userId}(userId=${user.id})}" method="post"
+                  enctype="multipart/form-data">
                 <label for="profilePhotoUpload" class="edit-icon profile-photo-edit">
-                    <svg viewBox="0 0 24 24"><path d="M21.13 2.86a3 3 0 00-4.17 0l-13 13V22h6.84l11.46-11.44a3 3 0 000-4.19z"/></svg>
+                    <svg viewBox="0 0 24 24">
+                        <path d="M21.13 2.86a3 3 0 00-4.17 0l-13 13V22h6.84l11.46-11.44a3 3 0 000-4.19z"/>
+                    </svg>
                 </label>
-                <input type="file" id="profilePhotoUpload" name="file" style="display: none;" onchange="this.form.submit()"/>
+                <input type="file" id="profilePhotoUpload" name="file" style="display: none;"
+                       onchange="this.form.submit()"/>
             </form>
         </div>
 
@@ -148,8 +156,10 @@
                 <h1 class="name" th:text="${user.firstName + ' ' + user.lastName}">Mohammed Tahir</h1>
             </div>
 
-            <p class="headline" th:if="${user.headline != null and user.headline != ''}" th:text="${user.headline}">Lead Software Engineer</p>
-            <p class="location" th:if="${user.location != null and (user.location.city != null or user.location.country != null)}"
+            <p class="headline" th:if="${user.headline != null and user.headline != ''}" th:text="${user.headline}">Lead
+                Software Engineer</p>
+            <p class="location"
+               th:if="${user.location != null and (user.location.city != null or user.location.country != null)}"
                th:text="${(user.location.city != null ? user.location.city : '') +
                             (user.location.city != null and user.location.country != null ? ', ' : '') +
                             (user.location.country != null ? user.location.country : '')}">

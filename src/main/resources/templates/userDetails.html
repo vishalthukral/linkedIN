@@ -207,7 +207,7 @@
         .post-header {
             display: flex;
             align-items: center;
-            margin-bottom: 12px;
+            gap: 10px;
         }
 
         .post-header img {
@@ -348,6 +348,19 @@
         .post-content{
             white-space:pre-wrap;
         }
+        .repost-img {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+        .repost-info {
+         display: block;
+         margin-bottom: 10px;
+}
+
+
+
     </style>
     <!-- Include Font Awesome for icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
@@ -427,7 +440,15 @@
 
             <!-- Iterate over the user's posts -->
             <div th:each="post, postStat : ${postsByUser}" class="post-card">
+                <div th:if="${post.repostedBy != null}" class="repost-info"
+                     style="display: flex; align-items: center; gap: 8px;">
+                    <img th:src="@{${post.repostedBy.profilePictureUrl}}"
+                         alt="User"
+                         class="repost-img">
+                    <p th:text="'Reposted by ' + ${post.repostedBy.firstName}"></p>
+                </div>
                 <div class="post-header">
+
                     <img th:src="${user.profilePictureUrl}" alt="Profile Picture"/>
                     <div class="post-header-info">
                         <h4 th:text="${user.firstName} + ' ' + ${user.lastName}"></h4>

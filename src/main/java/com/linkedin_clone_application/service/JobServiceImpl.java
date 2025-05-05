@@ -16,27 +16,18 @@ public class JobServiceImpl implements JobService{
     @Autowired
     private JobRepository jobRepository;
 
-    // Create or update a job
     public Job saveJob(Job job) {
         return jobRepository.save(job);
     }
 
-    // Get a job by ID
     public Optional<Job> getJobById(int id) {
         return jobRepository.findById(id);
     }
 
-    // Get all jobs
     public List<Job> getAllJobs() {
         return jobRepository.findAll();
     }
 
-    // Get jobs by company ID
-//    public List<Job> getJobsByCompanyId(int companyId) {
-//        return jobRepository.findByCompanyId(companyId);
-//    }
-
-    // Get jobs matching user's interested roles
     public List<Job> getJobsByInterestedRoles(List<String> interestedRoles) {
         return jobRepository.findByJobTitleIn(interestedRoles);
     }
@@ -47,7 +38,6 @@ public class JobServiceImpl implements JobService{
         return jobRepository.findByJobTitleContainingOrJobDescriptionContaining(jobTitle, jobDescription);
     }
 
-    // Delete a job by ID
     public void deleteJobById(int id) {
         jobRepository.deleteById(id);
     }

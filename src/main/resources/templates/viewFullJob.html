@@ -175,18 +175,25 @@
 
         <div class="job-meta">
             <div class="job-tag" th:text="${job.employmentType == T(com.linkedin_clone_application.enums.EmploymentType).FULL_TIME ? 'Full-time' :
-                                            (job.employmentType == T(com.linkedin_clone_application.enums.EmploymentType).PART_TIME ? 'Part-time' : 'Contract')}">Full-time</div>
+                                            (job.employmentType == T(com.linkedin_clone_application.enums.EmploymentType).PART_TIME ? 'Part-time' : 'Contract')}">
+                Full-time
+            </div>
             <div class="job-tag" th:text="${job.workPlaceType == T(com.linkedin_clone_application.enums.WorkPlaceType).REMOTE ? 'Remote' :
-                                           (job.workPlaceType == T(com.linkedin_clone_application.enums.WorkPlaceType).HYBRID ? 'Hybrid' : 'On-site')}">Remote</div>
+                                           (job.workPlaceType == T(com.linkedin_clone_application.enums.WorkPlaceType).HYBRID ? 'Hybrid' : 'On-site')}">
+                Remote
+            </div>
         </div>
 
         <div class="action-buttons">
             <form th:action="@{'/jobs/' + ${job.id} + '/apply'}" method="get">
                 <button class="apply-button" type="submit">
                     Apply
-                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16" style="margin-left: 4px;">
-                        <path fill-rule="evenodd" d="M8.636 3.5a.5.5 0 0 0-.5-.5H1.5A1.5 1.5 0 0 0 0 4.5v10A1.5 1.5 0 0 0 1.5 16h10a1.5 1.5 0 0 0 1.5-1.5V7.864a.5.5 0 0 0-1 0V14.5a.5.5 0 0 1-.5.5h-10a.5.5 0 0 1-.5-.5v-10a.5.5 0 0 1 .5-.5h6.636a.5.5 0 0 0 .5-.5z"/>
-                        <path fill-rule="evenodd" d="M16 .5a.5.5 0 0 0-.5-.5h-5a.5.5 0 0 0 0 1h3.793L6.146 9.146a.5.5 0 1 0 .708.708L15 1.707V5.5a.5.5 0 0 0 1 0v-5z"/>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                         viewBox="0 0 16 16" style="margin-left: 4px;">
+                        <path fill-rule="evenodd"
+                              d="M8.636 3.5a.5.5 0 0 0-.5-.5H1.5A1.5 1.5 0 0 0 0 4.5v10A1.5 1.5 0 0 0 1.5 16h10a1.5 1.5 0 0 0 1.5-1.5V7.864a.5.5 0 0 0-1 0V14.5a.5.5 0 0 1-.5.5h-10a.5.5 0 0 1-.5-.5v-10a.5.5 0 0 1 .5-.5h6.636a.5.5 0 0 0 .5-.5z"/>
+                        <path fill-rule="evenodd"
+                              d="M16 .5a.5.5 0 0 0-.5-.5h-5a.5.5 0 0 0 0 1h3.793L6.146 9.146a.5.5 0 1 0 .708.708L15 1.707V5.5a.5.5 0 0 0 1 0v-5z"/>
                     </svg>
                 </button>
             </form>
@@ -202,7 +209,9 @@
 
         <div class="info-label">Opportunity Type</div>
         <div class="info-value" th:text="${job.workPlaceType == T(com.linkedin_clone_application.enums.WorkPlaceType).REMOTE ? 'Remote' :
-                                           (job.workPlaceType == T(com.linkedin_clone_application.enums.WorkPlaceType).HYBRID ? 'Hybrid' : 'On-site')}">Remote</div>
+                                           (job.workPlaceType == T(com.linkedin_clone_application.enums.WorkPlaceType).HYBRID ? 'Hybrid' : 'On-site')}">
+            Remote
+        </div>
 
         <div class="info-label">Placement Type</div>
         <div class="info-value" th:text="${job.employmentType == T(com.linkedin_clone_application.enums.EmploymentType).FULL_TIME ? 'Full Time Permanent position/Payroll and Compliance to be managed' :
@@ -214,7 +223,8 @@
 
         <div class="info-label">Must have skills required:</div>
         <div class="info-value" th:text="${job.jobDescription}">
-            Docker, Kubernetes, J2EE, Restful APIs, Core Java, Multithreading, Data structures & algorithms, SQL & NoSQL, Kafka/ RabbitMQ, Unix/ Linux scripting, GIT, CI/ CD
+            Docker, Kubernetes, J2EE, Restful APIs, Core Java, Multithreading, Data structures & algorithms, SQL &
+            NoSQL, Kafka/ RabbitMQ, Unix/ Linux scripting, GIT, CI/ CD
         </div>
 
         <div class="info-label">TechS is Looking for:</div>

@@ -26,7 +26,6 @@ import java.util.Map;
 @Controller
 @RequestMapping("/")
 public class UserController {
-
     private final UserService userService;
     private final CloudinaryService cloudinaryService;
     private final PostRepository postRepository;
@@ -42,7 +41,6 @@ public class UserController {
         this.jobService = jobService;
         this.connectionService = connectionService;
     }
-
 
     @GetMapping("/login")
     public String login() {
@@ -72,7 +70,7 @@ public class UserController {
     public String createProfile(@PathVariable int Id, Model model) {
         User user = userService.findById(Id);
         model.addAttribute("user", user);
-        return "complete_profile";
+        return "completeProfile";
     }
 
     @PostMapping("/userDetails")
@@ -80,7 +78,7 @@ public class UserController {
         if (image != null && !image.isEmpty()) {
             String imageUrl = cloudinaryService.uploadImage(image);
             user.setProfilePictureUrl(imageUrl);
-        }else if (user.getProfilePictureUrl() == null || user.getProfilePictureUrl().isEmpty()) {
+        } else if (user.getProfilePictureUrl() == null || user.getProfilePictureUrl().isEmpty()) {
             user.setProfilePictureUrl("/images/default-profile.jpg");
         }
         userService.saveUser(user);
@@ -92,7 +90,7 @@ public class UserController {
     public String jobDetails(@PathVariable int Id, Model model) {
         User user = userService.findById(Id);
         model.addAttribute("user", user);
-        return "EnterJobDetails";
+        return "enterJobDetails";
     }
 
     @PostMapping("/saveJobDetails")
@@ -129,8 +127,8 @@ public class UserController {
     @GetMapping("/view/{id}")
     public String userView(Model model, @PathVariable("id") int userId) {
         String email = getLoggedInUserEmail();
-        User currentUser=userService.findByEmail(email);
-        if(email == null){
+        User currentUser = userService.findByEmail(email);
+        if (email == null) {
             return "redirect:/login";
         }
         List<User> users = userService.findAllExcept(currentUser);
@@ -141,7 +139,7 @@ public class UserController {
         }
         User user = userService.findById(userId);
         List<Post> postsByUser = postRepository.getPostsByUserId(userId);
-        model.addAttribute("user",user);
+        model.addAttribute("user", user);
         model.addAttribute("postsByUser", postsByUser);
         model.addAttribute("email", email);
         model.addAttribute("currentUser", currentUser);
@@ -152,17 +150,17 @@ public class UserController {
     @GetMapping("/search")
     public String searchUsers(@RequestParam("searchName") String searchName, Model model) {
         String email = getLoggedInUserEmail();
-        if(email == null){
+        if (email == null) {
             return "redirect:/login";
         }
         int userId = userService.findByEmail(email).getId();
-        List<User> users = userService.searchUsersByName(searchName,userId);
+        List<User> users = userService.searchUsersByName(searchName, userId);
         List<Job> jobsByTitleAndDescription = jobService.searchJobsByKeyword(searchName);
         model.addAttribute("users", users);
 
         model.addAttribute("searchTerm", searchName);
         model.addAttribute("jobs", jobsByTitleAndDescription);
-        return "User_search_results"; // corresponds to user_search_results.html
+        return "userSearchResults"; // corresponds to user_search_results.html
     }
 
     @GetMapping("/articles")

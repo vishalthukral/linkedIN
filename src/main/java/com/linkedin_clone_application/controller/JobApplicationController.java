@@ -101,7 +101,7 @@ public class JobApplicationController {
             redirectAttributes.addFlashAttribute("successMessage",
                     "Your application to " + job.getJobTitle() + " has been submitted successfully!");
 
-            return "jobapplied";
+            return "jobApplied";
         } catch (Exception e) {
             redirectAttributes.addFlashAttribute("errorMessage",
                     "Error submitting application: " + e.getMessage());

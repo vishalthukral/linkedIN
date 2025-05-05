@@ -36,13 +36,15 @@ public class ConnectionService {
     }
 
     public void acceptRequest(int requestId) {
-        ConnectionRequest request = connectionRequestRepository.findById(requestId).orElseThrow(() -> new RuntimeException("Request not found"));
+        ConnectionRequest request =
+                connectionRequestRepository.findById(requestId).orElseThrow(() -> new RuntimeException("Request not found"));
         request.setStatus(ConnectionStatus.ACCEPTED);
         connectionRequestRepository.save(request);
     }
 
     public void rejectRequest(int requestId) {
-        ConnectionRequest request = connectionRequestRepository.findById(requestId).orElseThrow(() -> new RuntimeException("Request not found"));
+        ConnectionRequest request =
+                connectionRequestRepository.findById(requestId).orElseThrow(() -> new RuntimeException("Request not found"));
         request.setStatus(ConnectionStatus.REJECTED);
         connectionRequestRepository.save(request);
     }

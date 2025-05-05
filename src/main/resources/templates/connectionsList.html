@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>My Connections</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f3f2ef;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            width: 60%;
+            margin: auto;
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        h2 {
+            text-align: center;
+        }
+        .connection-list {
+            list-style: none;
+            padding: 0;
+        }
+        .connection-item {
+            display: flex;
+            align-items: center;
+            background: #fff;
+            margin-bottom: 10px;
+            padding: 10px;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+        .connection-item img {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            margin-right: 15px;
+        }
+        .connection-info {
+            flex-grow: 1;
+        }
+        .message-btn {
+            background-color: #0a66c2;
+            color: white;
+            padding: 5px 15px;
+            border: none;
+            border-radius: 20px;
+            cursor: pointer;
+        }
+        .message-btn:hover {
+            background-color: #004182;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h2>My Connections</h2>
+    <ul class="connection-list">
+        <li class="connection-item" th:each="connection : ${connections}">
+            <img src="https://via.placeholder.com/50" alt="Profile">
+            <div class="connection-info">
+                <p th:text="${connection.sender.firstName}"></p>
+            </div>
+            <button class="message-btn">Message</button>
+        </li>
+    </ul>
+</div>
+
+</body>
+</html>

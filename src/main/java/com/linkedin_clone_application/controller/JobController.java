@@ -34,13 +34,13 @@ public class JobController {
         List<Job> jobs = jobService.getAllJobs();
         model.addAttribute("jobs", jobs);
         model.addAttribute("email",email);
-        return "jobslist"; // Thymeleaf template: jobs/list.html
+        return "jobsList"; // Thymeleaf template: jobs/list.html
     }
 
     @GetMapping("/create")
     public String showCreateJobForm(Model model) {
         model.addAttribute("job", new Job());
-        return "createjob"; // Thymeleaf template: jobs/createjob.html
+        return "createJob"; // Thymeleaf template: jobs/createjob.html
     }
 
     @PostMapping("/create")
@@ -60,7 +60,7 @@ public class JobController {
     public String showEditJobForm(@PathVariable int id, Model model) {
         Job job = jobService.getJobById(id).orElseThrow(() -> new IllegalArgumentException("Invalid job ID:" + id));
         model.addAttribute("job", job);
-        return "createjob";
+        return "createJob";
     }
 
     @PostMapping("/edit/{id}")
@@ -80,7 +80,7 @@ public class JobController {
     public String viewFullJob(@PathVariable int id, Model model){
         Job job = jobService.findById(id);
         model.addAttribute("job", job);
-        return "viewfulljob";
+        return "viewFullJob";
     }
 
     private String getLoggedInUserEmail() {

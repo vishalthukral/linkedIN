@@ -25,12 +25,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
-
-
-
 @Controller
 public class MessageController {
-
     private final SimpMessagingTemplate messagingTemplate;
     private final UserService userService;
     private final MessageService messageService;
@@ -51,19 +47,13 @@ public class MessageController {
         return ResponseEntity.ok(messageDTOs);
     }
 
-
     @GetMapping("/message/{userId}")
     public String showMessagesPage(@PathVariable int userId, Model model) {
         System.out
                 .println("public String showMessagesPage \n (@PathVariable int userId, Model model)" + "\n" + userId);
         // Fetch user and all other users for chat
         User currentUser = userService.findById(userId);
-        System.out.println("/t public String showMessagesPage(@PathVariable int userId, Model model))" + "\n "
-                + currentUser.toString());
-
         List<User> users = userService.findAllExcept(currentUser); // Fetch all users except the current one
-        System.out.println("/t public String showMessagesPage(@PathVariable int userId, Model model))" + "\n "
-                + users.toString());
 
         model.addAttribute("user", currentUser);
         model.addAttribute("users", users);
@@ -89,8 +79,6 @@ public class MessageController {
             int receiverId = Integer.parseInt(messageData.get("receiverId").toString());
             String messageText = messageData.getOrDefault("messageText", "").toString();
 
-            System.out.println("Sender: " + senderId + ", Receiver: " + receiverId + ", Message: " + messageText);
-
             // Fetch sender and receiver
             User sender = userService.findById(senderId);
             User receiver = userService.findById(receiverId);
@@ -107,7 +95,6 @@ public class MessageController {
             message.setMessageText(messageText);
             message.setStatus(MessageStatus.SENT);
             message.setCreatedAt(LocalDateTime.now()); // Ensure timestamp is set
-
 
             Message savedMessage = messageService.saveMessage(message);
 
@@ -127,6 +114,7 @@ public class MessageController {
         Message savedMessage = messageService.saveMessage(message); // Persist the message
         return ResponseEntity.ok("Message sent successfully with ID: " + savedMessage.getId());
     }
+
     private String getLoggedInUserEmail() {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         if (auth != null && auth.getPrincipal() instanceof UserDetails) {

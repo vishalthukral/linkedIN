@@ -10,8 +10,6 @@ import java.util.List;
 
 @Repository
 public interface JobRepository extends JpaRepository<Job,Integer> {
-//    List<Job> findByCompanyId(int companyId);
-
     List<Job> findByJobTitleIn(List<String> interestedRoles);
 
     List<Job> findByJobTitleContainingOrJobDescriptionContaining(String jobTitle, String jobDescription);

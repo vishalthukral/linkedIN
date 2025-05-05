@@ -190,20 +190,22 @@
 <div class="update-post">
     <h1 class="page-title">Update Post</h1>
     <form th:action="@{/savepost}" method="post" th:object="${posting}" enctype="multipart/form-data">
-        <input type="hidden" th:field="*{id}" />
+        <input type="hidden" th:field="*{id}"/>
 
         <div class="post-input">
-            <img th:src="@{${posting.user != null ? posting.user.profilePictureUrl : '/images/default-profile.png'}}" alt="Profile">
+            <img th:src="@{${posting.user != null ? posting.user.profilePictureUrl : '/images/default-profile.png'}}"
+                 alt="Profile">
             <input type="text" th:field="*{title}" placeholder="Title" required>
         </div>
-        <textarea th:field="*{content}" rows="5" class="preserve-whitespace" placeholder="What do you want to talk about?" required></textarea>
+        <textarea th:field="*{content}" rows="5" class="preserve-whitespace"
+                  placeholder="What do you want to talk about?" required></textarea>
 
         <div class="tags-input">
             <i class="fas fa-hashtag"></i>
             <input type="text" name="tags" th:value="${tags}" placeholder="Add tags (separate with commas)" required>
         </div>
-<input type="hidden" th:field="*{likesCount}">
-<input type="hidden" th:field="*{commentCount}">
+        <input type="hidden" th:field="*{likesCount}">
+        <input type="hidden" th:field="*{commentCount}">
         <div class="post-actions">
             <div class="post-action photo">
                 <label for="image">

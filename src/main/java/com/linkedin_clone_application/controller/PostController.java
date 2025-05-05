@@ -6,7 +6,6 @@ import com.linkedin_clone_application.repository.PostRepository;
 import com.linkedin_clone_application.repository.TagRepository;
 import com.linkedin_clone_application.repository.UserRepository;
 import com.linkedin_clone_application.service.*;
-import jakarta.servlet.http.HttpSession;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -33,14 +32,14 @@ public class PostController {
     private final PostTagService postTagService;
     private final TagRepository tagRepository;
 
-    PostController(PostService postService, PostRepository postRepository, CloudinaryService cloudinaryService, UserRepository userRepository,
+    PostController(PostService postService, PostRepository postRepository, CloudinaryService cloudinaryService,
+                   UserRepository userRepository,
                    UserService userService,
                    LikeService likeService, CommentService commentService, PostTagService postTagService, TagRepository tagRepository) {
         this.postService = postService;
         this.postRepository = postRepository;
         this.cloudinaryService = cloudinaryService;
         this.userRepository = userRepository;
-
         this.userService = userService;
         this.likeService = likeService;
         this.commentService = commentService;
@@ -62,7 +61,6 @@ public class PostController {
         }
         return "createPost";
     }
-
 
     @PostMapping("/savepost")
     public String savePost(@ModelAttribute Post post, @RequestParam("tags") String tags, @RequestParam("image") MultipartFile image)
@@ -106,13 +104,13 @@ public class PostController {
             postTagService.save(postTag);
         }
 
-            if (image != null && !image.isEmpty()) {
-                String imageUrl = cloudinaryService.uploadImage(image);
-                Media media = new Media();
-                media.setUrl(imageUrl);
-                media.setPost(post);
-                post.setMediaFile(media);
-            }
+        if (image != null && !image.isEmpty()) {
+            String imageUrl = cloudinaryService.uploadImage(image);
+            Media media = new Media();
+            media.setUrl(imageUrl);
+            media.setPost(post);
+            post.setMediaFile(media);
+        }
 
         String email = getLoggedInUserEmail();
         System.out.println(email);
@@ -163,7 +161,7 @@ public class PostController {
     public String viewPost(@PathVariable("id") int postId, Model model) {
         Post post = postService.getPostById(postId);
         String email = getLoggedInUserEmail();
-        if(email == null){
+        if (email == null) {
             return "redirect:/login";
         }
         if (post == null) {

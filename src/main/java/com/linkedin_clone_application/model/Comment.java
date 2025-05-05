@@ -16,7 +16,6 @@ import java.time.LocalDateTime;
 @Entity
 @Table(name = "comments")
 public class Comment {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
@@ -24,7 +23,6 @@ public class Comment {
     @ManyToOne
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
-
 
     @Column(name = "commentContent", nullable = false)
     private String commentContent;

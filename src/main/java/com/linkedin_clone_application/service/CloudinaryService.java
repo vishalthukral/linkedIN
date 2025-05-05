@@ -59,27 +59,5 @@ public class CloudinaryService {
         }
     }
 
-    // Update Image
-    // As cloudinary didn't overwrite, it will check is old image exists or not, it will delete old image first
-    public String updateImage(String oldImageUrl, MultipartFile newFile) throws IOException {
-        if (oldImageUrl != null) {
-            deleteImage(oldImageUrl); // Delete the old image first
-        }
-        return uploadImage(newFile); // Upload new image
-    }
-    // Delete Image
-    // get the id from the providedURL, and delete it and return true
-    public boolean deleteImage(String imageUrl) throws IOException {
-        if (imageUrl == null || imageUrl.isEmpty()) {
-            return false;
-        }
-        String publicId = extractPublicId(imageUrl);
-        Map result = cloudinary.uploader().destroy(publicId, ObjectUtils.emptyMap());
-        return "ok".equals(result.get("result")); // Check if deletion was successful
-    }
-    // Helper method to extract Cloudinary public ID from image URL
-    private String extractPublicId(String imageUrl) {
-        String[] parts = imageUrl.split("/");
-        return parts[parts.length - 1].split("\\.")[0]; // Extract the image ID before file extension
-    }
+
 }

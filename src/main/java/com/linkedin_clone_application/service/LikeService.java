@@ -12,7 +12,6 @@ import java.util.Optional;
 
 @Service
 public class LikeService {
-
     private final LikeRepository likeRepository;
     private final PostRepository postRepository;
     private final UserRepository userRepository;
@@ -44,8 +43,6 @@ public class LikeService {
         postRepository.save(post); // only save likeCount update, not the full post
     }
 
-
-    // Get total likes for a post
     public int getLikeCount(Post post) {
         return likeRepository.countByPost(post);
     }

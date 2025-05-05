@@ -10,7 +10,6 @@
     @Entity
     @Table(name = "jobs")
     public class Job{
-
         @Id
         @GeneratedValue(strategy = GenerationType.IDENTITY)
         private int id;
@@ -29,8 +28,6 @@
 
         @Enumerated(EnumType.STRING)
         private WorkPlaceType workPlaceType;
-
-
 
         private LocalDateTime createdAt;
         private LocalDateTime updatedAt;
@@ -114,6 +111,5 @@
         public void setWorkPlaceType(WorkPlaceType workPlaceType) {
             this.workPlaceType = workPlaceType;
         }
-
 
     }

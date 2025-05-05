@@ -36,11 +36,13 @@ public class PostTagServiceImpl implements PostTagService {
     public List<String> findTagsByPostID(int postId) {
         return postTagRepository.findTagsByPostId(postId);
     }
+
     @Override
     @Transactional
     public void deleteByPostId(int postId) {
         postTagRepository.deleteByPostId(postId);
     }
+
     @Override
     @Transactional
     public void createPostTag(Tag tag, Post post) {

@@ -1,147 +1,148 @@
-    <!DOCTYPE html>
-    <html xmlns:th="http://www.thymeleaf.org">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Apply to Job - LinkedIn Clone</title>
-        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet">
-        <style>
-            .application-container {
-                max-width: 800px;
-                margin: 0 auto;
-                padding: 20px;
-                box-shadow: 0 0 10px rgba(0,0,0,0.1);
-                border-radius: 8px;
-                background-color: #fff;
-                position: relative;
-            }
-            .close-btn {
-                position: absolute;
-                right: 20px;
-                top: 20px;
-                font-size: 24px;
-                cursor: pointer;
-                color: #666;
-                text-decoration: none;
-            }
-            .progress-container {
-                height: 8px;
-                background-color: #e0e0e0;
-                border-radius: 4px;
-                margin-bottom: 20px;
-            }
-            .progress-bar {
-                height: 100%;
-                background-color: #0077b5;
-                border-radius: 4px;
-                width: 33%;
-            }
-            .user-info {
-                display: flex;
-                margin-bottom: 30px;
-            }
-            .user-avatar {
-                width: 70px;
-                height: 70px;
-                border-radius: 50%;
-                margin-right: 15px;
-            }
-            .form-label {
-                font-weight: 500;
-                margin-bottom: 5px;
-            }
-            .required:after {
-                content: "*";
-                color: red;
-            }
-            .form-control, .form-select {
-                margin-bottom: 20px;
-            }
-            .btn-primary {
-                background-color: #0077b5;
-                border-color: #0077b5;
-                float: right;
-            }
-            .note {
-                font-size: 0.9rem;
-                color: #666;
-                margin-top: 20px;
-            }
-        </style>
-    </head>
-    <body class="bg-light">
-    <div class="container mt-4 mb-4">
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Apply to Job - LinkedIn Clone</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .application-container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            border-radius: 8px;
+            background-color: #fff;
+            position: relative;
+        }
+        .close-btn {
+            position: absolute;
+            right: 20px;
+            top: 20px;
+            font-size: 24px;
+            cursor: pointer;
+            color: #666;
+            text-decoration: none;
+        }
+        .progress-container {
+            height: 8px;
+            background-color: #e0e0e0;
+            border-radius: 4px;
+            margin-bottom: 20px;
+        }
+        .progress-bar {
+            height: 100%;
+            background-color: #0077b5;
+            border-radius: 4px;
+            width: 33%;
+        }
+        .user-info {
+            display: flex;
+            margin-bottom: 30px;
+        }
+        .user-avatar {
+            width: 70px;
+            height: 70px;
+            border-radius: 50%;
+            margin-right: 15px;
+        }
+        .form-label {
+            font-weight: 500;
+            margin-bottom: 5px;
+        }
+        .required:after {
+            content: "*";
+            color: red;
+        }
+        .form-control, .form-select {
+            margin-bottom: 20px;
+        }
+        .btn-primary {
+            background-color: #0077b5;
+            border-color: #0077b5;
+            float: right;
+        }
+        .note {
+            font-size: 0.9rem;
+            color: #666;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body class="bg-light">
+<div class="container mt-4 mb-4">
 
-        <div th:if="${successMessage}" class="alert alert-success alert-dismissible fade show" role="alert">
-            <span th:text="${successMessage}"></span>
-            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-        </div>
-
-        <!-- Error Message -->
-        <div th:if="${errorMessage}" class="alert alert-danger alert-dismissible fade show" role="alert">
-            <span th:text="${errorMessage}"></span>
-            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-        </div>
-
-        <div class="application-container">
-            <a th:href="@{/jobs/{id}(id=${job.id})}" class="close-btn">&times;</a>
-
-            <h2 class="mb-4">Apply to <span th:text="${job.jobTitle}">Job Title</span></h2>
-
-            <h4 class="mb-4">Contact info</h4>
-
-            <div class="user-info">
-                <div>
-                    <h5 th:text="${user != null ? user.firstName + ' ' + user.lastName : 'Anonymous'}">Full Name</h5>
-                    <p th:text="${#strings.defaultString(user.headline, 'LinkedIn User')}">Job Title</p>
-                </div>
-            </div>
-
-            <form th:action="@{/jobs/{jobId}/apply(jobId=${job.id})}" method="post" th:object="${jobApplication}" enctype="multipart/form-data">
-                <input type="hidden" th:field="*{job}" th:value="${job.id}" />
-                <input type="hidden" th:if="${user != null}" th:field="*{user}" th:value="${user.id}" />
-
-                <div class="mb-3">
-                    <label for="email" class="form-label required">Email address</label>
-                    <input type="email" class="form-control" id="email" th:value="${user != null ? user.email : ''}" >
-                </div>
-
-                <div class="mb-3">
-                    <label for="phoneCountry" class="form-label required">Phone country code</label>
-                    <select class="form-select" id="phoneCountry" required>
-                        <option value="+91">India (+91)</option>
-                        <option value="+1">United States (+1)</option>
-                        <option value="+44">United Kingdom (+44)</option>
-                    </select>
-                </div>
-
-                <div class="mb-3">
-                    <label for="phone" class="form-label required">Mobile phone number</label>
-                    <input type="tel" class="form-control" id="phone" required
-                           th:value="${user.phoneNumber != null ? user.phoneNumber : ''}">
-                </div>
-
-                <div class="mb-3">
-                    <label for="resumeFile" class="form-label ">Resume</label>
-                    <input type="file" class="form-control" id="resumeFile" name="resumeFile" required>
-                </div>
-
-                <div class="mb-3">
-                    <label for="coverLetter" class="form-label">Cover Letter</label>
-                    <textarea class="form-control" id="coverLetter" th:field="*{coverLetter}" rows="5"
-                              placeholder="Why do you want to work here? What makes you a good fit for this role?"></textarea>
-                </div>
-
-                <p class="note">Submitting this application won't change your LinkedIn profile.</p>
-                <p class="note">Application powered by LinkedIn Clone.</p>
-
-                <div class="mt-4 d-flex justify-content-end">
-                    <button type="submit" class="btn btn-primary">Next</button>
-                </div>
-            </form>
-        </div>
+    <div th:if="${successMessage}" class="alert alert-success alert-dismissible fade show" role="alert">
+        <span th:text="${successMessage}"></span>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
     </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
-    </body>
-    </html>
+    <!-- Error Message -->
+    <div th:if="${errorMessage}" class="alert alert-danger alert-dismissible fade show" role="alert">
+        <span th:text="${errorMessage}"></span>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+
+    <div class="application-container">
+        <a th:href="@{/jobs/{id}(id=${job.id})}" class="close-btn">&times;</a>
+
+        <h2 class="mb-4">Apply to <span th:text="${job.jobTitle}">Job Title</span></h2>
+
+        <h4 class="mb-4">Contact info</h4>
+
+        <div class="user-info">
+            <div>
+                <h5 th:text="${user != null ? user.firstName + ' ' + user.lastName : 'Anonymous'}">Full Name</h5>
+                <p th:text="${#strings.defaultString(user.headline, 'LinkedIn User')}">Job Title</p>
+            </div>
+        </div>
+
+        <form th:action="@{/jobs/{jobId}/apply(jobId=${job.id})}" method="post" th:object="${jobApplication}"
+              enctype="multipart/form-data">
+            <input type="hidden" th:field="*{job}" th:value="${job.id}"/>
+            <input type="hidden" th:if="${user != null}" th:field="*{user}" th:value="${user.id}"/>
+
+            <div class="mb-3">
+                <label for="email" class="form-label required">Email address</label>
+                <input type="email" class="form-control" id="email" th:value="${user != null ? user.email : ''}">
+            </div>
+
+            <div class="mb-3">
+                <label for="phoneCountry" class="form-label required">Phone country code</label>
+                <select class="form-select" id="phoneCountry" required>
+                    <option value="+91">India (+91)</option>
+                    <option value="+1">United States (+1)</option>
+                    <option value="+44">United Kingdom (+44)</option>
+                </select>
+            </div>
+
+            <div class="mb-3">
+                <label for="phone" class="form-label required">Mobile phone number</label>
+                <input type="tel" class="form-control" id="phone" required
+                       th:value="${user.phoneNumber != null ? user.phoneNumber : ''}">
+            </div>
+
+            <div class="mb-3">
+                <label for="resumeFile" class="form-label ">Resume</label>
+                <input type="file" class="form-control" id="resumeFile" name="resumeFile" required>
+            </div>
+
+            <div class="mb-3">
+                <label for="coverLetter" class="form-label">Cover Letter</label>
+                <textarea class="form-control" id="coverLetter" th:field="*{coverLetter}" rows="5"
+                          placeholder="Why do you want to work here? What makes you a good fit for this role?"></textarea>
+            </div>
+
+            <p class="note">Submitting this application won't change your LinkedIn profile.</p>
+            <p class="note">Application powered by LinkedIn Clone.</p>
+
+            <div class="mt-4 d-flex justify-content-end">
+                <button type="submit" class="btn btn-primary">Next</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

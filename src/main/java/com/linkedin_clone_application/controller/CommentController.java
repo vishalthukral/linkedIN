@@ -28,7 +28,7 @@ public class CommentController {
     public String showUpdateForm(@PathVariable int id, Model model) {
         Comment comment = commentService.getCommentById(id);
         model.addAttribute("comment", comment);
-        return "comment-update"; // renamed to use 'update'
+        return "commentUpdate"; // renamed to use 'update'
     }
     @PostMapping("/update/{id}")
     public String updateComment(@PathVariable int id, @RequestParam String content) {

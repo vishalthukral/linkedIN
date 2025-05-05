@@ -627,6 +627,12 @@
         .post-content-text{
             white-space: pre-wrap;
         }
+        .repost-img {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            object-fit: cover;
+        }
     </style>
 </head>
 <body>
@@ -638,7 +644,7 @@
         <div class="search-container">
             <i class="fas fa-search search-icon"></i>
             <form th:action="@{/search}" method="get" class="search-bar">
-                <input type="text" name="searchName" placeholder="Search by name" required />
+                <input type="text" name="searchName" placeholder="Search by name" required/>
             </form>
         </div>
     </div>
@@ -706,7 +712,7 @@
 
         <!-- Create Post -->
         <div class="create-post">
-            <form th:action="@{/createPost}"  >
+            <form th:action="@{/createPost}">
                 <div class="post-input">
                     <img th:src="@{${user.profilePictureUrl}}" alt="Profile">
                     <input type="hidden" name="title" placeholder="Title" required>
@@ -729,7 +735,8 @@
 
         <!-- Posts List -->
         <div th:each="post: ${allPosts}" class="post">
-            <div th:if="${post.repostedBy != null}" class="repost-info" style="display: flex; align-items: center; gap: 8px;">
+            <div th:if="${post.repostedBy != null}" class="repost-info"
+                 style="display: flex; align-items: center; gap: 8px;">
                 <img th:src="@{${post.repostedBy.profilePictureUrl}}"
                      alt="User"
                      class="repost-img">
@@ -749,7 +756,8 @@
 
             <!-- Tag Bubbles -->
             <div class="tags-container" th:if="${post.postTags != null && !post.postTags.isEmpty()}">
-                <div th:each="postTagging : ${post.postTags}" class="tag-bubble" th:data-tooltip="'Click to see related content'">
+                <div th:each="postTagging : ${post.postTags}" class="tag-bubble"
+                     th:data-tooltip="'Click to see related content'">
                     <i class="fas fa-hashtag"></i>
                     <span th:text="${postTagging.tag.name}">Tag Name</span>
                 </div>
@@ -759,7 +767,7 @@
 
             <div class="post-metrics">
                 <p>Likes: <span th:text="${post.likesCount}"></span></p>
-<!--                <div class="post-comments">10 comments</div>-->
+                <!--                <div class="post-comments">10 comments</div>-->
                 <p>Comments: <span th:text="${post.commentCount}"></span></p>
             </div>
 
@@ -779,7 +787,7 @@
                 <button type="button" class="linkedin-button" onclick="copyPostUrl()">
                     <i class="fas fa-share"></i>
                     <span>Share</span>
-                    <input type="text" id="postUrlInput" th:value="${post.postUrl}" readonly hidden />
+                    <input type="text" id="postUrlInput" th:value="${post.postUrl}" readonly hidden/>
                 </button>
 
                 <form th:action="@{/repost/{id}(id=${post.id})}" method="post" style="margin: 0;">
@@ -791,7 +799,7 @@
             </div>
 
             <!-- Post management buttons -->
-            <div class="post-management" th:if="${email == post.user.email}"}>
+            <div class="post-management" th:if="${email == post.user.email}" }>
                 <a th:href="@{/updateform/{id}(id=${post.id})}" class="linkedin-button edit">
                     <i class="fas fa-edit"></i>
                     <span>Edit</span>

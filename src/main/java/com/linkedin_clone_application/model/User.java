@@ -9,7 +9,6 @@ import java.util.List;
 @Entity
 @Table(name = "user_table")
 public class User {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", updatable = false, nullable = false)

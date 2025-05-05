@@ -56,7 +56,7 @@ public class ConnectionController {
         model.addAttribute("users", users);
         List<ConnectionRequest> requests = connectionService.getPendingRequests(userId);
         model.addAttribute("requests", requests);
-        return "Network";
+        return "network";
     }
 
     @GetMapping("/requests")
@@ -102,7 +102,7 @@ public class ConnectionController {
         User user = userService.findByEmail(email);
         List<ConnectionRequest> connections = connectionService.getConnectedUsers(userId);
         model.addAttribute("connections", connections);
-        return "connections_list";  // Make sure this matches your Thymeleaf file name
+        return "connectionsList";  // Make sure this matches your Thymeleaf file name
     }
 
     private String getLoggedInUserEmail() {

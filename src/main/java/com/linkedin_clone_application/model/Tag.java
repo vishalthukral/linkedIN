@@ -26,7 +26,6 @@ public class Tag {
     @Column(name = "updated_at", nullable = false)
     private LocalDateTime updatedAt;
 
-
     public int getId() {
         return id;
     }

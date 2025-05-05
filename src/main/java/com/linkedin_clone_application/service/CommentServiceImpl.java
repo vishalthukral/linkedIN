@@ -16,12 +16,10 @@ public class CommentServiceImpl implements CommentService {
     private CommentRepository commentRepository;
     private PostRepository postRepository;
 
-
     public CommentServiceImpl(CommentRepository commentRepository, PostRepository postRepository) {
         this.commentRepository = commentRepository;
         this.postRepository = postRepository;
     }
-
 
     public void addComment(String content, Post post, User user) {
         Comment comment = new Comment();
@@ -33,7 +31,6 @@ public class CommentServiceImpl implements CommentService {
         commentRepository.save(comment);
         postRepository.save(post);
     }
-
 
     @Override
     public Comment getCommentById(int commentId) {
@@ -51,7 +48,7 @@ public class CommentServiceImpl implements CommentService {
     @Override
     public void deleteCommentById(int commentId) {
         Post post = commentRepository.findById(commentId).get().getPost();
-        post.setCommentCount(post.getCommentCount()-1);
+        post.setCommentCount(post.getCommentCount() - 1);
         commentRepository.deleteById(commentId);
     }
 
@@ -67,6 +64,7 @@ public class CommentServiceImpl implements CommentService {
         Comment comment = getCommentById(commentId);
         return comment.getPost().getId();
     }
+
     public void updateComment(int id, String content) {
         Comment comment = commentRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("Comment not found with id: " + id));

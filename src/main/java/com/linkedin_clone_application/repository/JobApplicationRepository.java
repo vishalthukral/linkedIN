@@ -9,7 +9,7 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public interface JobApplicationRepo extends JpaRepository<JobApplication, Integer> {
+public interface JobApplicationRepository extends JpaRepository<JobApplication, Integer> {
     JobApplication findByJobAndUser(Job job, User user);
     List<JobApplication> findByUser(User user);
     List<JobApplication> findByJob(Job job);

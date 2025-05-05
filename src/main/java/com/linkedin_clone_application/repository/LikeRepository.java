@@ -7,7 +7,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;
 
-public interface LikeRepo extends JpaRepository<Like, Integer> {
+public interface LikeRepository extends JpaRepository<Like, Integer> {
     boolean existsByPostAndUser(Post post, User user);  // Check if user has liked the post
 
     void deleteByPostAndUser(Post post, User user);    // Remove like by user and post

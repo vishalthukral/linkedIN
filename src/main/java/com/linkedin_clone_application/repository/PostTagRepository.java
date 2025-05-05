@@ -9,7 +9,7 @@ import org.springframework.data.repository.query.Param;
 
 import java.util.List;
 
-public interface PostTagRepo extends JpaRepository<PostTag, Integer> {
+public interface PostTagRepository extends JpaRepository<PostTag, Integer> {
     PostTag findByPostIdAndTagId(int postId, int tagId);
 
 

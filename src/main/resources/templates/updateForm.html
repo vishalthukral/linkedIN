@@ -202,7 +202,8 @@
             <i class="fas fa-hashtag"></i>
             <input type="text" name="tags" th:value="${tags}" placeholder="Add tags (separate with commas)" required>
         </div>
-
+<input type="hidden" th:field="*{likesCount}">
+<input type="hidden" th:field="*{commentCount}">
         <div class="post-actions">
             <div class="post-action photo">
                 <label for="image">

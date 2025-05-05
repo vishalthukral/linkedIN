@@ -15,6 +15,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -123,5 +126,12 @@ public class MessageController {
     public ResponseEntity<String> sendMessageHttp(@RequestBody Message message) {
         Message savedMessage = messageService.saveMessage(message); // Persist the message
         return ResponseEntity.ok("Message sent successfully with ID: " + savedMessage.getId());
+    }
+    private String getLoggedInUserEmail() {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        if (auth != null && auth.getPrincipal() instanceof UserDetails) {
+            return ((UserDetails) auth.getPrincipal()).getUsername(); // this returns email
+        }
+        return null;
     }
 }

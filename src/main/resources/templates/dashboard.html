@@ -318,7 +318,7 @@
         }
 
         .post p {
-            margin: -6px 0;
+            margin: 0px 0;
             font-size: 14px;
         }
 
@@ -759,6 +759,9 @@
 
         <!-- Posts List -->
         <div th:each="post: ${allPosts}" class="post">
+            <div th:if="${post.repostedBy !=null}" class="repost-info">
+                <p th:text = "'Reposted by ' + ${post.repostedBy.firstName}"></p>
+            </div>
             <div class="post-header">
                 <img th:src="@{${post.user.profilePictureUrl}}" alt="User" id="post-list-img">
                 <div class="post-user">
@@ -805,10 +808,12 @@
                     <input type="text" id="postUrlInput" th:value="${post.postUrl}" readonly hidden />
                 </button>
 
-                <button type="button" class="linkedin-button">
-                    <i class="far fa-paper-plane"></i>
-                    <span>Send</span>
-                </button>
+                <form th:action="@{/repost/{id}(id=${post.id})}" method="post" style="margin: 0;">
+                    <button type="submit" class="linkedin-button">
+                        <i class="fas fa-retweet"></i>
+                        <span>Repost</span>
+                    </button>
+                </form>
             </div>
 
             <!-- Post management buttons -->

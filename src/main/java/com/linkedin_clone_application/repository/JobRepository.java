@@ -9,7 +9,7 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public interface JobRepo extends JpaRepository<Job,Integer> {
+public interface JobRepository extends JpaRepository<Job,Integer> {
 //    List<Job> findByCompanyId(int companyId);
 
     List<Job> findByJobTitleIn(List<String> interestedRoles);

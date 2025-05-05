@@ -17,20 +17,19 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import java.security.Principal;
 import java.time.LocalDateTime;
 
 @Controller
 public class JobApplicationController {
 
     @Autowired
-    private JobRepo jobRepo;
+    private JobRepository jobRepository;
 
     @Autowired
-    private UserRepo userRepo;
+    private UserRepository userRepository;
 
     @Autowired
-    private JobApplicationRepo jobApplicationRepo;
+    private JobApplicationRepository jobApplicationRepository;
 
     @Autowired
     private CloudinaryService cloudinaryService;
@@ -39,17 +38,17 @@ public class JobApplicationController {
     public String showApplicationForm(@PathVariable("jobId") Integer jobId, Model model,RedirectAttributes redirectAttributes) {
         String email=getLoggedInUserEmail();
 
-        User user = userRepo.findByEmail(email);
+        User user = userRepository.findByEmail(email);
 
         if (email == null) {
             return "redirect:/login";  // If not logged in, redirect to login
         }
         model.addAttribute("user", user);
 
-        Job job = jobRepo.findById(jobId)
+        Job job = jobRepository.findById(jobId)
                 .orElseThrow(() -> new IllegalArgumentException("Invalid job Id:" + jobId));
 
-        JobApplication existingApplication = jobApplicationRepo
+        JobApplication existingApplication = jobApplicationRepository
                 .findByJobAndUser(job, user);
 
         if (existingApplication != null) {
@@ -77,10 +76,10 @@ public class JobApplicationController {
         CustomUserDetails customUserDetails = (CustomUserDetails) authentication.getPrincipal();
         User currentUser = customUserDetails.getUser();
 
-        Job job = jobRepo.findById(jobId)
+        Job job = jobRepository.findById(jobId)
                 .orElseThrow(() -> new IllegalArgumentException("Invalid job Id:" + jobId));
 
-        JobApplication existingApplication = jobApplicationRepo
+        JobApplication existingApplication = jobApplicationRepository
                 .findByJobAndUser(job, currentUser);
 
         if (existingApplication != null) {
@@ -97,7 +96,7 @@ public class JobApplicationController {
             jobApplication.setStatus(ApplicationStatus.PENDING);
             jobApplication.setAppliedAt(LocalDateTime.now());
 
-            jobApplicationRepo.save(jobApplication);
+            jobApplicationRepository.save(jobApplication);
 
             redirectAttributes.addFlashAttribute("successMessage",
                     "Your application to " + job.getJobTitle() + " has been submitted successfully!");

@@ -1,7 +1,7 @@
 package com.linkedin_clone_application.service;
 
 import com.linkedin_clone_application.model.User;
-import com.linkedin_clone_application.repository.UserRepo;
+import com.linkedin_clone_application.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -10,49 +10,49 @@ import java.util.List;
 
 @Service
 public class UserServiceImpl implements UserService {
-    private final UserRepo userRepo;
+    private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
 
     @Autowired
-    public UserServiceImpl(UserRepo userRepo, PasswordEncoder passwordEncoder) {
-        this.userRepo = userRepo;
+    public UserServiceImpl(UserRepository userRepository, PasswordEncoder passwordEncoder) {
+        this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
     }
 
     public User registerNewUser(User user) {
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         user.setEmail(user.getEmail());
-        return userRepo.save(user);
+        return userRepository.save(user);
     }
 
     public User findByEmail(String email) {
-        return userRepo.findByEmail(email);
+        return userRepository.findByEmail(email);
     }
 
     public User login(User user) {
-        return userRepo.findByEmail(user.getEmail());
+        return userRepository.findByEmail(user.getEmail());
     }
 
     public User findById(int id) {
-        return userRepo.findById(id).orElse(null);
+        return userRepository.findById(id).orElse(null);
     }
 
     @Override
     public void saveUser(User user) {
-        userRepo.save(user);
+        userRepository.save(user);
     }
 
     @Override
     public User findByfirstName(String firstName) {
-        return userRepo.findByfirstName(firstName);
+        return userRepository.findByfirstName(firstName);
     }
 
     @Override
     public List<User> searchUsersByName(String searchName) {
-        return userRepo.searchByName(searchName);
+        return userRepository.searchByName(searchName);
     }
     @Override
     public List<User> findAllExcept(User user) {
-        return userRepo.findAllExcept(user.getId());
+        return userRepository.findAllExcept(user.getId());
     }
 }

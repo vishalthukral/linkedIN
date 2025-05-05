@@ -4,11 +4,14 @@ import com.linkedin_clone_application.Util.TimeAgoUtil;
 import com.linkedin_clone_application.model.Job;
 import com.linkedin_clone_application.model.Post;
 import com.linkedin_clone_application.model.User;
-import com.linkedin_clone_application.repository.PostRepo;
+import com.linkedin_clone_application.repository.PostRepository;
 import com.linkedin_clone_application.service.CloudinaryService;
 import com.linkedin_clone_application.service.JobService;
 import com.linkedin_clone_application.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -23,14 +26,15 @@ public class UserController {
 
     private final UserService userService;
     private final CloudinaryService cloudinaryService;
-    private final PostRepo postRepo;
+    private final PostRepository postRepository;
     private final JobService jobService;
 
     @Autowired
-    public UserController(UserService userService, CloudinaryService cloudinaryService, PostRepo postRepo, JobService jobService) {
+    public UserController(UserService userService, CloudinaryService cloudinaryService, PostRepository postRepository,
+                          JobService jobService) {
         this.userService = userService;
         this.cloudinaryService = cloudinaryService;
-        this.postRepo = postRepo;
+        this.postRepository = postRepository;
         this.jobService = jobService;
     }
 
@@ -39,6 +43,22 @@ public class UserController {
     public String login() {
         return "login";
     }
+
+    @GetMapping("/allUsers")
+    public String allUsers(Model model) {
+        String email = getLoggedInUserEmail();
+        if (email == null) {
+            return "redirect:/login";  // If not logged in, redirect to login
+        }
+
+        User user = userService.findByEmail(email);
+        List<User> users = userService.findAllExcept(user);
+        int senderId = user.getId();
+        model.addAttribute("senderId",senderId);
+        model.addAttribute("users", users);
+        return "allUsers";
+    }
+
 
     @GetMapping("/register")
     public String register(Model model) {
@@ -95,8 +115,8 @@ public class UserController {
     @GetMapping("/dashboard/{id}")
     public String userDashboard(@PathVariable int id, Model model) {
         User user = userService.findById(id); // Get the user by ID
-        List<Post> posts = postRepo.getPostsByUserId(id); // Get posts of the user
-        List<Post> allPosts = postRepo.findAllByOrderByCreatedAt();
+        List<Post> posts = postRepository.getPostsByUserId(id); // Get posts of the user
+        List<Post> allPosts = postRepository.findAllByOrderByCreatedAt();
         String baseUrl = "localhost:8080";
         allPosts.forEach(post -> {
             post.setTimeAgo(TimeAgoUtil.toTimeAgo(post.getCreatedAt()));
@@ -119,24 +139,32 @@ public class UserController {
     public String userView(Model model, @PathVariable("id") int userId) {
         User user = userService.findById(userId);
         model.addAttribute(user);
-        List<Post> postsByUser = postRepo.getPostsByUserId(userId);
-        model.addAttribute("postsByUser",postsByUser);
+        List<Post> postsByUser = postRepository.getPostsByUserId(userId);
+        model.addAttribute("postsByUser", postsByUser);
         return "userDetails";
     }
 
     @GetMapping("/search")
     public String searchUsers(@RequestParam("searchName") String searchName, Model model) {
         List<User> users = userService.searchUsersByName(searchName);
-        List<Job> jobsByTitleAndDescription= jobService.searchJobsByKeyword(searchName);
+        List<Job> jobsByTitleAndDescription = jobService.searchJobsByKeyword(searchName);
         model.addAttribute("users", users);
 
         model.addAttribute("searchTerm", searchName);
-        model.addAttribute("jobs",jobsByTitleAndDescription);
+        model.addAttribute("jobs", jobsByTitleAndDescription);
         return "User_search_results"; // corresponds to user_search_results.html
     }
 
     @GetMapping("/articles")
     public String articlesPage() {
         return "articles";
+    }
+
+    private String getLoggedInUserEmail() {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        if (auth != null && auth.getPrincipal() instanceof UserDetails) {
+            return ((UserDetails) auth.getPrincipal()).getUsername(); // this returns email
+        }
+        return null;
     }
 }

@@ -679,7 +679,8 @@
         </div>
         <div class="nav-item">
             <i class="fas fa-user-friends"></i>
-            <span>My Network</span>
+
+            <a th:href="@{/connections/users}">My Network</a>
         </div>
         <div class="nav-item">
             <i class="fas fa-briefcase"></i>
@@ -687,7 +688,7 @@
         </div>
         <div class="nav-item">
             <i class="fas fa-comment-dots"></i>
-            <span>Messaging</span>
+            <a th:href="@{/message/{id}(id=${user.id})}">Messaging</a>
         </div>
         <div class="nav-item">
             <i class="fas fa-bell"></i>

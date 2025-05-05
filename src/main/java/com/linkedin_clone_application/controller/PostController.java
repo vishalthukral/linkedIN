@@ -2,9 +2,9 @@ package com.linkedin_clone_application.controller;
 
 import com.linkedin_clone_application.Util.TimeAgoUtil;
 import com.linkedin_clone_application.model.*;
-import com.linkedin_clone_application.repository.PostRepo;
-import com.linkedin_clone_application.repository.TagRepo;
-import com.linkedin_clone_application.repository.UserRepo;
+import com.linkedin_clone_application.repository.PostRepository;
+import com.linkedin_clone_application.repository.TagRepository;
+import com.linkedin_clone_application.repository.UserRepository;
 import com.linkedin_clone_application.service.*;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -22,28 +22,28 @@ import java.util.List;
 @Controller
 public class PostController {
     private final PostService postService;
-    private final PostRepo postRepo;
+    private final PostRepository postRepository;
     private final CloudinaryService cloudinaryService;
-    private final UserRepo userRepo;
+    private final UserRepository userRepository;
     private final UserService userService;
     private final LikeService likeService;
     private final CommentService commentService;
     private final PostTagService postTagService;
-    private final TagRepo tagRepo;
+    private final TagRepository tagRepository;
 
-    PostController(PostService postService, PostRepo postRepo, CloudinaryService cloudinaryService, UserRepo userRepo,
+    PostController(PostService postService, PostRepository postRepository, CloudinaryService cloudinaryService, UserRepository userRepository,
                    UserService userService,
-                   LikeService likeService, CommentService commentService, PostTagService postTagService, TagRepo tagRepo) {
+                   LikeService likeService, CommentService commentService, PostTagService postTagService, TagRepository tagRepository) {
         this.postService = postService;
-        this.postRepo = postRepo;
+        this.postRepository = postRepository;
         this.cloudinaryService = cloudinaryService;
-        this.userRepo = userRepo;
+        this.userRepository = userRepository;
 
         this.userService = userService;
         this.likeService = likeService;
         this.commentService = commentService;
         this.postTagService = postTagService;
-        this.tagRepo = tagRepo;
+        this.tagRepository = tagRepository;
     }
 
     @GetMapping("/createPost")
@@ -70,7 +70,7 @@ public class PostController {
 
         if (post.getId() != 0) {
             // Existing Post -> Update
-            Post existingPost = postRepo.findById(post.getId())
+            Post existingPost = postRepository.findById(post.getId())
                     .orElseThrow(() -> new RuntimeException("Post not found with id: " + post.getId()));
             post.setCreatedAt(existingPost.getCreatedAt());
             post.setUpdatedAt(LocalDateTime.now());  // set updatedAt
@@ -81,18 +81,18 @@ public class PostController {
             post.setCreatedAt(LocalDateTime.now());
             post.setUpdatedAt(LocalDateTime.now());
         }
-        Post savedPost = postRepo.save(post);
+        Post savedPost = postRepository.save(post);
         String[] tagArray = tags.split(",");
         for (String tagName : tagArray) {
             final String trimmedTagName = tagName.trim();
 
-            Tag tag = tagRepo.findByName(trimmedTagName)
+            Tag tag = tagRepository.findByName(trimmedTagName)
                     .orElseGet(() -> {
                         Tag newTag = new Tag();
                         newTag.setName(trimmedTagName);
                         newTag.setCreatedAt(LocalDateTime.now());
                         newTag.setUpdatedAt(LocalDateTime.now());
-                        return tagRepo.save(newTag);
+                        return tagRepository.save(newTag);
                     });
 
             PostTag postTag = new PostTag();
@@ -118,7 +118,7 @@ public class PostController {
             User user = userService.findByEmail(email);
             post.setUser(user);
         }
-        postRepo.save(post);
+        postRepository.save(post);
 
         return "redirect:/dashboard/" + post.getUser().getId();
     }

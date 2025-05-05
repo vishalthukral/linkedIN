@@ -1,7 +1,7 @@
 package com.linkedin_clone_application.service;
 
 import com.linkedin_clone_application.model.Message;
-import com.linkedin_clone_application.repository.MessageRepo;
+import com.linkedin_clone_application.repository.MessageRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -11,7 +11,7 @@ import java.util.List;
 public class MessageService {
 
     @Autowired
-    public MessageRepo messageRepository;
+    public MessageRepository messageRepository;
 
     public Message saveMessage(Message message) {
         return messageRepository.save(message);

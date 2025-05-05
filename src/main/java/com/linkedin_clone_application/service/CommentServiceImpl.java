@@ -3,10 +3,8 @@ package com.linkedin_clone_application.service;
 import com.linkedin_clone_application.model.Comment;
 import com.linkedin_clone_application.model.Post;
 import com.linkedin_clone_application.model.User;
-import com.linkedin_clone_application.repository.CommentRepo;
-import com.linkedin_clone_application.repository.PostRepo;
-import com.linkedin_clone_application.service.CommentService;
-import jakarta.transaction.Transactional;
+import com.linkedin_clone_application.repository.CommentRepository;
+import com.linkedin_clone_application.repository.PostRepository;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -15,11 +13,11 @@ import java.util.Optional;
 
 @Service
 public class CommentServiceImpl implements CommentService {
-    private CommentRepo commentRepository;
-    private PostRepo postRepository;
+    private CommentRepository commentRepository;
+    private PostRepository postRepository;
 
 
-    public CommentServiceImpl(CommentRepo commentRepository, PostRepo postRepository) {
+    public CommentServiceImpl(CommentRepository commentRepository, PostRepository postRepository) {
         this.commentRepository = commentRepository;
         this.postRepository = postRepository;
     }

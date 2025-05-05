@@ -1,7 +1,7 @@
 package com.linkedin_clone_application.service;
 
 import com.linkedin_clone_application.model.Job;
-import com.linkedin_clone_application.repository.JobRepo;
+import com.linkedin_clone_application.repository.JobRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -14,53 +14,53 @@ import java.util.Optional;
 public class JobServiceImpl implements JobService{
 
     @Autowired
-    private JobRepo jobRepo;
+    private JobRepository jobRepository;
 
     // Create or update a job
     public Job saveJob(Job job) {
-        return jobRepo.save(job);
+        return jobRepository.save(job);
     }
 
     // Get a job by ID
     public Optional<Job> getJobById(int id) {
-        return jobRepo.findById(id);
+        return jobRepository.findById(id);
     }
 
     // Get all jobs
     public List<Job> getAllJobs() {
-        return jobRepo.findAll();
+        return jobRepository.findAll();
     }
 
     // Get jobs by company ID
 //    public List<Job> getJobsByCompanyId(int companyId) {
-//        return jobRepo.findByCompanyId(companyId);
+//        return jobRepository.findByCompanyId(companyId);
 //    }
 
     // Get jobs matching user's interested roles
     public List<Job> getJobsByInterestedRoles(List<String> interestedRoles) {
-        return jobRepo.findByJobTitleIn(interestedRoles);
+        return jobRepository.findByJobTitleIn(interestedRoles);
     }
 
     // Search jobs by tag or description
     @Override
     public List<Job> searchJobs(String jobTitle, String jobDescription) {
-        return jobRepo.findByJobTitleContainingOrJobDescriptionContaining(jobTitle, jobDescription);
+        return jobRepository.findByJobTitleContainingOrJobDescriptionContaining(jobTitle, jobDescription);
     }
 
     // Delete a job by ID
     public void deleteJobById(int id) {
-        jobRepo.deleteById(id);
+        jobRepository.deleteById(id);
     }
 
     @Override
     public Job findById(int id) {
-        return jobRepo.findById(id).get();
+        return jobRepository.findById(id).get();
     }
 
     @Override
     @Transactional
     public Job updateJob(Job job) {
-        Job existingJob = jobRepo.findById(job.getId()).get();
+        Job existingJob = jobRepository.findById(job.getId()).get();
         existingJob.setJobTitle(job.getJobTitle());
         existingJob.setJobDescription(job.getJobDescription());
         existingJob.setCompany(job.getCompany());
@@ -69,10 +69,10 @@ public class JobServiceImpl implements JobService{
         existingJob.setEmploymentType(job.getEmploymentType());
         existingJob.setJobDescription(job.getJobDescription());
         existingJob.setUpdatedAt(LocalDateTime.now());
-        return jobRepo.save(existingJob);
+        return jobRepository.save(existingJob);
     }
     @Override
     public List<Job> searchJobsByKeyword(String keyword) {
-        return jobRepo.searchByTitleOrDescription(keyword);
+        return jobRepository.searchByTitleOrDescription(keyword);
     }
 }

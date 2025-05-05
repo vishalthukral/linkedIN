@@ -52,6 +52,13 @@ public class Post {
 
     @Transient
     private String postUrl;
+    @ManyToOne
+    @JoinColumn(name = "original_post_id", nullable = true)
+    private Post originalPost;
+
+    @ManyToOne
+    @JoinColumn(name = "reposted_by_id")
+    private User repostedBy;
 
     private int likesCount;
     private int CommentCount;
@@ -71,6 +78,22 @@ public class Post {
     @PreUpdate
     public void preUpdate() {
         this.updatedAt = LocalDateTime.now();
+    }
+
+    public Post getOriginalPost() {
+        return originalPost;
+    }
+
+    public void setOriginalPost(Post originalPost) {
+        this.originalPost = originalPost;
+    }
+
+    public User getRepostedBy() {
+        return repostedBy;
+    }
+
+    public void setRepostedBy(User repostedBy) {
+        this.repostedBy = repostedBy;
     }
 
     public String getTitle() {

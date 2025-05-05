@@ -3,11 +3,13 @@ package com.linkedin_clone_application.service;
 import com.linkedin_clone_application.enums.MediaType;
 import com.linkedin_clone_application.model.Media;
 import com.linkedin_clone_application.model.Post;
+import com.linkedin_clone_application.model.User;
 import com.linkedin_clone_application.repository.MediaRepository;
 import com.linkedin_clone_application.repository.PostRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -84,5 +86,33 @@ public class PostServiceImpl implements PostService {
 
     public List<Post> getAllPostsWithComments() {
         return postRepository.findAllWithComments();
+    }
+
+    @Override
+    public void repost(int originalPostId, User repostingUser) {
+        Post originalPost = getPostById(originalPostId);
+
+        Post repost = new Post();
+        repost.setUser(repostingUser);
+        repost.setOriginalPost(originalPost);
+        repost.setContent(originalPost.getContent()); // Or allow user to add their own message
+        repost.setCreatedAt(LocalDateTime.now());
+        repost.setUpdatedAt(LocalDateTime.now());
+
+        repost = postRepository.save(repost); // Save repost first to assign ID
+
+        // Fetch original post's media and copy
+        List<Media> originalMediaList = mediaRepository.findByPostId(originalPostId);
+        for (Media originalMedia : originalMediaList) {
+            Media copiedMedia = new Media();
+            copiedMedia.setPost(repost);
+            copiedMedia.setUrl(originalMedia.getUrl()); // Reuse the same Cloudinary URL
+            copiedMedia.setType(originalMedia.getType());
+            mediaRepository.save(copiedMedia);
+        }
+
+        // Optional: increment shares count
+        originalPost.setSharesCount(originalPost.getSharesCount() + 1);
+        postRepository.save(originalPost);
     }
 }

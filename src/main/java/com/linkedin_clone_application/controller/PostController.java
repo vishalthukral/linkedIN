@@ -14,6 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.io.IOException;
 import java.time.LocalDateTime;
@@ -183,6 +184,39 @@ public class PostController {
         commentService.addComment(content, post, user);  // Use your service method
 
         return "redirect:/dashboard/" + post.getUser().getId();  // Redirect back to the post details page
+    }
+
+    @PostMapping("/repost/{id}")
+    public String repostPost(@PathVariable("id") int postId, RedirectAttributes redirectAttributes) {
+        String email = getLoggedInUserEmail();
+        if (email == null) {
+            return "redirect:/login";
+        }
+
+        User user = userService.findByEmail(email);
+        Post originalPost = postService.getPostById(postId);
+
+        Post repost = new Post();
+        repost.setUser(originalPost.getUser());
+        repost.setOriginalPost(originalPost);
+        repost.setTitle(originalPost.getTitle());
+        repost.setContent(originalPost.getContent());
+        repost.setCreatedAt(LocalDateTime.now());
+        repost.setUpdatedAt(LocalDateTime.now());
+        repost.setRepostedBy(user);
+
+        Media originalMedia = originalPost.getMediaFile();
+        if (originalMedia != null) {
+            Media repostMedia = new Media();
+            repostMedia.setUrl(originalMedia.getUrl());
+            repostMedia.setPost(repost);
+            repost.setMediaFile(repostMedia);
+        }
+
+        postService.savePost(repost, null, null);
+
+        redirectAttributes.addFlashAttribute("repostSuccess", "This post is reposted successfully!");
+        return "redirect:/dashboard/" + user.getId();
     }
 
     private String getLoggedInUserEmail() {

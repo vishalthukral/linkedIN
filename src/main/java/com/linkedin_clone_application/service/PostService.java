@@ -2,6 +2,7 @@ package com.linkedin_clone_application.service;
 
 import com.linkedin_clone_application.enums.MediaType;
 import com.linkedin_clone_application.model.Post;
+import com.linkedin_clone_application.model.User;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
@@ -19,4 +20,6 @@ public interface PostService {
     List<Post> getPostsByUserId(int id);
 
     List<Post> getAllPostsWithComments();
+
+    void repost(int originalPostId, User repostingUser);
 }

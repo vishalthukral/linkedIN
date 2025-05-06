@@ -5,6 +5,136 @@
     <title>Job Listings</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
+        .linkedin-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #fff;
+    padding: 10px 24px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    height: 60px;
+    text-decoration:none;
+}
+a{
+  text-decoration:none;
+}
+
+.linkedin-header .left {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.linkedin-header .logo {
+    font-size: 30px;
+    color: #0077b5;
+}
+
+.linkedin-header .search-container {
+    position: relative;
+}
+
+.linkedin-header .search-icon {
+    position: absolute;
+    left: 12px;
+    top: 10px;
+    color: #666;
+}
+
+.linkedin-header .search-bar {
+    padding: 8px 12px 8px 36px;
+    border: none;
+    border-radius: 6px;
+    width: 220px;
+    font-size: 14px;
+    background-color: #eef3f8;
+    outline: none;
+}
+
+.linkedin-header .search-bar:focus {
+    border-color: #0a66c2;
+    background-color: white;
+    box-shadow: 0 0 0 1px #0a66c2;
+}
+
+.linkedin-header .right {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.linkedin-header .nav-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    font-size: 12px;
+    text-align: center;
+    cursor: pointer;
+    color: #666;
+    font-weight: 500;
+    padding: 0 8px;
+    transition: color 0.2s ease;
+}
+
+.linkedin-header .nav-item:hover {
+    color: #0a66c2;
+}
+
+.linkedin-header .nav-item i {
+    font-size: 20px;
+    margin-bottom: 4px;
+}
+
+.linkedin-header .me {
+    position: relative;
+    display: inline-block;
+    cursor: pointer;
+}
+
+.linkedin-header .me img {
+    width: 28px;
+    height: 20px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-bottom: 4px;
+}
+
+#about-me-dropdown {
+    margin-top: 15px;
+    margin-right: -15px;
+}
+
+.dropdown-menu {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    background: white;
+    border: 1px solid #ddd;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    padding: 8px 0;
+    display: none;
+    z-index: 1000;
+    width: max-content;
+}
+
+.dropdown-menu a {
+    display: block;
+    padding: 8px 16px;
+    text-decoration: none;
+    color: #333;
+}
+
+.dropdown-menu a:hover {
+    background: #f5f5f5;
+}
+
+.linkedin-header .me:hover .dropdown-menu {
+    display: block;
+}
         * {
             margin: 0;
             padding: 0;
@@ -16,7 +146,7 @@
             background-color: #f3f2ef;
             color: rgba(0, 0, 0, 0.9);
             line-height: 1.5;
-            padding: 24px;
+<!--            padding: 24px;-->
         }
 
         /* Main container */
@@ -26,6 +156,7 @@
             display: grid;
             grid-template-columns: 225px 1fr;
             gap: 24px;
+            margin-top:12px;
         }
 
         /* Left sidebar - Only Post Job button */
@@ -196,51 +327,64 @@
             background-color: rgba(0, 0, 0, 0.04);
             color: rgba(0, 0, 0, 0.9);
         }
-
-        .back-button {
-            display: inline-block;
-            background-color: #0073b1; /* LinkedIn blue */
-            color: white;
-            padding: 10px 20px;
-            border-radius: 8px;
-            text-decoration: none;
-            font-weight: bold;
-            font-size: 14px;
-            transition: background-color 0.3s ease;
-        }
-
-        .back-button:hover {
-            background-color: #005582;
-            color: white;
-        }
-
-        .back-button i {
-            margin-right: 8px;
-        }
     </style>
 </head>
 <body>
-<!-- Simplified main container -->
-<a th:href="@{/dashboard/{id}(id=${currentUserId})}" class="back-button">
-    <i class="fas fa-arrow-left"></i> Back to Dashboard
-</a>
+<header class="linkedin-header">
+    <div class="left">
+        <i class="fab fa-linkedin logo"></i>
+        <div class="search-container">
+            <i class="fas fa-search search-icon"></i>
+            <form th:action="@{/search}" method="get" class="search-bar">
+                <input type="text" name="searchName" placeholder="Search by name" required/>
+            </form>
+        </div>
+    </div>
+    <div class="right">
+        <div class="nav-item">
+            <i class="fas fa-home"></i>
+            <a th:href="@{/dashboard/{id}(id=${user.id})}">Home</a>
+        </div>
+        <div class="nav-item">
+            <i class="fas fa-user-friends"></i>
+            <a th:href="@{/connections/users}">My Network</a>
+        </div>
+        <div class="nav-item">
+            <i class="fas fa-briefcase"></i>
+            <a th:href="@{/jobs/}">Jobs</a>
+        </div>
+        <div class="nav-item">
+            <i class="fas fa-comment-dots"></i>
+            <a th:href="@{/message/{id}(id=${user.id})}">Messaging</a>
+        </div>
+        <div class="nav-item">
+            <i class="fas fa-bell"></i>
+            <span>Notifications</span>
+        </div>
+        <div class="nav-item me">
+            <img th:src="@{${user.profilePictureUrl}}" alt="Me">
+            <span id="about-me-dropdown">Me ▼</span>
+            <div id="dropdownMenu" class="dropdown-menu hidden">
+                <a th:href="@{/view/{id}(id=${user.id})}" class="dropdown-item">My Profile</a>
+                <a th:href="@{/logout}" class="dropdown-item">Logout</a>
+            </div>
+        </div>
+    </div>
+</header>
 
 <div class="main-container">
-    <!-- Left sidebar - Only Post a Job button -->
     <div class="left-sidebar">
         <div class="create-job-container">
             <a href="/jobs/create" class="create-job-btn">Post a job</a>
         </div>
     </div>
 
-    <!-- Main content - Job listings only -->
     <div class="job-list-container">
         <div class="job-list-header">
             <div class="job-list-title">Top job picks for you</div>
             <div class="job-list-subtitle">Based on your profile, preferences, and activity</div>
         </div>
 
-        <!-- Job Cards -->
         <div th:each="job : ${jobs}" class="job-card">
             <div class="company-logo" th:text="${job.jobTitle.substring(0,1)}">J</div>
             <div class="job-details">
@@ -265,7 +409,6 @@
             </div>
         </div>
 
-        <!-- Show All Link -->
         <a href="/jobs/" class="show-all">Show all jobs →</a>
     </div>
 </div>

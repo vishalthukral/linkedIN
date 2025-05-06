@@ -36,6 +36,11 @@ public class ConnectionService {
                 new RuntimeException("Receiver not found"));
         return connectionRequestRepository.findByReceiverAndStatus(receiver, ConnectionStatus.PENDING);
     }
+    public List<ConnectionRequest> getAcceptedRequest(int senderId) {
+        User sender = userRepository.findById(senderId).orElseThrow(() ->
+                new RuntimeException("Receiver not found"));
+        return connectionRequestRepository.findBySenderAndStatus(sender,ConnectionStatus.ACCEPTED);
+    }
 
     public void acceptRequest(int requestId) {
         ConnectionRequest request =

@@ -9,10 +9,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
 import java.util.List;
@@ -103,6 +100,7 @@ public class ConnectionController {
         User user = userService.findByEmail(email);
         List<ConnectionRequest> connections = connectionService.getConnectedUsers(userId);
         model.addAttribute("connections", connections);
+        model.addAttribute("userId", userId);
         return "connectionsList";
     }
 
@@ -112,5 +110,19 @@ public class ConnectionController {
             return ((UserDetails) auth.getPrincipal()).getUsername();
         }
         return null;
+    }
+
+    @GetMapping("/notification/{userId}")
+    private String getNotification(@PathVariable int userId, Model model) {
+        List<ConnectionRequest> requests = connectionService.getPendingRequests(userId);
+        model.addAttribute("requests", requests);
+        List<ConnectionRequest> accepted = connectionService.getAcceptedRequest(userId);
+        model.addAttribute("acceptedRequests",accepted);
+        String email = getLoggedInUserEmail();
+        if (email == null) {
+            return "redirect:/login";
+        }
+        model.addAttribute("userId",userId);
+        return "notification";
     }
 }

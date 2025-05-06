@@ -23,9 +23,9 @@ public class JobController {
     private final JobService jobService;
     private final UserService userService;
 
-    JobController(JobService jobService, UserService userService){
-        this.jobService=jobService;
-        this.userService=userService;
+    JobController(JobService jobService, UserService userService) {
+        this.jobService = jobService;
+        this.userService = userService;
     }
 
     @GetMapping("/")
@@ -33,15 +33,12 @@ public class JobController {
         String email = getLoggedInUserEmail();
         List<Job> jobs = jobService.getAllJobs();
         model.addAttribute("jobs", jobs);
-        model.addAttribute("email",email);
-
-        User currentUser = userService.findByEmail(email);
-        if (currentUser != null) {
-            model.addAttribute("currentUserId", currentUser.getId());
-        }else{
+        model.addAttribute("email", email);
+        if (email == null) {
             return "redirect:/login";
         }
-
+            User user = userService.findByEmail(email);
+            model.addAttribute("user", user); // Add the user to the model
         return "jobsList"; // Thymeleaf template: jobs/list.html
     }
 
@@ -53,7 +50,7 @@ public class JobController {
         User currentUser = userService.findByEmail(email);
         if (currentUser != null) {
             model.addAttribute("currentUserId", currentUser.getId());
-        }else{
+        } else {
             return "redirect:/login";
         }
 
@@ -63,8 +60,8 @@ public class JobController {
     @PostMapping("/create")
     public String createJob(@ModelAttribute("job") Job job) {
         String email = getLoggedInUserEmail();
-        if (email!=null){
-            User user=userService.findByEmail(email);
+        if (email != null) {
+            User user = userService.findByEmail(email);
             job.setUser(user);
         }
         job.setCreatedAt(LocalDateTime.now());
@@ -82,7 +79,7 @@ public class JobController {
         User currentUser = userService.findByEmail(email);
         if (currentUser != null) {
             model.addAttribute("currentUserId", currentUser.getId());
-        }else{
+        } else {
             return "redirect:/login";
         }
 
@@ -103,7 +100,7 @@ public class JobController {
     }
 
     @GetMapping("/{id}")
-    public String viewFullJob(@PathVariable int id, Model model){
+    public String viewFullJob(@PathVariable int id, Model model) {
         Job job = jobService.findById(id);
         model.addAttribute("job", job);
 
@@ -111,7 +108,7 @@ public class JobController {
         User currentUser = userService.findByEmail(email);
         if (currentUser != null) {
             model.addAttribute("currentUserId", currentUser.getId());
-        }else{
+        } else {
             return "redirect:/login";
         }
 

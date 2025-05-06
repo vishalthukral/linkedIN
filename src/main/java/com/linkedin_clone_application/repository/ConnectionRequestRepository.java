@@ -31,4 +31,8 @@ public interface ConnectionRequestRepository extends JpaRepository<ConnectionReq
     boolean existsBetweenUsersWithStatuses(@Param("user1") User user1,
                                            @Param("user2") User user2,
                                            @Param("statuses") List<ConnectionStatus> statuses);
+    @Query("SELECT cr FROM ConnectionRequest cr " +
+            "WHERE cr.sender = :sender AND cr.status = :status")
+    List<ConnectionRequest> findBySenderAndStatus(@Param("sender") User sender,
+                                                    @Param("status") ConnectionStatus status);
 }

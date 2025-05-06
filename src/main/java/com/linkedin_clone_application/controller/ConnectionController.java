@@ -1,8 +1,10 @@
 package com.linkedin_clone_application.controller;
 
 import com.linkedin_clone_application.model.ConnectionRequest;
+import com.linkedin_clone_application.model.Message;
 import com.linkedin_clone_application.model.User;
 import com.linkedin_clone_application.service.ConnectionService;
+import com.linkedin_clone_application.service.MessageService;
 import com.linkedin_clone_application.service.UserService;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -20,10 +22,12 @@ import java.util.Map;
 public class ConnectionController {
     private final ConnectionService connectionService;
     private final UserService userService;
+    private final MessageService messageService;
 
-    public ConnectionController(ConnectionService connectionService, UserService userService1) {
+    public ConnectionController(ConnectionService connectionService, UserService userService1, MessageService messageService) {
         this.connectionService = connectionService;
         this.userService = userService1;
+        this.messageService = messageService;
     }
 
     @PostMapping("/send")

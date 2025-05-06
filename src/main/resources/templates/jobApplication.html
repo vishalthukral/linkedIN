@@ -101,7 +101,7 @@
               enctype="multipart/form-data">
             <input type="hidden" th:field="*{job}" th:value="${job.id}"/>
             <input type="hidden" th:if="${user != null}" th:field="*{user}" th:value="${user.id}"/>
-
+            <input type="hidden" name="email" th:value="${email}" />
             <div class="mb-3">
                 <label for="email" class="form-label required">Email address</label>
                 <input type="email" class="form-control" id="email" th:value="${user != null ? user.email : ''}">

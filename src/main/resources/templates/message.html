@@ -385,10 +385,14 @@ text-decoration:none;
                 style=" margin-right:20px; padding: 6px 12px; border-radius: 4px; background-color: #0073b1; color: white; border: none; margin-left: 20px;">
             Image
         </button>
-        <button type="button" class="emoji-trigger" style="margin-right: 12px;">😊</button>
+        <button type="button" class="emoji-trigger" style="margin-right: 12px; border-radius: 4px; background-color: #0073b1; color: white; border: none; margin-left: 20px;">😊</button>
         <div id="emoji-picker-container"
-             style="display: none; position: absolute; bottom: 50px; right: 80px; z-index: 999;"></div>
-        <button onclick="sendMessageWindow()">Send</button>
+             style="display: none; position: absolute; bottom: 50px; right: 80px; z-index: 999;">
+        </div>
+        <button onclick="sendMeetingLink()" class="btn btn-primary mt-2" style="margin-right: 12px; border-radius: 4px; background-color: #0073b1; color: white; border: none; margin-left: 20px;">
+            Meet Link
+        </button>
+        <button onclick="sendMessageWindow()" style="margin-right: 12px; border-radius: 4px; background-color: #0073b1; color: white; border: none; margin-left: 20px;">Send</button>
     </div>
 
 </div>
@@ -464,7 +468,6 @@ text-decoration:none;
         });
     })
     .catch(error => console.error("❌ Fetch error:", error));
-
         if (!stompClient || !stompClient.connected) {
             connectWebSocket();
         }
@@ -594,7 +597,20 @@ document.addEventListener('click', (e) => {
 });
 
 </script>
+<script>
+    function sendMeetingLink() {
+        // Generate a dummy Jitsi room name
+        const roomName = "meeting-" + Math.floor(Math.random() * 1000000);
+        const meetingLink = `https://meet.jit.si/${roomName}`;
 
+        // Copy the link to clipboard
+        navigator.clipboard.writeText(meetingLink).then(() => {
+            alert("Meeting link copied to clipboard: " + meetingLink);
+        }).catch(err => {
+            console.error("Failed to copy link: ", err);
+        });
+    }
+</script>
 
 </body>
 </html>

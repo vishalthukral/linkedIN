@@ -7,6 +7,7 @@ import com.linkedin_clone_application.model.User;
 import com.linkedin_clone_application.repository.*;
 import com.linkedin_clone_application.service.CloudinaryService;
 import com.linkedin_clone_application.service.CustomUserDetails;
+import com.linkedin_clone_application.service.EmailService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -34,10 +35,13 @@ public class JobApplicationController {
     @Autowired
     private CloudinaryService cloudinaryService;
 
+    @Autowired
+    private EmailService emailService;
+
     @GetMapping("/jobs/{jobId}/apply")
     public String showApplicationForm(@PathVariable("jobId") Integer jobId, Model model,
                                       RedirectAttributes redirectAttributes) {
-        String email=getLoggedInUserEmail();
+        String email = getLoggedInUserEmail();
 
         User user = userRepository.findByEmail(email);
 
@@ -55,7 +59,7 @@ public class JobApplicationController {
         if (existingApplication != null) {
             redirectAttributes.addFlashAttribute("errorMessage",
                     "You have already applied to this job");
-            return "redirect:/jobs/" +jobId;
+            return "redirect:/jobs/" + jobId;
         }
 
         JobApplication jobApplication = new JobApplication();
@@ -63,6 +67,7 @@ public class JobApplicationController {
         model.addAttribute("user", user);
         model.addAttribute("job", job);
         model.addAttribute("jobApplication", jobApplication);
+        model.addAttribute("email",email);
 
         return "jobApplication";
     }
@@ -72,7 +77,8 @@ public class JobApplicationController {
             @PathVariable("jobId") Integer jobId,
             @ModelAttribute JobApplication jobApplication,
             @RequestParam("resumeFile") MultipartFile resumeFile,
-            RedirectAttributes redirectAttributes) {
+            RedirectAttributes redirectAttributes,
+            @RequestParam("email") String applicantEmail) {
 
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         CustomUserDetails customUserDetails = (CustomUserDetails) authentication.getPrincipal();
@@ -100,7 +106,12 @@ public class JobApplicationController {
             jobApplication.setAppliedAt(LocalDateTime.now());
 
             jobApplicationRepository.save(jobApplication);
-
+            String subject = "Job Application Confirmation";
+            String messageBody = "Dear " +currentUser.getFirstName()+" "+currentUser.getLastName()+" \n\nYour application has been " +
+                    "received. We will get " +
+                    "back to you " +
+                    "soon.";
+            emailService.sendEmail(applicantEmail, subject, messageBody);
             redirectAttributes.addFlashAttribute("successMessage",
                     "Your application to " + job.getJobTitle() + " has been submitted successfully!");
 
@@ -111,6 +122,7 @@ public class JobApplicationController {
             return "redirect:/jobs/" + jobId + "/apply";
         }
     }
+
     private String getLoggedInUserEmail() {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         if (auth != null && auth.getPrincipal() instanceof UserDetails) {

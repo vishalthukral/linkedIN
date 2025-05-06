@@ -67,11 +67,9 @@ public class Post {
 
     @PrePersist
     public void prePersist() {
-        // Ensure the createdAt field is set only when the entity is first persisted
         if (this.createdAt == null) {
             this.createdAt = LocalDateTime.now();
         }
-        // Always set the updatedAt field whenever the entity is persisted or updated
         this.updatedAt = LocalDateTime.now();
     }
 

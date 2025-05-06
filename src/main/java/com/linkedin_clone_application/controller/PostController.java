@@ -35,7 +35,8 @@ public class PostController {
     PostController(PostService postService, PostRepository postRepository, CloudinaryService cloudinaryService,
                    UserRepository userRepository,
                    UserService userService,
-                   LikeService likeService, CommentService commentService, PostTagService postTagService, TagRepository tagRepository) {
+                   LikeService likeService, CommentService commentService, PostTagService postTagService,
+                   TagRepository tagRepository) {
         this.postService = postService;
         this.postRepository = postRepository;
         this.cloudinaryService = cloudinaryService;
@@ -63,13 +64,12 @@ public class PostController {
     }
 
     @PostMapping("/savepost")
-    public String savePost(@ModelAttribute Post post, @RequestParam("tags") String tags, @RequestParam("image") MultipartFile image)
-            throws IOException {
+    public String savePost(@ModelAttribute Post post, @RequestParam("tags") String tags, @RequestParam("image")
+            MultipartFile image) throws IOException {
         post.setCreatedAt(LocalDateTime.now());
         post.setUpdatedAt(LocalDateTime.now());
 
         if (post.getId() != 0) {
-            // Existing Post -> Update
             Post existingPost = postRepository.findById(post.getId())
                     .orElseThrow(() -> new RuntimeException("Post not found with id: " + post.getId()));
             post.setCreatedAt(existingPost.getCreatedAt());
@@ -148,13 +148,13 @@ public class PostController {
         // Get the logged-in user's email
         String email = getLoggedInUserEmail();
         if (email == null) {
-            return "redirect:/login";  // If not logged in, redirect to login
+            return "redirect:/login";
         }
 
-        User user = userService.findByEmail(email); // Find the user by email
-        likeService.toggleLike(postId, user.getId());  // Toggle like for the post
+        User user = userService.findByEmail(email);
+        likeService.toggleLike(postId, user.getId());
 
-        return "redirect:/dashboard/" + user.getId();  // Redirect back to user's dashboard
+        return "redirect:/dashboard/" + user.getId();
     }
 
     @GetMapping("/post/{id}")
@@ -194,16 +194,16 @@ public class PostController {
                              @RequestParam("content") String content) {
         String email = getLoggedInUserEmail();
         if (email == null) {
-            return "redirect:/login";  // If not logged in, redirect to login
+            return "redirect:/login";
         }
 
-        User user = userService.findByEmail(email);  // Get the logged-in user
+        User user = userService.findByEmail(email);
         Post post = postService.getPostById(postId);
 
 
-        commentService.addComment(content, post, user);  // Use your service method
+        commentService.addComment(content, post, user);
 
-        return "redirect:/dashboard/" + post.getUser().getId();  // Redirect back to the post details page
+        return "redirect:/dashboard/" + post.getUser().getId();
     }
 
     @PostMapping("/repost/{id}")
@@ -235,14 +235,15 @@ public class PostController {
 
         postService.savePost(repost, null, null);
 
-        redirectAttributes.addFlashAttribute("repostSuccess", "This post is reposted successfully!");
+        redirectAttributes.addFlashAttribute("repostSuccess",
+                "This post is reposted successfully!");
         return "redirect:/dashboard/" + user.getId();
     }
 
     private String getLoggedInUserEmail() {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         if (auth != null && auth.getPrincipal() instanceof UserDetails) {
-            return ((UserDetails) auth.getPrincipal()).getUsername(); // this returns email
+            return ((UserDetails) auth.getPrincipal()).getUsername();
         }
         return null;
     }

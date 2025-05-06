@@ -20,7 +20,8 @@ public class PostServiceImpl implements PostService {
     private MediaRepository mediaRepository;
     private CloudinaryService cloudinaryService;
 
-    public PostServiceImpl(PostRepository postRepository, MediaRepository mediaRepository, CloudinaryService cloudinaryService) {
+    public PostServiceImpl(PostRepository postRepository, MediaRepository mediaRepository,
+                           CloudinaryService cloudinaryService) {
         this.postRepository = postRepository;
         this.mediaRepository = mediaRepository;
         this.cloudinaryService = cloudinaryService;

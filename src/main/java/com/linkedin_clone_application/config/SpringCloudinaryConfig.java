@@ -17,8 +17,6 @@ public class SpringCloudinaryConfig {
     @Value("${cloudinary.api_secret}")
     private String apiSecret;
 
-    //tell spring boot to create and manage an instance of cloudinary
-    //initialize cloudinary SDK with our credentials
     @Bean
     Cloudinary getCloudinary() {
         return new Cloudinary(ObjectUtils.asMap(

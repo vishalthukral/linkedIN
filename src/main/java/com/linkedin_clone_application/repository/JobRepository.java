@@ -14,6 +14,7 @@ public interface JobRepository extends JpaRepository<Job,Integer> {
 
     List<Job> findByJobTitleContainingOrJobDescriptionContaining(String jobTitle, String jobDescription);
 
-    @Query("SELECT j FROM Job j WHERE LOWER(j.jobTitle) LIKE LOWER(CONCAT('%', :keyword, '%')) OR LOWER(j.jobDescription) LIKE LOWER(CONCAT('%', :keyword, '%'))")
+    @Query("SELECT j FROM Job j WHERE LOWER(j.jobTitle) LIKE LOWER(CONCAT('%', :keyword, '%')) OR " +
+            "LOWER(j.jobDescription) LIKE LOWER(CONCAT('%', :keyword, '%'))")
     List<Job> searchByTitleOrDescription(@Param("keyword") String keyword);
 }

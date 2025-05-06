@@ -17,7 +17,8 @@ public interface UserRepository extends JpaRepository<User, Integer> {
 
     @Query("SELECT u FROM User u WHERE (LOWER(u.firstName) LIKE LOWER(CONCAT('%', :name, '%')) " +
             "OR LOWER(u.lastName) LIKE LOWER(CONCAT('%', :name, '%'))) AND u.id <> :currentUserId")
-    List<User> searchByNameExcludingCurrentUser(@Param("name") String searchName, @Param("currentUserId") int currentUserId);
+    List<User> searchByNameExcludingCurrentUser(@Param("name") String searchName,
+                                                @Param("currentUserId") int currentUserId);
 
     @Query("SELECT u FROM User u WHERE u.id != :id")
     List<User> findAllExcept(@Param("id") int id);

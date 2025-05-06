@@ -4,7 +4,6 @@ import com.linkedin_clone_application.model.ConnectionRequest;
 import com.linkedin_clone_application.model.User;
 import com.linkedin_clone_application.service.ConnectionService;
 import com.linkedin_clone_application.service.UserService;
-import jakarta.servlet.http.HttpSession;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -33,14 +32,14 @@ public class ConnectionController {
     @PostMapping("/send")
     public String sendRequest(@RequestParam int senderId, @RequestParam int receiverId) {
         connectionService.sendConnectionRequest(senderId, receiverId);
-        return "redirect:/connections/users"; // Redirect to users list
+        return "redirect:/connections/users";
     }
 
     @GetMapping("/users")
     public String showUsers(Model model) {
         String email = getLoggedInUserEmail();
         if (email == null) {
-            return "redirect:/login";  // If not logged in, redirect to login
+            return "redirect:/login";
         }
         int userId = userService.findByEmail(email).getId();
         User user = userService.findByEmail(email);
@@ -72,7 +71,7 @@ public class ConnectionController {
 
         String email = getLoggedInUserEmail();
         if (email == null) {
-            return "redirect:/login";  // If not logged in, redirect to login
+            return "redirect:/login";
         }
         int userId = userService.findByEmail(email).getId();
         return "redirect:/connections/requests?userId=" + userId;
@@ -84,7 +83,7 @@ public class ConnectionController {
 
         String email = getLoggedInUserEmail();
         if (email == null) {
-            return "redirect:/login";  // If not logged in, redirect to login
+            return "redirect:/login";
         }
         int userId = userService.findByEmail(email).getId();
         return "redirect:/connections/requests?userId=" + userId;
@@ -95,20 +94,20 @@ public class ConnectionController {
 
         String email = getLoggedInUserEmail();
         if (email == null) {
-            return "redirect:/login";  // If not logged in, redirect to login
+            return "redirect:/login";
         }
         int userId = userService.findByEmail(email).getId();
 
         User user = userService.findByEmail(email);
         List<ConnectionRequest> connections = connectionService.getConnectedUsers(userId);
         model.addAttribute("connections", connections);
-        return "connectionsList";  // Make sure this matches your Thymeleaf file name
+        return "connectionsList";
     }
 
     private String getLoggedInUserEmail() {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         if (auth != null && auth.getPrincipal() instanceof UserDetails) {
-            return ((UserDetails) auth.getPrincipal()).getUsername(); // this returns email
+            return ((UserDetails) auth.getPrincipal()).getUsername();
         }
         return null;
     }

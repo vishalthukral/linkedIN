@@ -51,9 +51,9 @@ public class MessageController {
     public String showMessagesPage(@PathVariable int userId, Model model) {
         System.out
                 .println("public String showMessagesPage \n (@PathVariable int userId, Model model)" + "\n" + userId);
-        // Fetch user and all other users for chat
+
         User currentUser = userService.findById(userId);
-        List<User> users = userService.findAllExcept(currentUser); // Fetch all users except the current one
+        List<User> users = userService.findAllExcept(currentUser);
 
         model.addAttribute("user", currentUser);
         model.addAttribute("users", users);
@@ -88,21 +88,20 @@ public class MessageController {
                 return;
             }
 
-            // Create and save message
             Message message = new Message();
             message.setSender(sender);
             message.setReceiver(receiver);
             message.setMessageText(messageText);
             message.setStatus(MessageStatus.SENT);
-            message.setCreatedAt(LocalDateTime.now()); // Ensure timestamp is set
+            message.setCreatedAt(LocalDateTime.now());
 
             Message savedMessage = messageService.saveMessage(message);
 
-            // Convert to DTO before sending
             MessageDTO messageDTO = new MessageDTO(savedMessage);
 
             messagingTemplate.convertAndSendToUser(Integer.toString(senderId), "/queue/messages", messageDTO);
-            messagingTemplate.convertAndSendToUser(Integer.toString(receiverId), "/queue/messages", messageDTO);
+            messagingTemplate.convertAndSendToUser(Integer.toString(receiverId), "/queue/messages",
+                    messageDTO);
 
         } catch (Exception e) {
             System.err.println("Error processing message: " + e.getMessage());
@@ -111,14 +110,14 @@ public class MessageController {
 
     @PostMapping("/sendMessage")
     public ResponseEntity<String> sendMessageHttp(@RequestBody Message message) {
-        Message savedMessage = messageService.saveMessage(message); // Persist the message
+        Message savedMessage = messageService.saveMessage(message);
         return ResponseEntity.ok("Message sent successfully with ID: " + savedMessage.getId());
     }
 
     private String getLoggedInUserEmail() {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         if (auth != null && auth.getPrincipal() instanceof UserDetails) {
-            return ((UserDetails) auth.getPrincipal()).getUsername(); // this returns email
+            return ((UserDetails) auth.getPrincipal()).getUsername();
         }
         return null;
     }

@@ -21,7 +21,8 @@ public class ConnectionService {
 
     public void sendConnectionRequest(int senderId, int receiverId) {
         User sender = userRepository.findById(senderId).orElseThrow(() -> new RuntimeException("Sender not found"));
-        User receiver = userRepository.findById(receiverId).orElseThrow(() -> new RuntimeException("Receiver not found"));
+        User receiver = userRepository.findById(receiverId).orElseThrow(() ->
+                new RuntimeException("Receiver not found"));
 
         ConnectionRequest request = new ConnectionRequest();
         request.setSender(sender);
@@ -31,20 +32,23 @@ public class ConnectionService {
     }
 
     public List<ConnectionRequest> getPendingRequests(int receiverId) {
-        User receiver = userRepository.findById(receiverId).orElseThrow(() -> new RuntimeException("Receiver not found"));
+        User receiver = userRepository.findById(receiverId).orElseThrow(() ->
+                new RuntimeException("Receiver not found"));
         return connectionRequestRepository.findByReceiverAndStatus(receiver, ConnectionStatus.PENDING);
     }
 
     public void acceptRequest(int requestId) {
         ConnectionRequest request =
-                connectionRequestRepository.findById(requestId).orElseThrow(() -> new RuntimeException("Request not found"));
+                connectionRequestRepository.findById(requestId).orElseThrow(() ->
+                        new RuntimeException("Request not found"));
         request.setStatus(ConnectionStatus.ACCEPTED);
         connectionRequestRepository.save(request);
     }
 
     public void rejectRequest(int requestId) {
         ConnectionRequest request =
-                connectionRequestRepository.findById(requestId).orElseThrow(() -> new RuntimeException("Request not found"));
+                connectionRequestRepository.findById(requestId).orElseThrow(() ->
+                        new RuntimeException("Request not found"));
         request.setStatus(ConnectionStatus.REJECTED);
         connectionRequestRepository.save(request);
     }

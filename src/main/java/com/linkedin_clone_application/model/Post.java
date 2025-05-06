@@ -52,6 +52,7 @@ public class Post {
 
     @Transient
     private String postUrl;
+
     @ManyToOne
     @JoinColumn(name = "original_post_id", nullable = true)
     private Post originalPost;

@@ -146,6 +146,27 @@
         .user-list li:hover {
             background-color: #f1f1f1;
         }
+
+        .back-button {
+            display: inline-block;
+            background-color: #0073b1; /* LinkedIn blue */
+            color: white;
+            padding: 10px 20px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 14px;
+            transition: background-color 0.3s ease;
+        }
+
+        .back-button:hover {
+            background-color: #005582;
+            color: white;
+        }
+
+        .back-button i {
+            margin-right: 8px;
+        }
     </style>
 
     <!-- Include SockJS and STOMP libraries -->
@@ -157,6 +178,10 @@
 <div id="chat-button" class="chat-button">
     Messaging
 </div>
+
+<a id="back-to-dashboard" th:href="@{/dashboard/{id}(id=${userId})}" class="back-button">
+    <i class="fas fa-arrow-left"></i> Back to Dashboard
+</a>
 
 <div id="chat-popup" class="chat-popup">
     <div class="chat-header">

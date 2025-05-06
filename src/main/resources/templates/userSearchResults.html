@@ -147,24 +147,48 @@
 
         /* Responsive Design */
         @media (max-width: 768px) {
-          .container {
-            padding: 20px;
-            width: 95%;
-          }
+            .container {
+                padding: 20px;
+                width: 95%;
+            }
 
-          .profile-img {
-            width: 60px;
-            height: 60px;
-          }
+            .profile-img {
+                width: 60px;
+                height: 60px;
+            }
 
-          .user-info span {
+            .user-info span {
+                font-size: 14px;
+            }
+        }
+
+        .back-button {
+            display: inline-block;
+            background-color: #0073b1; /* LinkedIn blue */
+            color: white;
+            padding: 10px 20px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: bold;
             font-size: 14px;
-          }
+            transition: background-color 0.3s ease;
+        }
+
+        .back-button:hover {
+            background-color: #005582;
+            color: white;
+        }
+
+        .back-button i {
+            margin-right: 8px;
         }
     </style>
 </head>
 <body>
 <div class="container">
+        <a th:href="@{/dashboard/{id}(id=${currentUserId})}" class="back-button">
+            <i class="fas fa-arrow-left"></i> Back to Dashboard
+        </a>
     <h1>User Search Results for "<span class="search-term" th:text="${searchTerm}">search</span>"</h1>
 
     <!-- Users List -->
@@ -212,7 +236,6 @@
             </li>
         </ul>
     </div>
-
     <div th:unless="${jobs.size() > 0}">
         <p class="no-results">No jobs found.</p>
     </div>

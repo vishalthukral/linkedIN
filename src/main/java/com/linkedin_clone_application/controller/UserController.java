@@ -160,6 +160,9 @@ public class UserController {
 
         model.addAttribute("searchTerm", searchName);
         model.addAttribute("jobs", jobsByTitleAndDescription);
+
+        model.addAttribute("currentUserId", userId);
+
         return "userSearchResults";
     }
 

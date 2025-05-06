@@ -169,10 +169,33 @@
                     margin-left: 0;
                 }
             }
+        .back-button {
+            display: inline-block;
+            background-color: #0073b1; /* LinkedIn blue */
+            color: white;
+            padding: 10px 20px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 14px;
+            transition: background-color 0.3s ease;
+        }
+
+        .back-button:hover {
+            background-color: #005582;
+            color: white;
+        }
+
+        .back-button i {
+            margin-right: 8px;
+        }
     </style>
 </head>
 <body>
 <!--<div th:replace="~{header :: header}"></div>-->
+<a th:href="@{/dashboard/{id}(id=${currentUserId})}" class="back-button">
+    <i class="fas fa-arrow-left"></i> Back to Dashboard
+</a>
 <main>
     <aside>
         <h3>Manage my network</h3>

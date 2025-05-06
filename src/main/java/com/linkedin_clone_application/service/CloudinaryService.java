@@ -54,6 +54,4 @@ public class CloudinaryService {
             throw new RuntimeException("Upload failed: " + e.getMessage());
         }
     }
-
-
 }

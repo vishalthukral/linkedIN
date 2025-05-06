@@ -53,6 +53,8 @@ public class ConnectionController {
         model.addAttribute("connectionStatusMap", connectionStatusMap);
         model.addAttribute("senderId", senderId);
         model.addAttribute("users", users);
+        model.addAttribute("currentUserId", user.getId());
+
         List<ConnectionRequest> requests = connectionService.getPendingRequests(userId);
         model.addAttribute("requests", requests);
         return "network";

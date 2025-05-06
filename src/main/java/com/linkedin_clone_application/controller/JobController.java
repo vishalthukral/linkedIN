@@ -34,12 +34,29 @@ public class JobController {
         List<Job> jobs = jobService.getAllJobs();
         model.addAttribute("jobs", jobs);
         model.addAttribute("email",email);
+
+        User currentUser = userService.findByEmail(email);
+        if (currentUser != null) {
+            model.addAttribute("currentUserId", currentUser.getId());
+        }else{
+            return "redirect:/login";
+        }
+
         return "jobsList"; // Thymeleaf template: jobs/list.html
     }
 
     @GetMapping("/create")
     public String showCreateJobForm(Model model) {
         model.addAttribute("job", new Job());
+
+        String email = getLoggedInUserEmail();
+        User currentUser = userService.findByEmail(email);
+        if (currentUser != null) {
+            model.addAttribute("currentUserId", currentUser.getId());
+        }else{
+            return "redirect:/login";
+        }
+
         return "createJob"; // Thymeleaf template: jobs/createjob.html
     }
 
@@ -60,6 +77,15 @@ public class JobController {
     public String showEditJobForm(@PathVariable int id, Model model) {
         Job job = jobService.getJobById(id).orElseThrow(() -> new IllegalArgumentException("Invalid job ID:" + id));
         model.addAttribute("job", job);
+
+        String email = getLoggedInUserEmail();
+        User currentUser = userService.findByEmail(email);
+        if (currentUser != null) {
+            model.addAttribute("currentUserId", currentUser.getId());
+        }else{
+            return "redirect:/login";
+        }
+
         return "createJob";
     }
 
@@ -80,6 +106,15 @@ public class JobController {
     public String viewFullJob(@PathVariable int id, Model model){
         Job job = jobService.findById(id);
         model.addAttribute("job", job);
+
+        String email = getLoggedInUserEmail();
+        User currentUser = userService.findByEmail(email);
+        if (currentUser != null) {
+            model.addAttribute("currentUserId", currentUser.getId());
+        }else{
+            return "redirect:/login";
+        }
+
         return "viewFullJob";
     }
 

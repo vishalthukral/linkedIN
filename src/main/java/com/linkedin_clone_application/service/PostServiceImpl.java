@@ -95,7 +95,7 @@ public class PostServiceImpl implements PostService {
         Post repost = new Post();
         repost.setUser(repostingUser);
         repost.setOriginalPost(originalPost);
-        repost.setContent(originalPost.getContent()); // Or allow user to add their own message
+        repost.setContent(originalPost.getContent());
         repost.setCreatedAt(LocalDateTime.now());
         repost.setUpdatedAt(LocalDateTime.now());
 

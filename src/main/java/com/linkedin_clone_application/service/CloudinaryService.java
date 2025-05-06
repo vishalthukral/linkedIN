@@ -13,8 +13,6 @@ import java.util.Map;
 
 @Service
 public class CloudinaryService {
-    //     injecting cloudinary dependency that will configure in CloudinaryConfiguration
-//     this help us to interact with cloudinary to add, update and delete images
     @Autowired
     private Cloudinary cloudinary;
 
@@ -26,17 +24,15 @@ public class CloudinaryService {
                 "api_key", apiKey,
                 "api_secret", apiSecret));
     }
-    //     Upload Image
-//     it will upload the image on cloudinary and get the url
+
     public String uploadImage(MultipartFile file) throws IOException {
         if (file == null || file.isEmpty()) {
             return null; // No file uploaded
         }
-        //get.bytes() means cloudinary internally save image into bytes form
         Map uploadResult = cloudinary.uploader().upload(file.getBytes(), ObjectUtils.emptyMap());
         return uploadResult.get("url").toString();
     }
-    //for posts
+
     public String uploadFile(MultipartFile file) {
         try {
             Map<String, Object> options = new HashMap<>();
@@ -45,9 +41,9 @@ public class CloudinaryService {
             if (file.getContentType().equals("application/pdf") ||
                     file.getContentType().equals("text/plain") ||
                     file.getContentType().startsWith("application/")) {
-                options.put("resource_type", "raw"); // For documents
+                options.put("resource_type", "raw");
             } else if (file.getContentType().startsWith("video/")) {
-                options.put("resource_type", "video"); // For videos
+                options.put("resource_type", "video");
             } else {
                 options.put("resource_type", "image"); // Default to images
             }

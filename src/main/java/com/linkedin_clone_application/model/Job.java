@@ -6,6 +6,7 @@
     import jakarta.persistence.*;
 
     import java.time.LocalDateTime;
+    import java.util.List;
 
     @Entity
     @Table(name = "jobs")
@@ -18,6 +19,7 @@
         @JoinColumn(name = "user_id")
         private User user;
 
+
         private String company;
         private String jobTitle;
         private String location;
@@ -28,6 +30,10 @@
 
         @Enumerated(EnumType.STRING)
         private WorkPlaceType workPlaceType;
+
+        @OneToMany(mappedBy = "job", cascade = CascadeType.ALL)
+        List<JobApplication> jobApplicationList;
+
 
         private LocalDateTime createdAt;
         private LocalDateTime updatedAt;
@@ -112,4 +118,12 @@
             this.workPlaceType = workPlaceType;
         }
 
+
+        public List<JobApplication> getJobApplicationList() {
+            return jobApplicationList;
+        }
+
+        public void setJobApplicationList(List<JobApplication> jobApplicationList) {
+            this.jobApplicationList = jobApplicationList;
+        }
     }

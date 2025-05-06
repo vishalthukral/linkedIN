@@ -160,7 +160,7 @@ public class UserController {
 
         model.addAttribute("searchTerm", searchName);
         model.addAttribute("jobs", jobsByTitleAndDescription);
-        return "userSearchResults"; // corresponds to user_search_results.html
+        return "userSearchResults";
     }
 
     @GetMapping("/articles")
@@ -171,7 +171,7 @@ public class UserController {
     private String getLoggedInUserEmail() {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         if (auth != null && auth.getPrincipal() instanceof UserDetails) {
-            return ((UserDetails) auth.getPrincipal()).getUsername(); // this returns email
+            return ((UserDetails) auth.getPrincipal()).getUsername();
         }
         return null;
     }

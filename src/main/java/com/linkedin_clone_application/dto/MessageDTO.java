@@ -16,7 +16,6 @@ public class MessageDTO {
     private String status;
     private LocalDateTime createdAt;
 
-    // Constructor to map from entity to DTO
     public MessageDTO(Message message) {
         this.id = message.getId();
         this.senderId = message.getSender().getId();
@@ -29,7 +28,6 @@ public class MessageDTO {
         this.createdAt = message.getCreatedAt();
     }
 
-    // Getters and setters
     public int getId() {
         return id;
     }

@@ -63,10 +63,10 @@ public class User {
         updatedAt = LocalDateTime.now();
     }
 
-    @OneToMany
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL )
     List<Post> posts;
 
-    @OneToMany
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL )
     List<Comment> comments;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL )

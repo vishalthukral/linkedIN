@@ -9,6 +9,7 @@ import com.linkedin_clone_application.dto.MessageDTO;
 import com.linkedin_clone_application.enums.MessageStatus;
 import com.linkedin_clone_application.model.Message;
 import com.linkedin_clone_application.model.User;
+import com.linkedin_clone_application.service.CloudinaryService;
 import com.linkedin_clone_application.service.MessageService;
 import com.linkedin_clone_application.service.UserService;
 import org.springframework.http.ResponseEntity;
@@ -20,22 +21,22 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 @Controller
 public class MessageController {
     private final SimpMessagingTemplate messagingTemplate;
     private final UserService userService;
     private final MessageService messageService;
+    private final CloudinaryService cloudinaryService;
 
     public MessageController(SimpMessagingTemplate messagingTemplate, UserService userService,
-                             MessageService messageService) {
+                             MessageService messageService, CloudinaryService cloudinaryService) {
         this.messagingTemplate = messagingTemplate;
         this.userService = userService;
         this.messageService = messageService;
+        this.cloudinaryService = cloudinaryService;
     }
 
     @GetMapping("/messages/{senderId}/{recieverId}")
@@ -51,9 +52,9 @@ public class MessageController {
     public String showMessagesPage(@PathVariable int userId, Model model) {
         System.out
                 .println("public String showMessagesPage \n (@PathVariable int userId, Model model)" + "\n" + userId);
-
+        // Fetch user and all other users for chat
         User currentUser = userService.findById(userId);
-        List<User> users = userService.findAllExcept(currentUser);
+        List<User> users = userService.findAllExcept(currentUser); // Fetch all users except the current one
 
         model.addAttribute("user", currentUser);
         model.addAttribute("users", users);
@@ -78,8 +79,10 @@ public class MessageController {
             int senderId = Integer.parseInt(messageData.get("senderId").toString());
             int receiverId = Integer.parseInt(messageData.get("receiverId").toString());
             String messageText = messageData.getOrDefault("messageText", "").toString();
+            String imageUrl = messageData.getOrDefault("imageUrl", "").toString();
 
             // Fetch sender and receiver
+
             User sender = userService.findById(senderId);
             User receiver = userService.findById(receiverId);
 
@@ -88,20 +91,23 @@ public class MessageController {
                 return;
             }
 
+
+            // Create and save message
             Message message = new Message();
             message.setSender(sender);
             message.setReceiver(receiver);
             message.setMessageText(messageText);
             message.setStatus(MessageStatus.SENT);
             message.setCreatedAt(LocalDateTime.now());
+            message.setAttachmentUrl(imageUrl);// Ensure timestamp is set
 
             Message savedMessage = messageService.saveMessage(message);
 
+            // Convert to DTO before sending
             MessageDTO messageDTO = new MessageDTO(savedMessage);
 
             messagingTemplate.convertAndSendToUser(Integer.toString(senderId), "/queue/messages", messageDTO);
-            messagingTemplate.convertAndSendToUser(Integer.toString(receiverId), "/queue/messages",
-                    messageDTO);
+            messagingTemplate.convertAndSendToUser(Integer.toString(receiverId), "/queue/messages", messageDTO);
 
         } catch (Exception e) {
             System.err.println("Error processing message: " + e.getMessage());
@@ -110,14 +116,14 @@ public class MessageController {
 
     @PostMapping("/sendMessage")
     public ResponseEntity<String> sendMessageHttp(@RequestBody Message message) {
-        Message savedMessage = messageService.saveMessage(message);
+        Message savedMessage = messageService.saveMessage(message); // Persist the message
         return ResponseEntity.ok("Message sent successfully with ID: " + savedMessage.getId());
     }
 
     private String getLoggedInUserEmail() {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         if (auth != null && auth.getPrincipal() instanceof UserDetails) {
-            return ((UserDetails) auth.getPrincipal()).getUsername();
+            return ((UserDetails) auth.getPrincipal()).getUsername(); // this returns email
         }
         return null;
     }

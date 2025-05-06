@@ -2,13 +2,12 @@ package com.linkedin_clone_application.controller;
 
 import com.linkedin_clone_application.Util.TimeAgoUtil;
 import com.linkedin_clone_application.model.Job;
+import com.linkedin_clone_application.model.Like;
 import com.linkedin_clone_application.model.Post;
 import com.linkedin_clone_application.model.User;
+import com.linkedin_clone_application.repository.LikeRepository;
 import com.linkedin_clone_application.repository.PostRepository;
-import com.linkedin_clone_application.service.CloudinaryService;
-import com.linkedin_clone_application.service.ConnectionService;
-import com.linkedin_clone_application.service.JobService;
-import com.linkedin_clone_application.service.UserService;
+import com.linkedin_clone_application.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -19,6 +18,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -31,15 +31,17 @@ public class UserController {
     private final PostRepository postRepository;
     private final JobService jobService;
     private final ConnectionService connectionService;
+    private final LikeRepository likeRepository;
 
     @Autowired
     public UserController(UserService userService, CloudinaryService cloudinaryService, PostRepository postRepository,
-                          JobService jobService, ConnectionService connectionService) {
+                          JobService jobService, ConnectionService connectionService, LikeRepository likeRepository) {
         this.userService = userService;
         this.cloudinaryService = cloudinaryService;
         this.postRepository = postRepository;
         this.jobService = jobService;
         this.connectionService = connectionService;
+        this.likeRepository = likeRepository;
     }
 
     @GetMapping("/login")

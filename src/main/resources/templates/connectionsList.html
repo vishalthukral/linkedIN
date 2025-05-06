@@ -63,11 +63,19 @@
     <h2>My Connections</h2>
     <ul class="connection-list">
         <li class="connection-item" th:each="connection : ${connections}">
-            <img src="https://via.placeholder.com/50" alt="Profile">
             <div class="connection-info">
-                <p th:text="${connection.sender.firstName}"></p>
+                <!-- Check if userId equals connection.sender.id -->
+                <img th:if="${userId != connection.sender.id}" th:src="${connection.sender.profilePictureUrl}" alt="Profile">
+                <img th:if="${userId == connection.sender.id}" th:src="${connection.receiver.profilePictureUrl}" alt="Profile">
+
+                <!-- Display first name depending on the userId check -->
+                <p th:if="${userId != connection.sender.id}" th:text="${connection.sender.firstName}"></p>
+                <p th:if="${userId == connection.sender.id}" th:text="${connection.receiver.firstName}"></p>
             </div>
-            <button class="message-btn">Message</button>
+
+            <a th:href="@{/message/{userId}(userId=${userId})}" class="message-btn" style="text-decoration:none;">
+                Message
+            </a>
         </li>
     </ul>
 </div>

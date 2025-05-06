@@ -2,6 +2,12 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <title>Post Details</title>
+    <meta charset="UTF-8">
+
+    <!-- EmojiMart CSS and JS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/emoji-mart@latest/dist/browser.css" />
+    <script src="https://cdn.jsdelivr.net/npm/emoji-mart@latest/dist/browser.js"></script>
+
     <style>
         body {
             font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
@@ -35,16 +41,17 @@
             margin-bottom: 30px;
         }
 
-        .post h2 {
-            font-size: 24px;
+        .post h4 {
+            font-size: 18px;
             color: #0a66c2;
-            margin-bottom: 10px;
+            margin: 0 0 5px;
         }
 
         .post p {
             font-size: 16px;
             color: #444;
             line-height: 1.6;
+            margin: 4px 0;
         }
 
         .comment-form {
@@ -62,14 +69,15 @@
         .comment-form textarea {
             width: 100%;
             height: 100px;
-            padding: 12px;
+            padding: 12px 40px 12px 12px; /* space for emoji button */
             border-radius: 8px;
             border: 1px solid #ccc;
             resize: vertical;
             font-size: 14px;
+            box-sizing: border-box;
         }
 
-        .comment-form button {
+        .comment-form button[type="submit"] {
             margin-top: 10px;
             background-color: #0a66c2;
             color: white;
@@ -80,8 +88,27 @@
             font-weight: 600;
         }
 
-        .comment-form button:hover {
+        .comment-form button[type="submit"]:hover {
             background-color: #004182;
+        }
+
+        .emoji-trigger {
+            position: absolute;
+            right: 10px;
+            bottom: 15px;
+            background: none;
+            border: none;
+            font-size: 20px;
+            cursor: pointer;
+            z-index: 2;
+            color: #555;
+        }
+
+        #emoji-picker-container {
+            position: absolute;
+            bottom: 60px;
+            right: 10px;
+            z-index: 1000;
         }
 
         .comments-section {
@@ -132,7 +159,8 @@
             margin-top: 8px;
         }
 
-        .edit-btn, .delete-btn {
+        .edit-btn,
+        .delete-btn {
             font-size: 13px;
             padding: 4px 10px;
             border-radius: 4px;
@@ -148,14 +176,14 @@
             border: none;
         }
 
+        .edit-btn:hover {
+            background-color: #084b8a;
+        }
+
         .delete-btn {
             color: #ffffff;
             background-color: #d93025;
             border: none;
-        }
-
-        .edit-btn:hover {
-            background-color: #084b8a;
         }
 
         .delete-btn:hover {
@@ -163,13 +191,28 @@
         }
 
         .imageSize {
-            max-width: 400px;
-            max-height: 400px;
+            max-width: 100%;
+            height: auto;
+            border-radius: 8px;
+            margin: 10px 0;
         }
 
-        #content-text{
+        #content-text {
             white-space: pre-wrap;
         }
+
+        /* Responsive design */
+        @media (max-width: 768px) {
+            .container {
+                padding: 20px;
+            }
+
+            .emoji-trigger {
+                right: 8px;
+                bottom: 12px;
+            }
+        }
+
     </style>
 </head>
 <body>
@@ -192,7 +235,11 @@
     <div class="comment-form">
         <h3>Add a Comment</h3>
         <form th:action="@{/post/{id}/comment(id=${post.id})}" method="post">
-            <textarea name="content" placeholder="Add a comment..." required></textarea>
+            <div style="position: relative;">
+                <textarea id="commentInput" name="content" placeholder="Add a comment..." required></textarea>
+                <button type="button" class="emoji-trigger">😊</button>
+                <div id="emoji-picker-container" style="display: none;"></div>
+            </div>
             <button type="submit">Comment</button>
         </form>
     </div>
@@ -208,8 +255,7 @@
                     <small th:text="${#temporals.format(comment.createdAt, 'dd MMM yyyy HH:mm')}">Time</small>
                     <div class="comment-actions" th:if="${email == comment.user.email}">
                         <a th:href="@{/comments/update/{id}(id=${comment.id})}" class="edit-btn">Update</a>
-                        <form th:action="@{/comments/delete/{id}(id=${comment.id})}" method="post"
-                              style="display: inline;">
+                        <form th:action="@{/comments/delete/{id}(id=${comment.id})}" method="post" style="display: inline;">
                             <input type="hidden" name="_method" value="delete"/>
                             <button type="submit" class="delete-btn">Delete</button>
                         </form>
@@ -220,5 +266,41 @@
     </div>
 </div>
 
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const trigger = document.querySelector('.emoji-trigger');
+        const container = document.getElementById('emoji-picker-container');
+        const textarea = document.getElementById('commentInput');
+        let pickerVisible = false;
+
+        const picker = new EmojiMart.Picker({
+            onEmojiSelect: emoji => {
+                const cursorPos = textarea.selectionStart;
+                const textBefore = textarea.value.substring(0, cursorPos);
+                const textAfter = textarea.value.substring(cursorPos);
+                textarea.value = textBefore + emoji.native + textAfter;
+                textarea.focus();
+                textarea.setSelectionRange(cursorPos + emoji.native.length, cursorPos + emoji.native.length);
+            }
+        });
+
+        container.appendChild(picker);
+
+        trigger.addEventListener('click', () => {
+            pickerVisible = !pickerVisible;
+            container.style.display = pickerVisible ? 'block' : 'none';
+        });
+
+        // Optional: hide picker if clicked outside
+        document.addEventListener('click', (e) => {
+            if (!container.contains(e.target) && e.target !== trigger) {
+                container.style.display = 'none';
+                pickerVisible = false;
+            }
+        });
+    });
+</script>
+
 </body>
 </html>
+postDetails.html

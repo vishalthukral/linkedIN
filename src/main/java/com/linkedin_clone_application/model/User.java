@@ -63,13 +63,13 @@ public class User {
         updatedAt = LocalDateTime.now();
     }
 
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL )
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     List<Post> posts;
 
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL )
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     List<Comment> comments;
 
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL )
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<Like> likes = new ArrayList<>();
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
@@ -225,6 +225,14 @@ public class User {
 
     public void setLikes(List<Like> likes) {
         this.likes = likes;
+    }
+
+    public List<Job> getJobs() {
+        return jobs;
+    }
+
+    public void setJobs(List<Job> jobs) {
+        this.jobs = jobs;
     }
 
     @Override

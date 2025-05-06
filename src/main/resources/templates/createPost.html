@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Create Post</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/emoji-mart@latest/dist/browser.js"></script>
     <style>
         * {
             margin: 0;
@@ -32,7 +33,15 @@
             display: flex;
             align-items: center;
             margin-bottom: 12px;
+            justify-content: space-between; /* Add this to space out the elements */
         }
+
+        .emoji-trigger {
+            margin-left: auto; /* Pushes the emoji button to the right */
+            font-size: 18px;
+            cursor: pointer;
+        }
+
 
         .post-input img {
             width: 48px;
@@ -186,8 +195,12 @@
             <img th:src="@{${post.user.profilePictureUrl}}" alt="Profile">
             <input type="text" name="title" placeholder="Title" required>
         </div>
-        <textarea name="content" rows="5" class="preserve-whitespace" placeholder="What do you want to talk about?"
-                  required></textarea>
+        <textarea id="contentInput" name="content" rows="5" class="preserve-whitespace"
+                  placeholder="What do you want to talk about?"
+                  required>
+        </textarea>
+        <button type="button" class="emoji-trigger">😊</button>
+        <div id="emoji-picker-container" style="display: none;"></div>
 
         <div class="tags-input">
             <i class="fas fa-hashtag"></i>
@@ -220,6 +233,40 @@
         </div>
         <button type="submit">Post</button>
     </form>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const trigger = document.querySelector('.emoji-trigger');
+            const container = document.getElementById('emoji-picker-container');
+            const textarea = document.getElementById('contentInput'); // Corrected the ID here
+            let pickerVisible = false;
+
+            const picker = new EmojiMart.Picker({
+                onEmojiSelect: emoji => {
+                    const cursorPos = textarea.selectionStart;
+                    const textBefore = textarea.value.substring(0, cursorPos);
+                    const textAfter = textarea.value.substring(cursorPos);
+                    textarea.value = textBefore + emoji.native + textAfter;
+                    textarea.focus();
+                    textarea.setSelectionRange(cursorPos + emoji.native.length, cursorPos + emoji.native.length);
+                }
+            });
+
+            container.appendChild(picker);
+
+            trigger.addEventListener('click', () => {
+                pickerVisible = !pickerVisible;
+                container.style.display = pickerVisible ? 'block' : 'none';
+            });
+
+            // Optional: hide picker if clicked outside
+            document.addEventListener('click', (e) => {
+                if (!container.contains(e.target) && e.target !== trigger) {
+                    container.style.display = 'none';
+                    pickerVisible = false;
+                }
+            });
+        });
+    </script>
 </div>
 </body>
 </html>

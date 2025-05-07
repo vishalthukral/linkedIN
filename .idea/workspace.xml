@@ -6,15 +6,11 @@
   <component name="ChangeListManager">
     <list default="true" id="f9029e1d-dd96-4509-bc95-e42aa43e8178" name="Changes" comment="merge Authentication into main">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/linkedin_clone_application/controller/ConnectionController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/linkedin_clone_application/controller/ConnectionController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/linkedin_clone_application/controller/JobApplicationController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/linkedin_clone_application/controller/JobApplicationController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/application.properties" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/jobApplication.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/jobApplication.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/message.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/message.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/connectionsList.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/connectionsList.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/network.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/network.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/notification.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/notification.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/application.properties" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/linkedin_clone_application/model/Comment.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/linkedin_clone_application/model/Comment.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/linkedin_clone_application/model/Like.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/linkedin_clone_application/model/Like.class" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -66,7 +62,7 @@
     "RunOnceActivity.git.unshallow": "true",
     "Spring Boot.LinkedInCloneApplication (1).executor": "Run",
     "Spring Boot.LinkedInCloneApplication.executor": "Run",
-    "git-widget-placeholder": "newFeatures",
+    "git-widget-placeholder": "newFeatures2",
     "kotlin-language-version-configured": "true",
     "last_opened_file_path": "/Users/maniketkumar/Documents/linkedin_clone_application",
     "node.js.detected.package.eslint": "true",

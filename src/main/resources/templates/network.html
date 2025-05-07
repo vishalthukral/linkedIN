@@ -236,18 +236,19 @@
 
 <div th:each="user : ${users}">
     <div class="user-card">
-        <p><strong th:text="${user.firstName + ' ' + user.lastName}">Full Name</strong></p>
-        <p th:text="${user.headline}">Headline</p>
-        <p th:text="${user.location}">Location</p>
         <div th:if="${!connectionStatusMap[user.id]}">
+            <p><strong th:text="${user.firstName + ' ' + user.lastName}">Full Name</strong></p>
+            <p th:text="${user.headline}">Headline</p>
+            <p th:text="${user.location}">Location</p>
             <form th:action="@{/connections/send}" method="post">
                 <input type="hidden" name="senderId" th:value="${senderId}"/>
                 <input type="hidden" name="receiverId" th:value="${user.id}"/>
                 <button type="submit">Connect</button>
             </form>
+            <hr/>
         </div>
     </div>
-    <hr/>
+
 </div>
 </body>
 </html>

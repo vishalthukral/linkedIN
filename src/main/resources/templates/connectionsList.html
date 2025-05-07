@@ -60,6 +60,9 @@
 <body>
 
 <div class="container">
+    <a th:href="@{/dashboard/{id}(id=${userId})}" class="back-button">
+        <i class="fas fa-arrow-left"></i> Back to Dashboard
+    </a>
     <h2>My Connections</h2>
     <ul class="connection-list">
         <li class="connection-item" th:each="connection : ${connections}">

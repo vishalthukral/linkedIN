@@ -458,21 +458,6 @@
             margin-top: 4px;
         }
 
-        @media (max-width: 992px) {
-            .layout {
-                grid-template-columns: 1fr;
-                padding: 10px;
-            }
-
-            .sidebar, .rightbar {
-                display: none;
-            }
-
-            .feed {
-                padding: 12px;
-            }
-        }
-
         #side-bar{
             top:80px;
             max-height:450px;
@@ -534,7 +519,7 @@
             margin-right: -15px;
         }
 
-        #post-list-img{
+        .post-list-img{
             margin-top:-20px;
         }
 
@@ -628,7 +613,7 @@
             white-space: pre-wrap;
             overflow-wrap:break-word
         }
-        .repost-img {
+        .repost-img{
             width: 32px;
             height: 32px;
             border-radius: 50%;
@@ -636,6 +621,18 @@
         }
         .feed{
             max-width:650px;
+        }
+        .repost-info{
+          display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+         .repost-info img {
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin-right: 2px;
         }
     </style>
 </head>
@@ -738,16 +735,20 @@
         </div>
 
         <!-- Posts List -->
-        <div th:each="post: ${allPosts}" class="post">
+        <div th:each="post: ${allPosts}" class="post ">
             <div th:if="${post.repostedBy != null}" class="repost-info"
                  style="display: flex; align-items: center; gap: 8px;">
                 <img th:src="@{${post.repostedBy.profilePictureUrl}}"
                      alt="User"
-                     class="repost-img">
-                <p th:text="'Reposted by ' + ${post.repostedBy.firstName}"></p>
+                     class="post-list-img">
+                <div class="post-user">
+                <h4 th:text="${post.repostedBy.firstName} + ' ' + ${post.repostedBy.lastName}"></h4>
+                <p th:text="${post.repostedBy.jobTitle} + ' at ' + ${post.repostedBy.companyName}">Job Title</p>
+                <p th:text="${post.timeAgo}">Posted</p>
+                </div>
             </div>
-            <div class="post-header">
-                <img th:src="@{${post.user.profilePictureUrl}}" alt="User" id="post-list-img">
+            <div th:if="${post.repostedBy == null}"  class="post-header">
+                <img th:src="@{${post.user.profilePictureUrl}}" alt="User" class="post-list-img">
                 <div class="post-user">
                     <h4 th:text="${post.user.firstName} + ' ' + ${post.user.lastName}">User Name</h4>
                     <p th:text="${post.user.jobTitle} + ' at ' + ${post.user.companyName}">Job Title</p>
@@ -803,7 +804,7 @@
             </div>
 
             <!-- Post management buttons -->
-            <div class="post-management" th:if="${email == post.user.email}" }>
+            <div class="post-management" th:if="${(email == post.user.email) || (email==post.repostedBy?.email)}">
                 <a th:href="@{/updateform/{id}(id=${post.id})}" class="linkedin-button edit">
                     <i class="fas fa-edit"></i>
                     <span>Edit</span>

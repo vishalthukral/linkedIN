@@ -358,6 +358,11 @@
          display: block;
          margin-bottom: 10px;
 }
+        .postCont-img{
+            width:100%;
+            margin:auto;
+            display:block;
+        }
 
 
 
@@ -459,8 +464,8 @@
 
                 <div class="post-content">
                     <h3 th:text="${post.title}"></h3>
-                    <p th:text="${post.content.length() > 150 ? post.content.substring(0, 150) + '...' : post.content}"></p>
-                    <img th:if="${post.mediaFile != null}" th:src="${post.mediaFile.url}" alt="Post Image">
+                    <p style="overflow-wrap:break-word;" th:text="${post.content.length() > 150 ? post.content.substring(0, 150) + '...' : post.content}"></p>
+                    <img class="postCont-img" th:if="${post.mediaFile != null}" th:src="${post.mediaFile.url}" alt="Post Image">
                 </div>
 
                 <div class="post-stats">

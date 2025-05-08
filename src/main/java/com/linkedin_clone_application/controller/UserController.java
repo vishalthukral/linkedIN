@@ -18,10 +18,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Controller
 @RequestMapping("/")
@@ -115,8 +112,13 @@ public class UserController {
             post.setPostUrl(fullUrl);
             post.setPostTags(post.getPostTags());
         });
+
         Post post = new Post();
         String email = user.getEmail();
+        String emaill=getLoggedInUserEmail();
+        if (!Objects.equals(emaill, email)){
+            return "redirect:/";
+        }
         System.out.println(email);
         model.addAttribute("user", user);
         model.addAttribute("posts", posts);

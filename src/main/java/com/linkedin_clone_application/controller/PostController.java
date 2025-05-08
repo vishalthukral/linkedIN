@@ -204,7 +204,7 @@ public class PostController {
 
         commentService.addComment(content, post, user);
 
-        return "redirect:/dashboard/" + post.getUser().getId();
+        return "redirect:/dashboard/" + user.getId();
     }
 
     @PostMapping("/repost/{id}")

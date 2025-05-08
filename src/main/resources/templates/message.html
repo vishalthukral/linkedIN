@@ -1,3 +1,620 @@
+<!--<!DOCTYPE html>-->
+<!--<html xmlns:th="http://www.thymeleaf.org">-->
+<!--<head>-->
+<!--    <script src="https://cdn.jsdelivr.net/npm/emoji-mart@latest/dist/browser.js"></script>-->
+<!--    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">-->
+<!--    <title>Messaging</title>-->
+<!--    <style>-->
+<!--        .linkedin-header {-->
+<!--      display: flex;-->
+<!--      justify-content: space-between;-->
+<!--      align-items: center;-->
+<!--      background-color: #fff;-->
+
+<!--      box-shadow: 0 2px 6px rgba(0,0,0,0.08);-->
+<!--      position: sticky;-->
+<!--      top: 0;-->
+<!--      z-index: 1000;-->
+<!--      height: 60px;-->
+<!--  }-->
+
+<!--  .linkedin-header .left,-->
+<!--  .linkedin-header .right {-->
+<!--      display: flex;-->
+<!--      align-items: center;-->
+<!--      gap: 12px;-->
+<!--  }-->
+
+<!--  .linkedin-header .logo {-->
+<!--      font-size: 30px;-->
+<!--      color: #0077b5;-->
+<!--  }-->
+<!--a{-->
+<!--text-decoration:none;-->
+<!--}-->
+<!--  .linkedin-header .search-container {-->
+<!--      position: relative;-->
+<!--  }-->
+
+<!--  .linkedin-header .search-icon {-->
+<!--      position: absolute;-->
+<!--      left: 12px;-->
+<!--      top: 10px;-->
+<!--      color: #666;-->
+<!--  }-->
+
+<!--  .linkedin-header .search-bar {-->
+<!--      padding: 8px 12px 8px 36px;-->
+<!--      border: none;-->
+<!--      border-radius: 6px;-->
+<!--      width: 220px;-->
+<!--      font-size: 14px;-->
+<!--      background-color: #eef3f8;-->
+<!--      outline: none;-->
+<!--  }-->
+
+<!--  .linkedin-header .search-bar:focus {-->
+<!--      border-color: #0a66c2;-->
+<!--      background-color: white;-->
+<!--      box-shadow: 0 0 0 1px #0a66c2;-->
+<!--  }-->
+
+<!--  .linkedin-header .nav-item {-->
+<!--      display: flex;-->
+<!--      flex-direction: column;-->
+<!--      align-items: center;-->
+<!--      font-size: 12px;-->
+<!--      text-align: center;-->
+<!--      cursor: pointer;-->
+<!--      color: #666;-->
+<!--      font-weight: 500;-->
+<!--      padding: 0 8px;-->
+<!--      transition: color 0.2s ease;-->
+<!--  }-->
+
+<!--  .linkedin-header .nav-item:hover {-->
+<!--      color: #0a66c2;-->
+<!--  }-->
+
+<!--  .linkedin-header .nav-item i {-->
+<!--      font-size: 20px;-->
+<!--      margin-bottom: 4px;-->
+<!--  }-->
+
+<!--  .linkedin-header .me {-->
+<!--      position: relative;-->
+<!--      display: inline-block;-->
+<!--      cursor: pointer;-->
+<!--  }-->
+
+<!--  .linkedin-header .me img {-->
+<!--      width: 28px;-->
+<!--      height: 20px;-->
+<!--      border-radius: 50%;-->
+<!--      object-fit: cover;-->
+<!--      margin-bottom: 4px;-->
+<!--  }-->
+
+<!--  #about-me-dropdown {-->
+<!--      margin-top: 15px;-->
+<!--      margin-right: -15px;-->
+<!--  }-->
+
+<!--  .dropdown-menu {-->
+<!--      position: absolute;-->
+<!--      top: 100%;-->
+<!--      left: 0;-->
+<!--      background: white;-->
+<!--      border: 1px solid #ddd;-->
+<!--      box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);-->
+<!--      border-radius: 8px;-->
+<!--      padding: 8px 0;-->
+<!--      display: none;-->
+<!--      z-index: 1000;-->
+<!--      width: max-content;-->
+<!--  }-->
+
+<!--  .dropdown-menu a {-->
+<!--      display: block;-->
+<!--      padding: 8px 16px;-->
+<!--      text-decoration: none;-->
+<!--      color: #333;-->
+<!--  }-->
+
+<!--  .dropdown-menu a:hover {-->
+<!--      background: #f5f5f5;-->
+<!--  }-->
+
+<!--  .linkedin-header .me:hover .dropdown-menu {-->
+<!--      display: block;-->
+<!--  }-->
+
+<!--  /* Floating Chat Button */-->
+<!--  .chat-button {-->
+<!--      position: fixed;-->
+<!--      top: 80px;-->
+<!--      left: 20px;-->
+<!--      background-color: #0073b1;-->
+<!--      color: white;-->
+<!--      padding: 10px 15px;-->
+<!--      border-radius: 15px;-->
+<!--      cursor: pointer;-->
+<!--      font-weight: bold;-->
+<!--      box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);-->
+<!--      z-index: 1001;-->
+<!--  }-->
+
+<!--  /* Chat Popup */-->
+<!--  .chat-popup {-->
+<!--      position: fixed;-->
+<!--      top: 60px;-->
+<!--      left: 20px;-->
+<!--      width: 300px;-->
+<!--      background-color: white;-->
+<!--      border-radius: 10px;-->
+<!--      box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);-->
+<!--      display: none;-->
+<!--      flex-direction: column;-->
+<!--      z-index: 1000;-->
+<!--      max-height: 80vh;-->
+<!--      overflow-y: auto;-->
+<!--  }-->
+
+<!--  /* Chat Window */-->
+<!--  .chat-window {-->
+<!--      position: fixed;-->
+<!--      top: 60px;-->
+<!--      right: 0;-->
+<!--      width: 70%;-->
+<!--      height: 90%;-->
+<!--      background-color: white;-->
+<!--      border-radius: 10px;-->
+<!--      display: none;-->
+<!--      flex-direction: column;-->
+<!--      box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);-->
+<!--      z-index: 1000;-->
+<!--      overflow: hidden;-->
+<!--  }-->
+
+<!--  /* Chat Header */-->
+<!--  .chat-header {-->
+<!--      background-color: #0073b1;-->
+<!--      color: white;-->
+<!--      padding: 10px;-->
+<!--      display: flex;-->
+<!--      justify-content: space-between;-->
+<!--      border-top-left-radius: 10px;-->
+<!--      border-top-right-radius: 10px;-->
+<!--  }-->
+
+<!--  /* Chat Body */-->
+<!--  .chat-body {-->
+<!--      padding: 15px;-->
+<!--      flex-grow: 1;-->
+<!--      overflow-y: auto;-->
+<!--  }-->
+
+<!--  /* Message Styles */-->
+<!--  .message {-->
+<!--      display: flow;-->
+<!--      max-width: 60%;-->
+<!--      margin: 5px;-->
+<!--      padding: 10px;-->
+<!--      border-radius: 10px;-->
+<!--      font-size: 28px;-->
+<!--      word-wrap: break-word;-->
+<!--  }-->
+
+<!--  .sent {-->
+<!--      align-self: flex-end;-->
+<!--      background-color: #007bff;-->
+<!--      color: white;-->
+<!--      text-align: right;-->
+<!--      margin-left: auto;-->
+<!--  }-->
+
+<!--  .received {-->
+<!--      align-self: flex-start;-->
+<!--      background-color: #e5e5ea;-->
+<!--      color: black;-->
+<!--      text-align: left;-->
+<!--      margin-right: auto;-->
+<!--  }-->
+
+<!--  .message-text {-->
+<!--      display: block;-->
+<!--      padding: 5px 10px;-->
+<!--  }-->
+
+<!--  .message-time {-->
+<!--      display: block;-->
+<!--      font-size: 12px;-->
+<!--      opacity: 0.7;-->
+<!--      margin-top: 5px;-->
+<!--  }-->
+
+<!--  /* Chat Footer */-->
+<!--  .chat-footer {-->
+<!--      display: flex;-->
+<!--      padding: 10px;-->
+<!--      border-top: 1px solid #ccc;-->
+<!--      position: relative;-->
+<!--  }-->
+
+<!--  .chat-footer input[type="text"] {-->
+<!--      flex: 1;-->
+<!--      padding: 5px;-->
+<!--      border: 1px solid #ccc;-->
+<!--      border-radius: 5px;-->
+<!--  }-->
+
+<!--  .chat-footer button {-->
+<!--      background-color: #0073b1;-->
+<!--      color: white;-->
+<!--      padding: 5px 10px;-->
+<!--      border: none;-->
+<!--      cursor: pointer;-->
+<!--  }-->
+
+<!--  /* User List */-->
+<!--  .user-list {-->
+<!--      margin: 10px 0;-->
+<!--      padding: 0;-->
+<!--      list-style: none;-->
+<!--  }-->
+
+<!--  .user-list li {-->
+<!--      padding: 8px;-->
+<!--      cursor: pointer;-->
+<!--      border-bottom: 1px solid #ccc;-->
+<!--  }-->
+
+<!--  .user-list li:hover {-->
+<!--      background-color: #f1f1f1;-->
+<!--  }-->
+
+<!--  .back-button {-->
+<!--      display: inline-block;-->
+<!--      background-color: #0073b1;-->
+<!--      color: white;-->
+<!--      padding: 10px 20px;-->
+<!--      border-radius: 8px;-->
+<!--      text-decoration: none;-->
+<!--      font-weight: bold;-->
+<!--      font-size: 14px;-->
+<!--      transition: background-color 0.3s ease;-->
+<!--      margin-top: 700px;-->
+<!--  }-->
+
+<!--  .back-button:hover {-->
+<!--      background-color: #005582;-->
+<!--      color: white;-->
+<!--  }-->
+
+<!--  .back-button i {-->
+<!--      margin-right: 8px;-->
+<!--  }-->
+
+<!--    </style>-->
+
+
+<!--    &lt;!&ndash; Include SockJS and STOMP libraries &ndash;&gt;-->
+<!--    <script src="https://cdnjs.cloudflare.com/ajax/libs/sockjs-client/1.5.0/sockjs.min.js"></script>-->
+<!--    <script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>-->
+<!--</head>-->
+<!--<body>-->
+<!--<header class="linkedin-header">-->
+<!--    <div class="left">-->
+<!--        <i class="fab fa-linkedin logo"></i>-->
+<!--        <div class="search-container">-->
+<!--            <i class="fas fa-search search-icon"></i>-->
+<!--            <form th:action="@{/search}" method="get" class="search-bar">-->
+<!--                <input type="text" name="searchName" placeholder="Search by name" required/>-->
+<!--            </form>-->
+<!--        </div>-->
+<!--    </div>-->
+<!--    <div class="right">-->
+<!--        <div class="nav-item">-->
+<!--            <i class="fas fa-home"></i>-->
+<!--            <a th:href="@{/dashboard/{id}(id=${user.id})}">Home</a>-->
+<!--        </div>-->
+<!--        <div class="nav-item">-->
+<!--            <i class="fas fa-user-friends"></i>-->
+<!--            <a th:href="@{/connections/users}">My Network</a>-->
+<!--        </div>-->
+<!--        <div class="nav-item">-->
+<!--            <i class="fas fa-briefcase"></i>-->
+<!--            <a th:href="@{/jobs/}">Jobs</a>-->
+<!--        </div>-->
+<!--        <div class="nav-item">-->
+<!--            <i class="fas fa-comment-dots"></i>-->
+<!--            <a th:href="@{/message/{id}(id=${user.id})}">Messaging</a>-->
+<!--        </div>-->
+<!--        <div class="nav-item">-->
+<!--            <i class="fas fa-bell"></i>-->
+<!--            <span>Notifications</span>-->
+<!--        </div>-->
+<!--        <div class="nav-item me">-->
+<!--            <img th:src="@{${user.profilePictureUrl}}" alt="Me">-->
+<!--            <span id="about-me-dropdown">Me ▼</span>-->
+<!--            <div id="dropdownMenu" class="dropdown-menu hidden">-->
+<!--                <a th:href="@{/view/{id}(id=${user.id})}" class="dropdown-item">My Profile</a>-->
+<!--                <a th:href="@{/logout}" class="dropdown-item">Logout</a>-->
+<!--            </div>-->
+<!--        </div>-->
+<!--    </div>-->
+<!--</header>-->
+<!--<div id="chat-button" class="chat-button">-->
+<!--    Messaging-->
+<!--</div>-->
+
+<!--<div id="chat-popup" class="chat-popup">-->
+<!--    <div class="chat-header">-->
+<!--        <span>Messages</span>-->
+<!--        <button id="close-chat">✕</button>-->
+<!--    </div>-->
+
+<!--    <div class="current-user">-->
+<!--        <p>You: <span th:text="${user.firstName}"></span></p>-->
+<!--        <input type="hidden" id="currentUserId" th:value="${user.id}">-->
+<!--    </div>-->
+
+<!--    <div class="chat-body">-->
+<!--        <h4>Your Friends:</h4>-->
+<!--        <ul class="user-list">-->
+<!--            <li th:each="friend : ${users}" th:attr="onclick=|openChat('${friend.id}', '${friend.firstName}')|">-->
+<!--                <p th:text="${friend.firstName}"></p>-->
+<!--            </li>-->
+<!--        </ul>-->
+<!--    </div>-->
+<!--</div>-->
+
+<!--<div id="chat-window" class="chat-window">-->
+<!--    <div class="chat-header">-->
+<!--        <span id="chat-username">Chat with Friend</span>-->
+<!--        <button id="close-chat-window">✕</button>-->
+<!--    </div>-->
+<!--    <div class="chat-body" id="chat-body">-->
+<!--        <div id="messages"></div>-->
+<!--    </div>-->
+<!--    <div class="chat-footer">-->
+<!--        <input id="message-input-window" type="text" placeholder="Type a message..." onkeypress="handleKeyPress(event)">-->
+<!--        <input id="image-input-window" type="file" accept="image/*" style="display: none;">-->
+<!--        <button type="button"-->
+<!--                onclick="document.getElementById('image-input-window').click();"-->
+<!--                style=" margin-right:20px; padding: 6px 12px; border-radius: 4px; background-color: #0073b1; color: white; border: none; margin-left: 20px;">-->
+<!--            Image-->
+<!--        </button>-->
+<!--        <button type="button" class="emoji-trigger" style="margin-right: 12px; border-radius: 4px; background-color: #0073b1; color: white; border: none; margin-left: 20px;">😊</button>-->
+<!--        <div id="emoji-picker-container"-->
+<!--             style="display: none; position: absolute; bottom: 50px; right: 80px; z-index: 999;">-->
+<!--        </div>-->
+<!--        <button onclick="sendMeetingLink()" class="btn btn-primary mt-2" style="margin-right: 12px; border-radius: 4px; background-color: #0073b1; color: white; border: none; margin-left: 20px;">-->
+<!--            Meet Link-->
+<!--        </button>-->
+<!--        <button onclick="sendMessageWindow()" style="margin-right: 12px; border-radius: 4px; background-color: #0073b1; color: white; border: none; margin-left: 20px;">Send</button>-->
+<!--    </div>-->
+
+<!--</div>-->
+
+<!--<script>-->
+<!--    let currentUserId = document.getElementById("currentUserId").value;-->
+<!--    let currentChatUserId = null;-->
+<!--    let stompClient = null;-->
+
+<!--    document.addEventListener("DOMContentLoaded", function () {-->
+<!--        const chatButton = document.getElementById("chat-button");-->
+<!--        const chatPopup = document.getElementById("chat-popup");-->
+<!--        const closeChat = document.getElementById("close-chat");-->
+<!--        const closeChatWindow = document.getElementById("close-chat-window");-->
+
+<!--        chatButton.addEventListener("click", function () {-->
+<!--            chatPopup.style.display = "flex";-->
+<!--            chatButton.style.display = "none";-->
+<!--        });-->
+
+<!--        closeChat.addEventListener("click", function () {-->
+<!--            chatPopup.style.display = "none";-->
+<!--            chatButton.style.display = "block";-->
+<!--            document.getElementById("chat-window").style.display = "none";-->
+<!--            resetChat();-->
+<!--        });-->
+
+<!--        closeChatWindow.addEventListener("click", function () {-->
+<!--            document.getElementById("chat-window").style.display = "none";-->
+<!--        });-->
+
+<!--        connectWebSocket();-->
+<!--    });-->
+
+<!--    function connectWebSocket() {-->
+<!--        const socket = new SockJS("/ws");-->
+<!--        stompClient = Stomp.over(socket);-->
+
+<!--        stompClient.connect({}, function (frame) {-->
+<!--            console.log("Connected to WebSocket");-->
+<!--            stompClient.subscribe(`/user/${currentUserId}/queue/messages`, function (message) {-->
+<!--                const messageData = JSON.parse(message.body);-->
+<!--                displayMessage(-->
+<!--                        messageData.sender.id === currentUserId ? "sent" : "received",-->
+<!--                        messageData.messageText,-->
+<!--                        messageData.createdAt,-->
+<!--                        messageData.attachmentUrl-->
+<!--                    );-->
+<!--            });-->
+<!--        }, function (error) {-->
+<!--            console.error("WebSocket Connection Error:", error);-->
+<!--        });-->
+<!--    }-->
+
+<!--    function openChat(userId, userName) {-->
+<!--        currentChatUserId = userId;-->
+<!--        document.getElementById("chat-username").textContent = "Chat with " + userName;-->
+<!--        document.getElementById("chat-window").style.display = "flex";-->
+<!--        document.getElementById("messages").innerHTML = "";-->
+
+<!--        fetch(`/messages/${currentUserId}/${userId}`)-->
+<!--    .then(response => response.json())-->
+<!--    .then(messages => {-->
+<!--        console.log(messages);-->
+<!--        messages.forEach(msg => {-->
+<!--            // Display the message including image URL-->
+<!--            displayMessage(-->
+<!--                msg.senderId == currentUserId ? "sent" : "received",-->
+<!--                msg.messageText,-->
+<!--                msg.createdAt,-->
+<!--                msg.attachmentUrl  // This is the image URL from the backend-->
+<!--            );-->
+<!--        });-->
+<!--    })-->
+<!--    .catch(error => console.error("❌ Fetch error:", error));-->
+<!--        if (!stompClient || !stompClient.connected) {-->
+<!--            connectWebSocket();-->
+<!--        }-->
+<!--    }-->
+
+<!--     function sendMessageWindow() {-->
+<!--    const messageInput = document.getElementById("message-input-window");-->
+<!--    const imageInput = document.getElementById("image-input-window");-->
+<!--    const messageText = messageInput.value.trim();-->
+<!--    const imageFile = imageInput.files[0]; // Corrected ID here-->
+
+<!--    if (!messageText && !imageFile) {-->
+<!--        console.log("No message text or image selected.");-->
+<!--        return;  // Don't send anything if both are empty-->
+<!--    }-->
+
+<!--    const messageData = {-->
+<!--        senderId: currentUserId,-->
+<!--        receiverId: currentChatUserId,-->
+<!--        messageText: messageText,-->
+<!--        createdAt: new Date().toISOString()-->
+<!--    };-->
+
+<!--    if (imageFile) {-->
+<!--        const formData = new FormData();-->
+<!--        formData.append("file", imageFile);-->
+<!--        formData.append("upload_preset", "vishal");  // Replace with your actual upload preset name-->
+
+<!--        fetch("https://api.cloudinary.com/v1_1/dh6ajx6ue/image/upload", {-->
+<!--            method: "POST",-->
+<!--            body: formData-->
+<!--        })-->
+<!--        .then(response => response.json())-->
+<!--        .then(data => {-->
+<!--            const imageUrl = data.secure_url;-->
+<!--            messageData.imageUrl = imageUrl;-->
+
+<!--            stompClient.send("/app/sendMessage", {}, JSON.stringify(messageData));-->
+
+<!--            displayMessage("sent", messageText, messageData.createdAt, imageUrl);-->
+
+<!--            messageInput.value = "";-->
+<!--            imageInput.value = "";-->
+<!--        })-->
+<!--        .catch(error => {-->
+<!--            console.error("Error uploading image: ", error);-->
+<!--        });-->
+<!--    } else {-->
+<!--        stompClient.send("/app/sendMessage", {}, JSON.stringify(messageData));-->
+<!--        displayMessage("sent", messageText, messageData.createdAt, null);-->
+
+<!--        messageInput.value = "";-->
+<!--    }-->
+<!--}-->
+
+<!--    function displayMessage(type, text, createdAt, imageUrl = null) {-->
+<!--    const messagesDiv = document.getElementById("messages");-->
+<!--    const messageElement = document.createElement("div");-->
+<!--    messageElement.className = "message " + type;-->
+
+<!--    const timestamp = new Date(createdAt);-->
+<!--    const formattedTime = timestamp.getHours().toString().padStart(2, '0') + ':' + timestamp.getMinutes().toString().padStart(2, '0');-->
+
+<!--    messageElement.innerHTML = `-->
+<!--        ${imageUrl ? `<div style="width: 60%; margin: 0 auto 5px auto;"><img src="${imageUrl}" alt="Image" style="width: 100%; border-radius:-->
+<!--         5px;background-color: white;"></div>` : ""}-->
+<!--    <div class="message-text">${text}</div>-->
+<!--    <div class="message-time">${formattedTime}</div>-->
+<!--    `;-->
+<!--    messagesDiv.appendChild(messageElement);-->
+<!--    messagesDiv.scrollTop = messagesDiv.scrollHeight;-->
+<!--}-->
+
+
+
+<!--    function handleKeyPress(event) {-->
+<!--        if (event.key === "Enter") {-->
+<!--            sendMessageWindow();-->
+<!--        }-->
+<!--    }-->
+
+<!--    function resetChat() {-->
+<!--        document.getElementById("messages").innerHTML = "";-->
+<!--        document.getElementById("message-input-window").value = "";-->
+<!--    }-->
+<!--</script>-->
+<!--<script>-->
+<!--    document.addEventListener('DOMContentLoaded', () => {-->
+<!--        const trigger = document.querySelector('.emoji-trigger');-->
+<!--        const container = document.getElementById('emoji-picker-container');-->
+<!--       const textarea = document.getElementById('message-input-window');-->
+
+<!--        let pickerVisible = false;-->
+
+<!--        const picker = new EmojiMart.Picker({-->
+<!--            onEmojiSelect: emoji => {-->
+<!--                const cursorPos = textarea.selectionStart;-->
+<!--                const textBefore = textarea.value.substring(0, cursorPos);-->
+<!--                const textAfter = textarea.value.substring(cursorPos);-->
+<!--                textarea.value = textBefore + emoji.native + textAfter;-->
+<!--                textarea.focus();-->
+<!--                textarea.setSelectionRange(cursorPos + emoji.native.length, cursorPos + emoji.native.length);-->
+<!--            }-->
+<!--        });-->
+
+<!--        container.appendChild(picker);-->
+
+<!--        trigger.addEventListener('click', () => {-->
+<!--            pickerVisible = !pickerVisible;-->
+<!--            container.style.display = pickerVisible ? 'block' : 'none';-->
+<!--        });-->
+
+<!--        // Optional: hide picker if clicked outside-->
+<!--        document.addEventListener('click', (e) => {-->
+<!--            if (!container.contains(e.target) && e.target !== trigger) {-->
+<!--                container.style.display = 'none';-->
+<!--                pickerVisible = false;-->
+<!--            }-->
+<!--        });-->
+<!--    });-->
+<!--    // Optional: hide picker if clicked outside-->
+<!--document.addEventListener('click', (e) => {-->
+<!--    if (!container.contains(e.target) && e.target !== trigger) {-->
+<!--        container.style.display = 'none';-->
+<!--        pickerVisible = false;-->
+<!--    }-->
+<!--});-->
+
+<!--</script>-->
+<!--<script>-->
+<!--    function sendMeetingLink() {-->
+<!--        // Generate a dummy Jitsi room name-->
+<!--        const roomName = "meeting-" + Math.floor(Math.random() * 1000000);-->
+<!--        const meetingLink = `https://meet.jit.si/${roomName}`;-->
+
+<!--        // Copy the link to clipboard-->
+<!--        navigator.clipboard.writeText(meetingLink).then(() => {-->
+<!--            alert("Meeting link copied to clipboard: " + meetingLink);-->
+<!--        }).catch(err => {-->
+<!--            console.error("Failed to copy link: ", err);-->
+<!--        });-->
+<!--    }-->
+<!--</script>-->
+
+<!--</body>-->
+<!--</html>-->
+
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
@@ -199,7 +816,7 @@ text-decoration:none;
       display: flow;
       max-width: 60%;
       margin: 5px;
-      padding: 10px;
+      padding: 5px;
       border-radius: 10px;
       font-size: 28px;
       word-wrap: break-word;
@@ -220,17 +837,14 @@ text-decoration:none;
       text-align: left;
       margin-right: auto;
   }
-
   .message-text {
       display: block;
-      padding: 5px 10px;
   }
 
   .message-time {
       display: block;
-      font-size: 12px;
-      opacity: 0.7;
-      margin-top: 5px;
+      font-size: 18px;
+      margin-top: 11px;
   }
 
   /* Chat Footer */
@@ -378,6 +992,7 @@ text-decoration:none;
         <div id="messages"></div>
     </div>
     <div class="chat-footer">
+        <input type="hidden" id="profile-pic" th:value="${profilePictureUrl}">
         <input id="message-input-window" type="text" placeholder="Type a message..." onkeypress="handleKeyPress(event)">
         <input id="image-input-window" type="file" accept="image/*" style="display: none;">
         <button type="button"
@@ -463,7 +1078,8 @@ text-decoration:none;
                 msg.senderId == currentUserId ? "sent" : "received",
                 msg.messageText,
                 msg.createdAt,
-                msg.attachmentUrl  // This is the image URL from the backend
+                msg.attachmentUrl , // This is the image URL from the backend
+                msg.senderProfileImageUrl
             );
         });
     })
@@ -478,6 +1094,8 @@ text-decoration:none;
     const imageInput = document.getElementById("image-input-window");
     const messageText = messageInput.value.trim();
     const imageFile = imageInput.files[0]; // Corrected ID here
+    const profilePic =document.getElementById("profile-pic").value;
+
 
     if (!messageText && !imageFile) {
         console.log("No message text or image selected.");
@@ -507,7 +1125,7 @@ text-decoration:none;
 
             stompClient.send("/app/sendMessage", {}, JSON.stringify(messageData));
 
-            displayMessage("sent", messageText, messageData.createdAt, imageUrl);
+            displayMessage("sent", messageText, messageData.createdAt, imageUrl,profilePic);
 
             messageInput.value = "";
             imageInput.value = "";
@@ -517,25 +1135,41 @@ text-decoration:none;
         });
     } else {
         stompClient.send("/app/sendMessage", {}, JSON.stringify(messageData));
-        displayMessage("sent", messageText, messageData.createdAt, null);
+        displayMessage("sent", messageText, messageData.createdAt, null,profilePic);
 
         messageInput.value = "";
     }
 }
 
-    function displayMessage(type, text, createdAt, imageUrl = null) {
+    function displayMessage(type, text, createdAt, imageUrl = null, profileUrl= null) {
     const messagesDiv = document.getElementById("messages");
     const messageElement = document.createElement("div");
     messageElement.className = "message " + type;
 
     const timestamp = new Date(createdAt);
-    const formattedTime = timestamp.getHours().toString().padStart(2, '0') + ':' + timestamp.getMinutes().toString().padStart(2, '0');
+<!--    const formattedTime = timestamp.getHours().toString().padStart(2, '0') + ':' + timestamp.getMinutes().toString().padStart(2, '0');-->
 
+    const day = timestamp.getDate().toString().padStart(2, '0');
+    const month = (timestamp.getMonth() + 1).toString().padStart(2, '0'); // months are 0-indexed
+    const year = timestamp.getFullYear();
+
+    let hours = timestamp.getHours();
+    const minutes = timestamp.getMinutes().toString().padStart(2, '0');
+
+    const ampm = hours >= 12 ? 'PM' : 'AM';
+
+    hours = hours % 12 || 12; // convert 0 to 12 for 12 AM
+    hours = hours.toString().padStart(2, '0');
+
+    const formattedTime = `${day}/${month}/${year} ${hours}:${minutes} ${ampm}`;
     messageElement.innerHTML = `
-        ${imageUrl ? `<div style="width: 60%; margin: 0 auto 5px auto;"><img src="${imageUrl}" alt="Image" style="width: 100%; border-radius:
+    ${profileUrl ? `<div style="width: 100%; margin: 0 auto 5px auto;"><img src="${profileUrl}" alt="Image" style="width: 10%; border-radius:
+         5px;background-color: white;"></div>` : ""}
+        ${imageUrl ? `<div style="width: 100%; margin: 0 auto 5px auto;"><img src="${imageUrl}" alt="Image" style="width: 100%; border-radius:
          5px;background-color: white;"></div>` : ""}
     <div class="message-text">${text}</div>
     <div class="message-time">${formattedTime}</div>
+    <div style="font-size:0.5em;" class="message-type">${type}</div>
     `;
     messagesDiv.appendChild(messageElement);
     messagesDiv.scrollTop = messagesDiv.scrollHeight;

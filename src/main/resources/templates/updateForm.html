@@ -202,7 +202,7 @@
 
         <div class="tags-input">
             <i class="fas fa-hashtag"></i>
-            <input type="text" name="tags" th:value="${tags}" placeholder="Add tags (separate with commas)" required>
+            <input  type="text" name="tags" th:value="${joinedTags}"  placeholder="Add tags (separate with commas)">
         </div>
         <input type="hidden" th:field="*{likesCount}">
         <input type="hidden" th:field="*{commentCount}">

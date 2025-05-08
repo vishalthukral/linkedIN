@@ -20,6 +20,7 @@ import java.io.IOException;
 import java.security.Principal;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Controller
 public class PostController {
@@ -65,7 +66,7 @@ public class PostController {
     }
 
     @PostMapping("/savepost")
-    public String savePost(@ModelAttribute Post post, @RequestParam("tags") String tags, @RequestParam("image")
+    public String savePost(@ModelAttribute Post post, @RequestParam(value = "tags",required = false) String tags, @RequestParam("image")
             MultipartFile image) throws IOException {
         post.setCreatedAt(LocalDateTime.now());
         post.setUpdatedAt(LocalDateTime.now());
@@ -83,26 +84,29 @@ public class PostController {
             post.setUpdatedAt(LocalDateTime.now());
         }
         Post savedPost = postRepository.save(post);
-        String[] tagArray = tags.split(",");
-        for (String tagName : tagArray) {
-            final String trimmedTagName = tagName.trim();
+        if(!tags.isEmpty()){
+            String[] tagArray = tags.split(",");
+            for (String tagName : tagArray) {
+                final String trimmedTagName = tagName.trim();
 
-            Tag tag = tagRepository.findByName(trimmedTagName)
-                    .orElseGet(() -> {
-                        Tag newTag = new Tag();
-                        newTag.setName(trimmedTagName);
-                        newTag.setCreatedAt(LocalDateTime.now());
-                        newTag.setUpdatedAt(LocalDateTime.now());
-                        return tagRepository.save(newTag);
-                    });
+                Tag tag = tagRepository.findByName(trimmedTagName)
+                        .orElseGet(() -> {
+                            Tag newTag = new Tag();
+                            newTag.setName(trimmedTagName);
+                            newTag.setCreatedAt(LocalDateTime.now());
+                            newTag.setUpdatedAt(LocalDateTime.now());
+                            return tagRepository.save(newTag);
+                        });
 
-            PostTag postTag = new PostTag();
-            postTag.setPost(savedPost);
-            postTag.setTag(tag);
-            postTag.setCreatedAt(LocalDateTime.now());
-            postTag.setUpdatedAt(LocalDateTime.now());
+                PostTag postTag = new PostTag();
+                postTag.setPost(savedPost);
+                postTag.setTag(tag);
+                postTag.setCreatedAt(LocalDateTime.now());
+                postTag.setUpdatedAt(LocalDateTime.now());
 
-            postTagService.save(postTag);
+                postTagService.save(postTag);
+        }
+
         }
 
         if (image != null && !image.isEmpty()) {
@@ -140,6 +144,11 @@ public class PostController {
     @GetMapping("/updateform/{id}")
     public String updatePostForm(@PathVariable int id, Model model) {
         Post post = postService.getPostById(id);
+        String joinedTags = post.getPostTags().stream()
+                .map(postTag -> postTag.getTag().getName())
+                .collect(Collectors.joining(","));
+
+        model.addAttribute("joinedTags", joinedTags);
         model.addAttribute("posting", post);
         return "updateForm";
     }

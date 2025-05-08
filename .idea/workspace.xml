@@ -5,12 +5,17 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="f9029e1d-dd96-4509-bc95-e42aa43e8178" name="Changes" comment="merge Authentication into main">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_4_29_25__12_06PM__Changes_.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/linkedin_clone_application/controller/JobApplicationController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/linkedin_clone_application/controller/JobApplicationController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/linkedin_clone_application/model/Media.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/linkedin_clone_application/model/Media.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/linkedin_clone_application/service/ConnectionService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/linkedin_clone_application/service/ConnectionService.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/application.properties" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/connectionsList.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/connectionsList.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/network.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/network.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/notification.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/notification.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/application.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/linkedin_clone_application/model/Comment.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/linkedin_clone_application/model/Comment.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/linkedin_clone_application/model/Like.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/linkedin_clone_application/model/Like.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/linkedin_clone_application/model/Media.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/linkedin_clone_application/model/Media.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/linkedin_clone_application/model/Post.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/linkedin_clone_application/model/Post.class" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -30,7 +35,7 @@
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$" value="integrationjob" />
+        <entry key="$PROJECT_DIR$" value="newFeatures" />
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -50,29 +55,29 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "Application.LinkedInCloneApplication.executor": "Run",
-    "DefaultHtmlFileTemplate": "HTML File",
-    "RequestMappingsPanelOrder0": "0",
-    "RequestMappingsPanelOrder1": "1",
-    "RequestMappingsPanelWidth0": "75",
-    "RequestMappingsPanelWidth1": "75",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "RunOnceActivity.git.unshallow": "true",
-    "Spring Boot.LinkedInCloneApplication (1).executor": "Run",
-    "Spring Boot.LinkedInCloneApplication.executor": "Run",
-    "git-widget-placeholder": "newFeatures2",
-    "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "/Users/maniketkumar/Documents/linkedin_clone_application",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;Application.LinkedInCloneApplication.executor&quot;: &quot;Run&quot;,
+    &quot;DefaultHtmlFileTemplate&quot;: &quot;HTML File&quot;,
+    &quot;RequestMappingsPanelOrder0&quot;: &quot;0&quot;,
+    &quot;RequestMappingsPanelOrder1&quot;: &quot;1&quot;,
+    &quot;RequestMappingsPanelWidth0&quot;: &quot;75&quot;,
+    &quot;RequestMappingsPanelWidth1&quot;: &quot;75&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
+    &quot;Spring Boot.LinkedInCloneApplication (1).executor&quot;: &quot;Run&quot;,
+    &quot;Spring Boot.LinkedInCloneApplication.executor&quot;: &quot;Run&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;newFeatures2&quot;,
+    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;/Users/maniketkumar/Documents/linkedin_clone_application&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
   <component name="RunManager">
     <configuration name="LinkedInCloneApplication" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="com.linkedin_clone_application.LinkedInCloneApplication" />

@@ -16,7 +16,7 @@ public class Media {
     private int id;
 
     @OneToOne
-    @JoinColumn(name = "post_id",unique = true,nullable = false)
+    @JoinColumn(name = "post_id", unique = true, nullable = false)
     private Post post;
 
     private String url;  // Store Cloudinary URL

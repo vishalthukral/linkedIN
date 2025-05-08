@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import jakarta.validation.constraints.Size;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -24,6 +25,7 @@ public class Post {
     private User user;
 
     @Column(name = "title")
+    @Size(max = 127, message = "Title must be 127 characters or fewer")
     private String title;
 
     @Column(name = "createdAt")

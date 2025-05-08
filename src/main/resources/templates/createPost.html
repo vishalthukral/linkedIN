@@ -96,13 +96,14 @@
         textarea {
             width: 100%;
             border: none;
-            outline: none;
+
             resize: none;
             font-size: 14px;
             padding: 8px;
             margin-bottom: 12px;
             min-height: 80px;
             border-radius: 4px;
+            background-color:#D3D3D3;
         }
 
         textarea:focus {
@@ -183,7 +184,6 @@
         }
 
         .preserve-whitespace {
-            white-space: pre-wrap;
             word-break: break-word;
         }
     </style>
@@ -192,8 +192,11 @@
 <div class="create-post">
     <form th:action="@{/savepost}" method="post" th:object="${post}" enctype="multipart/form-data">
         <div class="post-input">
-            <img th:src="@{${post.user.profilePictureUrl}}" alt="Profile">
+            <img th:src="@{${post.user?.profilePictureUrl}}" alt="Profile">
             <input type="text" name="title" placeholder="Title" required>
+        </div>
+        <div th:if="${#fields.hasErrors('title')}" style="color: red; font-size: 12px;">
+            <p th:errors="*{title}">Title error</p>
         </div>
         <textarea id="contentInput" name="content" rows="5" class="preserve-whitespace"
                   placeholder="What do you want to talk about?"
@@ -238,6 +241,7 @@
             const trigger = document.querySelector('.emoji-trigger');
             const container = document.getElementById('emoji-picker-container');
             const textarea = document.getElementById('contentInput'); // Corrected the ID here
+            textarea.value = textarea.value.trimStart();
             let pickerVisible = false;
 
             const picker = new EmojiMart.Picker({

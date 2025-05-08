@@ -6,12 +6,14 @@ import com.linkedin_clone_application.repository.PostRepository;
 import com.linkedin_clone_application.repository.TagRepository;
 import com.linkedin_clone_application.repository.UserRepository;
 import com.linkedin_clone_application.service.*;
+import jakarta.validation.Valid;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
@@ -66,8 +68,12 @@ public class PostController {
     }
 
     @PostMapping("/savepost")
-    public String savePost(@ModelAttribute Post post, @RequestParam(value = "tags",required = false) String tags, @RequestParam("image")
+    public String savePost(@Valid @ModelAttribute Post post, BindingResult result, @RequestParam(value = "tags",required = false) String tags, @RequestParam("image")
             MultipartFile image) throws IOException {
+
+        if (result.hasErrors()) {
+            return "createPost";
+        }
         post.setCreatedAt(LocalDateTime.now());
         post.setUpdatedAt(LocalDateTime.now());
 

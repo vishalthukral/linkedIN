@@ -30,7 +30,7 @@ public class SpringSecurityConfig {
                                 "/register"
                                 ,"/images/**",
                                 "/login",
-                                "/create-profile/**"
+                                "/create-profile/**","/**"
                         ).permitAll()
                         .requestMatchers(
                                  "/savepost",

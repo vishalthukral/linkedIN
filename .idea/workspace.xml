@@ -6,8 +6,13 @@
   <component name="ChangeListManager">
     <list default="true" id="f9029e1d-dd96-4509-bc95-e42aa43e8178" name="Changes" comment="merge Authentication into main">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/linkedin_clone_application/controller/PostController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/linkedin_clone_application/controller/PostController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/updateForm.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/updateForm.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/linkedin_clone_application/model/Post.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/linkedin_clone_application/model/Post.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/application.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/createPost.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/createPost.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/application.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/linkedin_clone_application/model/Post.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/linkedin_clone_application/model/Post.class" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

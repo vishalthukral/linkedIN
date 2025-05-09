@@ -80,7 +80,6 @@
     font-size: 0.95em;
 }
 code {
-<!--    font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;-->
     font-family: SFMono-Regular, Consolas, "Liberation Mono", Menlo, monospace;
 }
 </style>
@@ -107,7 +106,6 @@ code {
   <h1 th:text="${article.title}">Article Title</h1>
   <p th:text="${#temporals.format(article.createdAt, 'dd MMM yyyy')}">Date</p>
   <div th:utext="${#strings.replace(article.content, '\n', '<br/>')}">
-    <!-- Article content with line breaks -->
   </div>
 </div>
 

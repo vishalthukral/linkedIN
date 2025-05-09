@@ -26,30 +26,12 @@ import java.util.stream.Collectors;
 
 @Controller
 public class ArticleController {
-    private final PostService postService;
     private final ArticleRepository articleRepository;
-    private final CloudinaryService cloudinaryService;
-    private final UserRepository userRepository;
     private final UserService userService;
-    private final LikeService likeService;
-    private final CommentService commentService;
-    private final PostTagService postTagService;
-    private final TagRepository tagRepository;
 
-    ArticleController(PostService postService,ArticleRepository articleRepository, CloudinaryService cloudinaryService,
-                      UserRepository userRepository,
-                      UserService userService,
-                      LikeService likeService, CommentService commentService, PostTagService postTagService,
-                      TagRepository tagRepository) {
-        this.postService = postService;
+    ArticleController(ArticleRepository articleRepository, UserService userService) {
         this.articleRepository = articleRepository;
-        this.cloudinaryService = cloudinaryService;
-        this.userRepository = userRepository;
         this.userService = userService;
-        this.likeService = likeService;
-        this.commentService = commentService;
-        this.postTagService = postTagService;
-        this.tagRepository = tagRepository;
     }
 
     @GetMapping("/createArticle")
@@ -74,7 +56,7 @@ public class ArticleController {
             return "createArticle";
         }
         if (article.getId() == 0) {
-            article.setCreatedAt(LocalDateTime.now()); // Only set createdAt if it's a new article
+            article.setCreatedAt(LocalDateTime.now());
         }
         article.setUpdatedAt(LocalDateTime.now());
 
@@ -104,21 +86,7 @@ public class ArticleController {
         model.addAttribute("article", article);
         return "createArticle";
     }
-//
-//    @PostMapping("/toggle/{postId}")
-//    public String likePost(@PathVariable int postId) {
-//        // Get the logged-in user's email
-//        String email = getLoggedInUserEmail();
-//        if (email == null) {
-//            return "redirect:/login";
-//        }
-//
-//        User user = userService.findByEmail(email);
-//        likeService.toggleLike(postId, user.getId());
-//
-//        return "redirect:/dashboard/" + user.getId();
-//    }
-//
+
     @GetMapping("/article/{id}")
     public String viewPost(@PathVariable("id") int articleId, Model model) {
         Article article = articleRepository.findById(articleId).get();
@@ -137,59 +105,8 @@ public class ArticleController {
 
         model.addAttribute("article", article);
         model.addAttribute("email", email);
-        return "article";  // This should match your Thymeleaf template name
+        return "article";
     }
-//
-//    @PostMapping("/post/{id}/comment")
-//    public String addComment(@PathVariable("id") int postId,
-//                             @RequestParam("content") String content) {
-//        String email = getLoggedInUserEmail();
-//        if (email == null) {
-//            return "redirect:/login";
-//        }
-//
-//        User user = userService.findByEmail(email);
-//        Post post = postService.getPostById(postId);
-//
-//
-//        commentService.addComment(content, post, user);
-//
-//        return "redirect:/dashboard/" + user.getId();
-//    }
-//
-//    @PostMapping("/repost/{id}")
-//    public String repostPost(@PathVariable("id") int postId, RedirectAttributes redirectAttributes) {
-//        String email = getLoggedInUserEmail();
-//        if (email == null) {
-//            return "redirect:/login";
-//        }
-//
-//        User user = userService.findByEmail(email);
-//        Post originalPost = postService.getPostById(postId);
-//
-//        Post repost = new Post();
-//        repost.setUser(originalPost.getUser());
-//        repost.setOriginalPost(originalPost);
-//        repost.setTitle(originalPost.getTitle());
-//        repost.setContent(originalPost.getContent());
-//        repost.setCreatedAt(LocalDateTime.now());
-//        repost.setUpdatedAt(LocalDateTime.now());
-//        repost.setRepostedBy(user);
-//
-//        Media originalMedia = originalPost.getMediaFile();
-//        if (originalMedia != null) {
-//            Media repostMedia = new Media();
-//            repostMedia.setUrl(originalMedia.getUrl());
-//            repostMedia.setPost(repost);
-//            repost.setMediaFile(repostMedia);
-//        }
-//
-//        postService.savePost(repost, null, null);
-//
-//        redirectAttributes.addFlashAttribute("repostSuccess",
-//                "This post is reposted successfully!");
-//        return "redirect:/dashboard/" + user.getId();
-//    }
 
     private String getLoggedInUserEmail() {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();

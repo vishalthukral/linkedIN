@@ -3,49 +3,35 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Create Post</title>
+    <title>Create Article</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <script src="https://cdn.jsdelivr.net/npm/emoji-mart@latest/dist/browser.js"></script>
+    <!-- Toast UI Editor CSS & JS -->
+    <link rel="stylesheet" href="https://uicdn.toast.com/editor/latest/toastui-editor.min.css" />
+    <script src="https://uicdn.toast.com/editor/latest/toastui-editor-all.min.js"></script>
     <script>
         document.addEventListener('DOMContentLoaded', function () {
-       const imageInput = document.getElementById('image');
-       if (imageInput) {
-           imageInput.addEventListener('change', function (e) {
-               const preview = document.createElement('img');
-               preview.style.maxWidth = '100%';
-               preview.style.marginTop = '10px';
-
-               const container = document.querySelector('.create-post');
-               const existingPreview = document.querySelector('.image-preview');
-               if (existingPreview) existingPreview.remove();
-
-               preview.classList.add('image-preview');
-               preview.src = URL.createObjectURL(e.target.files[0]);
-               container.appendChild(preview);
-           });
-       }
-   });
-
-         document.addEventListener('DOMContentLoaded', function () {
-        const videoInput = document.getElementById('video');
-        if (videoInput) {
-            videoInput.addEventListener('change', function (e) {
-                const existingPreview = document.querySelector('.video-preview');
-                if (existingPreview) existingPreview.remove();
-
-                const preview = document.createElement('video');
-                preview.style.maxWidth = '100%';
-                preview.style.marginTop = '10px';
-                preview.controls = true;
-                preview.classList.add('video-preview');
-                preview.src = URL.createObjectURL(e.target.files[0]);
-
-                const container = document.querySelector('.create-post');
-                container.appendChild(preview);
+            const editor = new toastui.Editor({
+                el: document.querySelector('#editor'),
+                height: '300px',
+                initialEditType: 'wysiwyg',
+                previewStyle: 'vertical',
+                placeholder: 'What do you want to describe about?',
             });
-        }
-    });
+
+            // On form submit, transfer content to hidden input
+            document.querySelector('form').addEventListener('submit', function () {
+                document.getElementById('contentInput').value = editor.getHTML();
+            });
+
+            // If editing, populate editor with existing content
+            const initialContent = document.getElementById('contentInput').value;
+            if (initialContent) {
+                editor.setHTML(initialContent);
+            }
+        });
     </script>
+
     <style>
         * {
             margin: 0;
@@ -230,84 +216,21 @@
 </head>
 <body>
 <div class="create-post">
-    <form th:action="@{/savepost}" method="post" th:object="${post}" enctype="multipart/form-data">
+    <form th:action="@{/saveArticle}" method="post" th:object="${article}">
+        <input type="hidden" th:field="*{id}">
         <div class="post-input">
-            <img th:src="@{${post.user?.profilePictureUrl}}" alt="Profile">
-            <input type="text" name="title" placeholder="Title" required>
+            <img th:src="@{${article.user?.profilePictureUrl}}" alt="Profile">
+            <input type="text" th:field=*{title} placeholder="Article Title" required>
         </div>
         <div th:if="${#fields.hasErrors('title')}" style="color: red; font-size: 12px;">
             <p th:errors="*{title}">Title error</p>
         </div>
-        <textarea id="contentInput" name="content" rows="5" class="preserve-whitespace"
-                  placeholder="What do you want to talk about?"
-                  required>
-        </textarea>
-        <button type="button" class="emoji-trigger">😊</button>
-        <div id="emoji-picker-container" style="display: none;"></div>
+        <div id="editor" style="min-height: 300px;"></div>
+        <input type="hidden" name="content" id="contentInput" th:field="*{content}">
 
-        <div class="tags-input">
-            <i class="fas fa-hashtag"></i>
-            <input type="text" name="tags" placeholder="Add tags (separate with commas)">
-        </div>
-
-        <div class="post-actions">
-            <div class="post-action photo">
-                <label for="image">
-                    <i class="far fa-image"></i>
-                    <span>Image</span>
-                </label>
-                <input type="file" id="image" placeholder="Image" name="image" style="display: none;">
-            </div>
-            <div class="post-action video">
-                <label for="video">
-                    <i class="fas fa-video"></i>
-                    <span>Video</span>
-                </label>
-                <input type="file" id="video" name="video" placeholder="Video" style="display: none;">
-            </div>
-            <div class="post-action article">
-                <i class="fas fa-file-alt"></i>
-                <a style="color:rgba(0, 0, 0, 0.6); text-decoration:none;" th:href="@{/createArticle}">Article</a>
-            </div>
-
-        </div>
-        <button type="submit">Post</button>
+        <button type="submit">Publish</button>
     </form>
-    <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            const trigger = document.querySelector('.emoji-trigger');
-            const container = document.getElementById('emoji-picker-container');
-            const textarea = document.getElementById('contentInput'); // Corrected the ID here
-            textarea.value = textarea.value.trimStart();
-            let pickerVisible = false;
 
-            const picker = new EmojiMart.Picker({
-                onEmojiSelect: emoji => {
-                    const cursorPos = textarea.selectionStart;
-                    const textBefore = textarea.value.substring(0, cursorPos);
-                    const textAfter = textarea.value.substring(cursorPos);
-                    textarea.value = textBefore + emoji.native + textAfter;
-                    textarea.focus();
-                    textarea.setSelectionRange(cursorPos + emoji.native.length, cursorPos + emoji.native.length);
-                }
-            });
-
-            container.appendChild(picker);
-
-            trigger.addEventListener('click', () => {
-                pickerVisible = !pickerVisible;
-                container.style.display = pickerVisible ? 'block' : 'none';
-            });
-
-            // Optional: hide picker if clicked outside
-            document.addEventListener('click', (e) => {
-                if (!container.contains(e.target) && e.target !== trigger) {
-                    container.style.display = 'none';
-                    pickerVisible = false;
-                }
-            });
-        });
-    </script>
 </div>
 </body>
 </html>

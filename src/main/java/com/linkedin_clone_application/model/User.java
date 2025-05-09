@@ -67,6 +67,9 @@ public class User {
     List<Post> posts;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    List<Article> articles;
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     List<Comment> comments;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)

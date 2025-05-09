@@ -1,10 +1,8 @@
 package com.linkedin_clone_application.controller;
 
 import com.linkedin_clone_application.Util.TimeAgoUtil;
-import com.linkedin_clone_application.model.Job;
-import com.linkedin_clone_application.model.Like;
-import com.linkedin_clone_application.model.Post;
-import com.linkedin_clone_application.model.User;
+import com.linkedin_clone_application.model.*;
+import com.linkedin_clone_application.repository.ArticleRepository;
 import com.linkedin_clone_application.repository.LikeRepository;
 import com.linkedin_clone_application.repository.PostRepository;
 import com.linkedin_clone_application.service.*;
@@ -29,16 +27,18 @@ public class UserController {
     private final JobService jobService;
     private final ConnectionService connectionService;
     private final LikeRepository likeRepository;
+    private final ArticleRepository articleRepository;
 
     @Autowired
     public UserController(UserService userService, CloudinaryService cloudinaryService, PostRepository postRepository,
-                          JobService jobService, ConnectionService connectionService, LikeRepository likeRepository) {
+                          JobService jobService, ConnectionService connectionService, LikeRepository likeRepository, ArticleRepository articleRepository) {
         this.userService = userService;
         this.cloudinaryService = cloudinaryService;
         this.postRepository = postRepository;
         this.jobService = jobService;
         this.connectionService = connectionService;
         this.likeRepository = likeRepository;
+        this.articleRepository = articleRepository;
     }
 
     @GetMapping("/login")
@@ -143,8 +143,10 @@ public class UserController {
         }
         User user = userService.findById(userId);
         List<Post> postsByUser = postRepository.getPostsByUserId(userId);
+        List<Article> articlesByUser = articleRepository.getArticlesByUserId(userId);
         model.addAttribute("user", user);
         model.addAttribute("postsByUser", postsByUser);
+        model.addAttribute("articlesByUser", articlesByUser);
         model.addAttribute("email", email);
         model.addAttribute("currentUser", currentUser);
         model.addAttribute("connectionStatusMap", connectionStatusMap);

@@ -233,11 +233,15 @@
             margin-bottom: 12px;
         }
 
-        .post-content h3 {
+        .post-content h3,a {
             margin: 0 0 8px;
             font-size: 18px;
             font-weight: 600;
         }
+        .post-content a{
+            float:left;
+        }
+
 
         .post-content p {
             margin: 0;
@@ -365,7 +369,6 @@
         }
 
 
-
     </style>
     <!-- Include Font Awesome for icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
@@ -441,9 +444,16 @@
         <!-- Activity Section -->
         <div class="profile-section">
             <h3>Activity</h3>
-            <p><span th:text="${postsByUser.size()}"></span> posts </p>
+            <a th:href="@{'/view/' + ${user.id}}" style="text-decoration:none; color:gray; font-size:1em; margin-right:1em;">Posts</a>
+            <a th:href="@{'/view/' + ${user.id} + '?detail=article'}"  style="text-decoration:none; color:gray; font-size:1em;">Articles</a>
+            <p><span th:if="${param.detail==null}" th:text="${postsByUser.size()} + ' Posts'"></span>  </p>
+            <p><span th:if="${param.detail!=null}" th:text="${articlesByUser.size()} + ' Articles'"></span>  </p>
 
             <!-- Iterate over the user's posts -->
+            <div th:if="${param.detail != null}">
+                <div th:replace="~{fragments/articleDetail :: articleDetail(user=${user})}"></div>
+            </div>
+            <div th:if="${param.detail == null}">
             <div th:each="post, postStat : ${postsByUser}" class="post-card">
                 <div th:if="${post.repostedBy != null}" class="repost-info"
                      style="display: flex; align-items: center; gap: 8px;">
@@ -505,6 +515,9 @@
                     </form>
                 </div>
             </div>
+            </div>
+
+
         </div>
     </div>
 </div>

@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en" th:fragment="articleDetail">
+<head>
+    <meta charset="UTF-8">
+    <title>All Articles</title>
+</head>
+
+<body>
+<div th:each="article : ${articlesByUser}" class="post-card">
+  <div class="post-header">
+    <img th:src="${user.profilePictureUrl}" alt="Profile Picture"/>
+    <div class="post-header-info">
+      <h4 th:text="${user.firstName} + ' ' + ${user.lastName}"></h4>
+      <p th:text="${user.headline}"></p>
+      <p th:text="${#temporals.format(article.createdAt, 'dd MMM yyyy')}"></p>
+    </div>
+  </div>
+
+  <div class="post-content">
+    <a th:href="@{'/article/' + ${article.id}}" th:text="${article.title}"></a>
+  </div>
+</div>
+</body>
+</html>

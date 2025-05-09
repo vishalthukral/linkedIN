@@ -228,7 +228,20 @@
         <h4 th:text="${post.user.firstName} + ' ' + ${post.user.lastName}">User Name</h4>
         <p th:text="${post.user.jobTitle} + ' at ' + ${post.user.companyName}">Job Title</p>
         <p th:text="${post.timeAgo}">Posted</p>
-        <img th:if="${post.mediaFile != null}" th:src="${post.mediaFile.url}" class="imageSize" alt="Post Image">
+        <div th:if="${post.mediaFile != null}">
+            <img th:if="${#strings.endsWith(post.mediaFile.url, '.png') or
+                 #strings.endsWith(post.mediaFile.url, '.jpg') or
+                 #strings.endsWith(post.mediaFile.url, '.jpeg') or
+                 #strings.endsWith(post.mediaFile.url, '.gif')}"
+                 th:src="${post.mediaFile.url}" class="imageSize" alt="Post Image"/>
+
+            <video th:if="${#strings.endsWith(post.mediaFile.url, '.mp4') or
+                   #strings.endsWith(post.mediaFile.url, '.webm') or
+                   #strings.endsWith(post.mediaFile.url, '.ogg')}"
+                   th:src="${post.mediaFile.url}" class="imageSize" controls>
+                Your browser does not support the video tag.
+            </video>
+        </div>
         <p id="content-text" th:text="${post.content}">Post content...</p>
     </div>
 

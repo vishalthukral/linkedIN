@@ -69,7 +69,7 @@ public class PostController {
 
     @PostMapping("/savepost")
     public String savePost(@Valid @ModelAttribute Post post, BindingResult result, @RequestParam(value = "tags",required = false) String tags, @RequestParam("image")
-            MultipartFile image) throws IOException {
+            MultipartFile image, @RequestParam("video") MultipartFile video) throws IOException {
 
         if (result.hasErrors()) {
             return "createPost";
@@ -119,6 +119,14 @@ public class PostController {
             String imageUrl = cloudinaryService.uploadImage(image);
             Media media = new Media();
             media.setUrl(imageUrl);
+            media.setPost(post);
+            post.setMediaFile(media);
+
+        }
+        if (video != null && !video.isEmpty()) {
+            String videoUrl = cloudinaryService.uploadFile(video);
+            Media media = new Media();
+            media.setUrl(videoUrl);
             media.setPost(post);
             post.setMediaFile(media);
         }

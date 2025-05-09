@@ -6,6 +6,46 @@
     <title>Create Post</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <script src="https://cdn.jsdelivr.net/npm/emoji-mart@latest/dist/browser.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+       const imageInput = document.getElementById('image');
+       if (imageInput) {
+           imageInput.addEventListener('change', function (e) {
+               const preview = document.createElement('img');
+               preview.style.maxWidth = '100%';
+               preview.style.marginTop = '10px';
+
+               const container = document.querySelector('.create-post');
+               const existingPreview = document.querySelector('.image-preview');
+               if (existingPreview) existingPreview.remove();
+
+               preview.classList.add('image-preview');
+               preview.src = URL.createObjectURL(e.target.files[0]);
+               container.appendChild(preview);
+           });
+       }
+   });
+
+         document.addEventListener('DOMContentLoaded', function () {
+        const videoInput = document.getElementById('video');
+        if (videoInput) {
+            videoInput.addEventListener('change', function (e) {
+                const existingPreview = document.querySelector('.video-preview');
+                if (existingPreview) existingPreview.remove();
+
+                const preview = document.createElement('video');
+                preview.style.maxWidth = '100%';
+                preview.style.marginTop = '10px';
+                preview.controls = true;
+                preview.classList.add('video-preview');
+                preview.src = URL.createObjectURL(e.target.files[0]);
+
+                const container = document.querySelector('.create-post');
+                container.appendChild(preview);
+            });
+        }
+    });
+    </script>
     <style>
         * {
             margin: 0;
@@ -112,7 +152,7 @@
 
         .post-actions {
             display: flex;
-            justify-content: space-between;
+            justify-content: center;
             padding: 12px 0;
             border-top: 1px solid rgba(0, 0, 0, 0.08);
             margin-bottom: 12px;
@@ -223,15 +263,7 @@
                     <i class="fas fa-video"></i>
                     <span>Video</span>
                 </label>
-                <input type="file" id="video" placeholder="Video" style="display: none;">
-            </div>
-            <div class="post-action event">
-                <i class="far fa-calendar"></i>
-                <span>Event</span>
-            </div>
-            <div class="post-action article">
-                <i class="fas fa-file-alt"></i>
-                <span>Article</span>
+                <input type="file" id="video" name="video" placeholder="Video" style="display: none;">
             </div>
         </div>
         <button type="submit">Post</button>

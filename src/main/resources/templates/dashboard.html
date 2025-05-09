@@ -721,13 +721,11 @@
                 <div class="post-actions">
                     <div class="post-action photo">
                         <i class="far fa-image"></i>
-                        <input type="file" id="image" placeholder="Image" style="display : none;">
-                        <span>Image</span>
+                        <a style="color:gray;" th:href="@{/createPost}">Image</a>
                     </div>
                     <div class="post-action video">
                         <i class="fas fa-video"></i>
-                        <input type="file" id="video" placeholder="Video" style="display : none;">
-                        <span>Video</span>
+                        <a style="color:gray;" th:href="@{/createPost}">Video</a>
                     </div>
                 </div>
                 <button type="submit" id="post-btn" class="linkedin-button">Create Post</button>
